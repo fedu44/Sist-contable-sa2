@@ -7,7 +7,7 @@ import static Vista.Registrar.frmReg;
 
 public class home extends javax.swing.JFrame {
     
-    public static login frmBorr;
+    public static Borrar frmBorr;
     public static registro frmReg;
     usuarios mod;
     
