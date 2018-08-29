@@ -187,7 +187,8 @@ public class registro extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         
-        Registrar.frmReg = null;
+        home.frmReg = null;
+        this.dispose();
         
     }//GEN-LAST:event_formWindowClosing
 
