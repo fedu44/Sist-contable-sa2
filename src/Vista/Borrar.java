@@ -85,7 +85,8 @@ public class Borrar extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         
         home.frmBorr = null;
-        this.dispose();
+        this.dispose();     
+        //iifdigifug
         
     }//GEN-LAST:event_formWindowClosing
 
