@@ -1,5 +1,6 @@
 package Vista;
 
+import Modelo.Renglon;
 import Modelo.SqlUsuarios;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
@@ -10,20 +11,20 @@ public class registrarAsiento extends javax.swing.JFrame {
 
     public registrarAsiento() {
         initComponents();
-        setSize(1400,800);
+        setSize(1400, 800);
         SqlUsuarios modSql = new SqlUsuarios();
         java.util.Date date = new java.util.Date();
-        java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String fecha = sdf.format(date);
         txtFecha.setText(fecha);
         txtNumAsiento.setText(String.valueOf(modSql.ultimoAsiento()));
-        if(txtNumAsiento.getText().equals("-1")){
+        if (txtNumAsiento.getText().equals("-1")) {
             JOptionPane.showMessageDialog(null, "Intente nuevamente");
             cerrar();
         }
     }
 
-   @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -46,6 +47,9 @@ public class registrarAsiento extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstRenglon = new javax.swing.JList<>();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -117,6 +121,7 @@ public class registrarAsiento extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Tipo");
 
+        btnAgregar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,8 +129,18 @@ public class registrarAsiento extends javax.swing.JFrame {
             }
         });
 
+        lstRenglon.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lstRenglon.setModel(modelList);
         jScrollPane1.setViewportView(lstRenglon);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setText("Cuenta");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel8.setText("Debe");
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel9.setText("Haber");
 
         javax.swing.GroupLayout panelRegLayout = new javax.swing.GroupLayout(panelReg);
         panelReg.setLayout(panelRegLayout);
@@ -135,42 +150,51 @@ public class registrarAsiento extends javax.swing.JFrame {
                 .addContainerGap(48, Short.MAX_VALUE)
                 .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
-                        .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(panelRegLayout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(26, 26, 26)
-                                    .addComponent(btnAgregar))
-                                .addGroup(panelRegLayout.createSequentialGroup()
-                                    .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4)
-                                        .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(panelRegLayout.createSequentialGroup()
-                                                .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(44, 44, 44))
-                                            .addGroup(panelRegLayout.createSequentialGroup()
-                                                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel1)
-                                                    .addComponent(jLabel2)
-                                                    .addComponent(jLabel3))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(txtNumAsiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(comboCuenta, 0, 95, Short.MAX_VALUE)))))
-                                    .addGap(4, 4, 4)
-                                    .addComponent(jLabel6)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(radBtnDebe)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(radBtnHaber))))
-                        .addGap(46, 46, 46))
+                        .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(panelRegLayout.createSequentialGroup()
+                                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(panelRegLayout.createSequentialGroup()
+                                            .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(44, 44, 44))
+                                        .addGroup(panelRegLayout.createSequentialGroup()
+                                            .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel1)
+                                                .addComponent(jLabel2)
+                                                .addComponent(jLabel3))
+                                            .addGap(18, 18, 18)
+                                            .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(txtNumAsiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(comboCuenta, 0, 95, Short.MAX_VALUE)))))
+                                .addGap(4, 4, 4)
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(radBtnDebe)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(radBtnHaber))
+                            .addGroup(panelRegLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelRegLayout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(102, 102, 102)
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(65, 65, 65)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panelRegLayout.createSequentialGroup()
+                                        .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(btnAgregar)))))
+                        .addGap(91, 91, 91))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
                         .addComponent(btnRegistrar)
-                        .addGap(238, 238, 238))))
+                        .addGap(238, 238, 238))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46))))
         );
         panelRegLayout.setVerticalGroup(
             panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,9 +223,14 @@ public class registrarAsiento extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar))
-                .addGap(35, 35, 35)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76)
+                .addGap(33, 33, 33)
+                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
                 .addComponent(btnRegistrar)
                 .addGap(57, 57, 57))
         );
@@ -228,28 +257,39 @@ public class registrarAsiento extends javax.swing.JFrame {
 
         String descripcion = txtDesc.getText();
         String cuenta = comboCuenta.getSelectedItem().toString();
-        double debe=0;
-        double haber=0;
-        
-        if (descripcion.equals("")||cuenta.equals("") ||((radBtnDebe.isSelected()==false && radBtnHaber.isSelected()==false))){
-            
+        double debe = 0;
+        double haber = 0;
+
+        if (descripcion.equals("") || cuenta.equals("") || (radBtnDebe.isSelected() == false && radBtnHaber.isSelected() == false)) {
+
             JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
             return;
-        }       
-        
-        if(radBtnDebe.isSelected()){
-            debe = Double.parseDouble(txtMonto.getText());
-        }else{
-            haber = Double.parseDouble(txtMonto.getText());
         }
 
+        try{
+        if (radBtnDebe.isSelected()) {
+            debe = Double.parseDouble(txtMonto.getText());
+        } else {
+            haber = Double.parseDouble(txtMonto.getText());
+        }
+        }catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Monto equivocado");
+            return;
+        }
+
+        if(debe < 0 || haber < 0){
+            
+            JOptionPane.showMessageDialog(null, "Monto negativo");
+            
+        }else{
         Renglon newRenglon = new Renglon(cuenta, descripcion, debe, haber);
         this.renglones.add(newRenglon);
-        this.modelList.add(modelList.size(),newRenglon.toString());
-        
+        this.modelList.add(modelList.size(), newRenglon.toString());
+
         limpiar();
+        }
         
-        
+
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void radBtnHaberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radBtnHaberActionPerformed
@@ -269,35 +309,38 @@ public class registrarAsiento extends javax.swing.JFrame {
     }//GEN-LAST:event_comboCuentaActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        System.out.println(checkAsiento());
+        
+        
+        
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
-
-    private boolean checkAsiento(){
+    private boolean checkAsiento() {
         //valida que el asiento este balanceado
-        double sumHab=0;
-        double sumDeb=0;
-        for(Renglon rg : this.renglones ){
-            sumDeb+=rg.getDebe();
-            sumHab+=rg.getHaber();
+        double sumHab = 0;
+        double sumDeb = 0;
+        for (Renglon rg : this.renglones) {
+            sumDeb += rg.getDebe();
+            sumHab += rg.getHaber();
         }
-        if (sumDeb==sumHab){
+        if (sumDeb == sumHab) {
             JOptionPane.showMessageDialog(null, "Asiento guardado");
             return true;
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Error cuenta no balanceada");
             return false;
         }
     }
-    
+
     private void limpiar() {
         txtMonto.setText("");
         txtDesc.setText("");
         radBtnGrupo.clearSelection();
     }
-    public void cerrar(){
+
+    public void cerrar() {
         this.dispose();
     }
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -305,7 +348,7 @@ public class registrarAsiento extends javax.swing.JFrame {
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnRegistrar;
@@ -316,6 +359,9 @@ public class registrarAsiento extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> lstRenglon;
     private javax.swing.JPanel panelReg;
@@ -327,47 +373,10 @@ public class registrarAsiento extends javax.swing.JFrame {
     private javax.swing.JTextField txtMonto;
     private javax.swing.JLabel txtNumAsiento;
     // End of variables declaration//GEN-END:variables
-    
-    private ArrayList<Renglon> renglones= new ArrayList<Renglon>();
+
+    private ArrayList<Renglon> renglones = new ArrayList<Renglon>();
     private DefaultListModel<String> modelList = new DefaultListModel<>();
     //la jList lstRenglon muestra los elementos que contiene modelList
+
     
-    private class Renglon {
-        double debe=0;
-        double haber=0;
-        String cuenta="";
-        String descripcion;
-
-        public Renglon(String cuenta,String descripcion,double debe,double haber) {
-            this.cuenta=cuenta;
-            this.debe=debe;
-            this.haber=haber;
-            this.descripcion=descripcion;
-        }
-
-        @Override
-        public String toString() {
-            return "cuenta=" + cuenta +"  " + "debe=" + debe +"  "+ ", haber=" + haber ;
-        }
-
-        public double getDebe() {
-            return debe;
-        }
-
-        public double getHaber() {
-            return haber;
-        }
-
-        public String getCuenta() {
-            return cuenta;
-        }
-
-        public String getDescripcion() {
-            return descripcion;
-        }
-        
-        
-
-       
-    }
 }
