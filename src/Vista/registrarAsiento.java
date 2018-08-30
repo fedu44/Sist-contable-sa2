@@ -231,9 +231,7 @@ public class registrarAsiento extends javax.swing.JFrame {
         double debe=0;
         double haber=0;
         
-        if (descripcion.equals("")||cuenta.equals("")
-        ||(radBtnDebe.isSelected()==false 
-        && radBtnHaber.isSelected()==false) ){
+        if (descripcion.equals("")||cuenta.equals("") ||((radBtnDebe.isSelected()==false && radBtnHaber.isSelected()==false))){
             
             JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
             return;
@@ -275,9 +273,6 @@ public class registrarAsiento extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
 
-        
-        
-    
     private boolean checkAsiento(){
         //valida que el asiento este balanceado
         double sumHab=0;
@@ -287,6 +282,7 @@ public class registrarAsiento extends javax.swing.JFrame {
             sumHab+=rg.getHaber();
         }
         if (sumDeb==sumHab){
+            JOptionPane.showMessageDialog(null, "Asiento guardado");
             return true;
         }else{
             JOptionPane.showMessageDialog(null, "Error cuenta no balanceada");
