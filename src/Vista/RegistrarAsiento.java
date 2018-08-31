@@ -332,6 +332,8 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         asiento.setFecha(fechaHora.format(date).toString());
         sqlAsiento.registrarAsiento(asiento);
         
+        
+        
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private boolean checkAsiento() {
