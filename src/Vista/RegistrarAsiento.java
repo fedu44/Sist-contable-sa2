@@ -4,6 +4,7 @@ import Modelo.Asiento;
 import Modelo.Renglon;
 import Modelo.SqlAsientos;
 import Modelo.SqlUsuarios;
+import Modelo.Usuario;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,22 +12,30 @@ import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import javax.swing.table.DefaultTableModel;
 
 public class RegistrarAsiento extends javax.swing.JFrame {
+    
+    private static Usuario mod;
 
-    public RegistrarAsiento() {
+    public RegistrarAsiento(Usuario usr) {
         initComponents();
-        setSize(1400, 800);
-        SqlAsientos modSql = new SqlAsientos();
+        //setSize(1400, 800);
+        this.mod = usr;
+        // la sentencia de abajo hay que probarlo solo con loguin
+        //txtUsuario.setText(usr.getNombre());
+        SqlAsientos asiSql = new SqlAsientos();
+        tModel=(DefaultTableModel)tablaAsiento.getModel();
         java.util.Date date = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String fecha = sdf.format(date);
         txtFecha.setText(fecha);
-        txtNumAsiento.setText(String.valueOf(modSql.ultimoAsiento()));
+        txtNumAsiento.setText(String.valueOf((asiSql.ultimoAsiento())+1));
         if (txtNumAsiento.getText().equals("-1")) {
             JOptionPane.showMessageDialog(null, "Intente nuevamente");
             cerrar();
         }
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -35,7 +44,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
         radBtnGrupo = new javax.swing.ButtonGroup();
         panelReg = new javax.swing.JPanel();
-        txtNumAsiento = new javax.swing.JLabel();
+        txtUsuario = new javax.swing.JLabel();
         btnRegistrar = new javax.swing.JButton();
         txtFecha = new javax.swing.JLabel();
         comboCuenta = new javax.swing.JComboBox<>();
@@ -50,18 +59,17 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         radBtnHaber = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstRenglon = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaAsiento = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        txtNumAsiento = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         panelReg.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        txtNumAsiento.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtNumAsiento.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtUsuario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnRegistrar.setText("Registrar");
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -134,71 +142,70 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             }
         });
 
-        lstRenglon.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lstRenglon.setModel(modelList);
-        jScrollPane1.setViewportView(lstRenglon);
+        tablaAsiento.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Cuenta", "Debe", "Title 3"
+            }
+        ));
+        jScrollPane2.setViewportView(tablaAsiento);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel7.setText("Cuenta");
+        jLabel7.setText("Usuario");
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Debe");
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel9.setText("Haber");
+        txtNumAsiento.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNumAsiento.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout panelRegLayout = new javax.swing.GroupLayout(panelReg);
         panelReg.setLayout(panelRegLayout);
         panelRegLayout.setHorizontalGroup(
             panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRegLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
                 .addContainerGap(48, Short.MAX_VALUE)
                 .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelRegLayout.createSequentialGroup()
                         .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(panelRegLayout.createSequentialGroup()
                                 .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
                                     .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(panelRegLayout.createSequentialGroup()
                                             .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(44, 44, 44))
+                                            .addGap(48, 48, 48))
                                         .addGroup(panelRegLayout.createSequentialGroup()
                                             .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(jLabel1)
                                                 .addComponent(jLabel2)
                                                 .addComponent(jLabel3))
                                             .addGap(18, 18, 18)
-                                            .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(txtNumAsiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(comboCuenta, 0, 95, Short.MAX_VALUE)))))
-                                .addGap(4, 4, 4)
+                                            .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(txtFecha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(comboCuenta, javax.swing.GroupLayout.Alignment.LEADING, 0, 95, Short.MAX_VALUE)
+                                                .addComponent(txtNumAsiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addGap(20, 20, 20)))
+                                    .addGroup(panelRegLayout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(4, 4, 4)))
                                 .addComponent(jLabel6)
                                 .addGap(18, 18, 18)
-                                .addComponent(radBtnDebe)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(radBtnHaber))
+                                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(radBtnDebe)
+                                    .addComponent(jLabel7))
+                                .addGap(32, 32, 32)
+                                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(radBtnHaber)))
                             .addGroup(panelRegLayout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelRegLayout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(102, 102, 102)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(65, 65, 65)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(panelRegLayout.createSequentialGroup()
-                                        .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(btnAgregar)))))
-                        .addGap(91, 91, 91))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46))))
+                                .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAgregar)))
+                        .addGap(57, 57, 57))))
             .addGroup(panelRegLayout.createSequentialGroup()
-                .addGap(226, 226, 226)
+                .addGap(215, 215, 215)
                 .addComponent(btnRegistrar)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -206,17 +213,21 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
                 .addContainerGap(22, Short.MAX_VALUE)
-                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1)
-                    .addComponent(txtNumAsiento, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addGroup(panelRegLayout.createSequentialGroup()
+                        .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel7)
+                            .addComponent(txtNumAsiento, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)))
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -229,16 +240,11 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar))
-                .addGap(33, 33, 33)
-                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
                 .addComponent(btnRegistrar)
-                .addGap(85, 85, 85))
+                .addGap(64, 64, 64))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -290,7 +296,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         }else{
         Renglon newRenglon = new Renglon(cuenta, descripcion, debe, haber);
         this.renglones.add(newRenglon);
-        this.modelList.add(modelList.size(), newRenglon.toString());
+        this.tModel.addRow(new Object[]{cuenta, debe, haber});
 
         limpiar();
         }
@@ -324,13 +330,8 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         asiento.setIdasiento(Integer.parseInt(txtNumAsiento.getText()));
         asiento.setDescripcion(txtDesc.getText());
         asiento.setFecha(fechaHora.format(date).toString());
-        if(sqlAsiento.registrarAsiento(asiento)){
-            JOptionPane.showMessageDialog(null, "Asiento guardado");
-        }else{
-            JOptionPane.showMessageDialog(null, "Error al tratar de guardar asiento");
-        }
+        sqlAsiento.registrarAsiento(asiento);
         
-         
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private boolean checkAsiento() {
@@ -342,6 +343,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             sumHab += rg.getHaber();
         }
         if ((sumDeb == sumHab) && (sumDeb != 0)) {
+            JOptionPane.showMessageDialog(null, "Asiento guardado");
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "Error cuenta no balanceada");
@@ -362,7 +364,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegistrarAsiento().setVisible(true);
+                new RegistrarAsiento(mod).setVisible(true);
             }
         });
     }
@@ -378,22 +380,21 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> lstRenglon;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panelReg;
     private javax.swing.JRadioButton radBtnDebe;
     private javax.swing.ButtonGroup radBtnGrupo;
     private javax.swing.JRadioButton radBtnHaber;
+    private javax.swing.JTable tablaAsiento;
     private javax.swing.JTextField txtDesc;
     private javax.swing.JLabel txtFecha;
     private javax.swing.JTextField txtMonto;
     private javax.swing.JLabel txtNumAsiento;
+    private javax.swing.JLabel txtUsuario;
     // End of variables declaration//GEN-END:variables
 
     private ArrayList<Renglon> renglones = new ArrayList<Renglon>();
-    private DefaultListModel<String> modelList = new DefaultListModel<>();
+    private DefaultTableModel tModel;
     //la jList lstRenglon muestra los elementos que contiene modelList
 
     
