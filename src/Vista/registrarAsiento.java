@@ -310,7 +310,7 @@ public class registrarAsiento extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         
-        
+        checkAsiento();
         
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -322,7 +322,7 @@ public class registrarAsiento extends javax.swing.JFrame {
             sumDeb += rg.getDebe();
             sumHab += rg.getHaber();
         }
-        if (sumDeb == sumHab) {
+        if ((sumDeb == sumHab) && (sumDeb != 0)) {
             JOptionPane.showMessageDialog(null, "Asiento guardado");
             return true;
         } else {
