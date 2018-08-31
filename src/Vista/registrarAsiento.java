@@ -1,6 +1,7 @@
 package Vista;
 
 import Modelo.Renglon;
+import Modelo.SqlAsientos;
 import Modelo.SqlUsuarios;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
@@ -13,7 +14,7 @@ public class registrarAsiento extends javax.swing.JFrame {
     public registrarAsiento() {
         initComponents();
         //setSize(1400, 800);
-        SqlUsuarios modSql = new SqlUsuarios();
+        SqlAsientos modSql = new SqlAsientos();
         tModel=(DefaultTableModel)tablaAsiento.getModel();
         java.util.Date date = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
