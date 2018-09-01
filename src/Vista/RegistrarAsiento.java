@@ -1,8 +1,12 @@
 package Vista;
 
 import Modelo.Asiento;
+import Modelo.Asiento_cuenta;
+import Modelo.Cuenta;
 import Modelo.Renglon;
+import Modelo.SqlAsiento_cuenta;
 import Modelo.SqlAsientos;
+import Modelo.SqlCuenta;
 import Modelo.SqlUsuarios;
 import Modelo.Usuario;
 import java.text.DateFormat;
@@ -15,7 +19,7 @@ import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
 
 public class RegistrarAsiento extends javax.swing.JFrame {
-    
+
     private static Usuario mod;
 
     public RegistrarAsiento(Usuario usr) {
@@ -25,17 +29,17 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         // la sentencia de abajo hay que probarlo solo con loguin
         //txtUsuario.setText(usr.getNombre());
         SqlAsientos asiSql = new SqlAsientos();
-        tModel=(DefaultTableModel)tablaAsiento.getModel();
+        tModel = (DefaultTableModel) tablaAsiento.getModel();
         java.util.Date date = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String fecha = sdf.format(date);
         txtFecha.setText(fecha);
-        txtNumAsiento.setText(String.valueOf((asiSql.ultimoAsiento())+1));
+        txtNumAsiento.setText(String.valueOf((asiSql.ultimoAsiento()) + 1));
         if (txtNumAsiento.getText().equals("-1")) {
             JOptionPane.showMessageDialog(null, "Intente nuevamente");
             cerrar();
         }
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -278,29 +282,29 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             return;
         }
 
-        try{
-        if (radBtnDebe.isSelected()) {
-            debe = Double.parseDouble(txtMonto.getText());
-        } else {
-            haber = Double.parseDouble(txtMonto.getText());
-        }
-        }catch(NumberFormatException ex){
+        try {
+            if (radBtnDebe.isSelected()) {
+                debe = Double.parseDouble(txtMonto.getText());
+            } else {
+                haber = Double.parseDouble(txtMonto.getText());
+            }
+        } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Monto equivocado");
             return;
         }
 
-        if(debe < 0 || haber < 0){
-            
-            JOptionPane.showMessageDialog(null, "Monto negativo");
-            
-        }else{
-        Renglon newRenglon = new Renglon(cuenta, descripcion, debe, haber);
-        this.renglones.add(newRenglon);
-        this.tModel.addRow(new Object[]{cuenta, debe, haber});
+        if (debe < 0 || haber < 0) {
 
-        limpiar();
+            JOptionPane.showMessageDialog(null, "Monto negativo");
+
+        } else {
+            Renglon newRenglon = new Renglon(cuenta, descripcion, debe, haber);
+            this.renglones.add(newRenglon);
+            this.tModel.addRow(new Object[]{cuenta, debe, haber});
+
+            limpiar();
         }
-        
+
 
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -321,8 +325,9 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     }//GEN-LAST:event_comboCuentaActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        
+
         checkAsiento();
+        // Se agrega asiento en BD
         Date date = new Date();
         DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SqlAsientos sqlAsiento = new SqlAsientos();
@@ -331,9 +336,58 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         asiento.setDescripcion(txtDesc.getText());
         asiento.setFecha(fechaHora.format(date).toString());
         sqlAsiento.registrarAsiento(asiento);
-        
-        
-        
+        // Se agrega Asiento_cuenta en BD
+        SqlAsiento_cuenta SqlAc = new SqlAsiento_cuenta();
+        Asiento_cuenta ac = new Asiento_cuenta();
+        SqlCuenta SqlCta = new SqlCuenta();
+        Cuenta ctaN = new Cuenta();
+        int saldo_parcial = -1;
+        int nuevoSaldo_parcial = 0;
+        for (int i = 0; i < renglones.size(); i++) {
+
+            ac.setDebe((int) renglones.get(i).getDebe());
+            ac.setHaber((int) renglones.get(i).getHaber());
+            ctaN.setNombre(renglones.get(i).getCuenta());
+            ac.setCuenta(SqlCta.idCuenta(ctaN));
+            if (ac.getCuenta() == -1) {
+                JOptionPane.showMessageDialog(null, "Cuenta inexistente");
+                break;
+            }
+            ac.setAsiento(asiento.getIdasiento());
+            saldo_parcial = SqlAc.saldoParcial(ctaN);
+            if (saldo_parcial == -1) {
+                JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
+                break;
+            }
+
+            switch (SqlCta.tipoCuenta(ctaN)) {
+                case "Activo":
+                    nuevoSaldo_parcial = nuevoSaldo_parcial + (int) renglones.get(i).getDebe();
+                    nuevoSaldo_parcial = nuevoSaldo_parcial - (int) renglones.get(i).getHaber();
+                    break;
+                case "Pasivo":
+                    nuevoSaldo_parcial = nuevoSaldo_parcial - (int) renglones.get(i).getDebe();
+                    nuevoSaldo_parcial = nuevoSaldo_parcial + (int) renglones.get(i).getHaber();
+                    break;
+                case "r-":
+                    nuevoSaldo_parcial = nuevoSaldo_parcial + (int) renglones.get(i).getDebe();
+                    break;
+                case "r+":
+                    nuevoSaldo_parcial = nuevoSaldo_parcial + (int) renglones.get(i).getHaber();
+                    break;
+                case "":
+                    JOptionPane.showMessageDialog(null, "Error de carga de cuenta");
+                    break;
+            }
+            if (nuevoSaldo_parcial < 0) {
+                JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
+                break;
+            }
+
+            ac.setSaldo_parcial(nuevoSaldo_parcial);
+
+        }
+
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private boolean checkAsiento() {
@@ -399,5 +453,4 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     private DefaultTableModel tModel;
     //la jList lstRenglon muestra los elementos que contiene modelList
 
-    
 }
