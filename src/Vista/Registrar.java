@@ -4,8 +4,8 @@ package Vista;
 
 public class Registrar extends javax.swing.JFrame {
 
-    public static login frmLog;
-    public static registro frmReg;
+    public static Login frmLog;
+    public static Registro frmReg;
     
     public Registrar() {
         initComponents();
@@ -57,7 +57,7 @@ public class Registrar extends javax.swing.JFrame {
         
         if(frmReg == null)
         {
-            frmReg = new registro();
+            frmReg = new Registro();
             frmReg.setVisible(true);
         }
         

@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 public class SqlUsuarios extends Conexion {
 
-    public boolean registrar(usuarios usr) {
+    public boolean registrar(Usuario usr) {
         PreparedStatement ps = null;
         Connection con = getConexion();
 
@@ -31,7 +31,7 @@ public class SqlUsuarios extends Conexion {
         return false;
     }
 
-    public boolean login(usuarios usr) {
+    public boolean login(Usuario usr) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection con = getConexion();
@@ -115,27 +115,6 @@ public class SqlUsuarios extends Conexion {
         System.out.println(2);
         return false;
     }
-
-    public int ultimoAsiento() {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Connection con = getConexion();
-
-        String sql = "SELECT max(idasiento)  FROM asiento";
-
-        try {
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-
-                return rs.getInt(1);
-            } else {
-                return 0;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return -1;
-    }
+    
 
 }
