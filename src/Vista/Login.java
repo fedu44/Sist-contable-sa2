@@ -1,14 +1,14 @@
 package Vista;
 
 import Modelo.SqlUsuarios;
-import Modelo.Usuario;
+import Modelo.usuarios;
 import javax.swing.JOptionPane;
 
 
-public class Login extends javax.swing.JFrame {
+public class login extends javax.swing.JFrame {
 
     
-    public Login() {
+    public login() {
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
@@ -95,7 +95,7 @@ public class Login extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         
         SqlUsuarios modSql = new SqlUsuarios();
-        Usuario mod = new Usuario();
+        usuarios mod = new usuarios();
         
         String pass = new String (txtContraseña.getPassword());
         
@@ -106,9 +106,10 @@ public class Login extends javax.swing.JFrame {
             
             if(modSql.login(mod))
             {
+                Registrar.frmLog = null;
                 this.dispose();
                 
-                Home frmHome = new Home(mod);
+                home frmHome = new home(mod);
                 frmHome.setVisible(true);
                 
             } else {
@@ -123,7 +124,8 @@ public class Login extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         
-        
+        Registrar.frmLog = null;
+       
     }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) {
@@ -135,20 +137,19 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new login().setVisible(true);
             }
         });
     }
