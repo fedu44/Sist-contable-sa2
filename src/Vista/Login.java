@@ -103,6 +103,7 @@ public class Login extends javax.swing.JFrame {
         {
             mod.setNombre(txtUsuario.getText());
             mod.setContrasena(pass);
+            mod.setIdusuario(modSql.idUsuario(mod));
             
             if(modSql.login(mod))
             {

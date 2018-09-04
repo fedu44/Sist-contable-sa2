@@ -34,7 +34,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String fecha = sdf.format(date);
         txtFecha.setText(fecha);
-        txtNumAsiento.setText(String.valueOf((asiSql.ultimoAsiento()) + 1));
+        txtNumAsiento.setText(String.valueOf((asiSql.ultimoNumAsiento()) + 1));
         if (txtNumAsiento.getText().equals("-1")) {
             JOptionPane.showMessageDialog(null, "Intente nuevamente");
             cerrar();
@@ -332,9 +332,10 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             SqlAsientos sqlAsiento = new SqlAsientos();
             Asiento asiento = new Asiento();
-            asiento.setIdasiento(Integer.parseInt(txtNumAsiento.getText()));
+            asiento.setNumAsiento(Integer.parseInt(txtNumAsiento.getText()));
             asiento.setDescripcion(txtDesc.getText());
             asiento.setFecha(fechaHora.format(date).toString());
+            asiento.setUsuario(mod.getIdusuario());
             sqlAsiento.registrarAsiento(asiento);
             // Se agrega Asiento_cuenta en BD
             SqlAsiento_cuenta SqlAc = new SqlAsiento_cuenta();
@@ -353,6 +354,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Cuenta inexistente");
                     break;
                 }
+                asiento.setIdasiento(sqlAsiento.ultimoIdAsiento());
                 ac.setAsiento(asiento.getIdasiento());
                 ctaI.setIdcuenta(SqlCta.idCuenta(ctaN)); 
                 saldo_parcial = SqlAc.saldoParcial(ctaI);
@@ -364,13 +366,9 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 switch (SqlCta.tipoCuenta(ctaN)) {
                     case "Activo":
                         nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe() - renglones.get(i).getHaber();
-                        System.out.println(saldo_parcial);
-                        System.out.println(nuevoSaldo_parcial);
                         break;
                     case "Pasivo":
                         nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe()+ renglones.get(i).getHaber();
-                        System.out.println(saldo_parcial);
-                        System.out.println(nuevoSaldo_parcial);
                         break;
                     case "r-":
                         nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe();
@@ -443,7 +441,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String fecha = sdf.format(date);
         txtFecha.setText(fecha);
-        txtNumAsiento.setText(String.valueOf((asiSql.ultimoAsiento()) + 1));
+        txtNumAsiento.setText(String.valueOf((asiSql.ultimoNumAsiento()) + 1));
         if (txtNumAsiento.getText().equals("-1")) {
             JOptionPane.showMessageDialog(null, "Intente nuevamente");
             cerrar();

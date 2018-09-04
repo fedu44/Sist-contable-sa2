@@ -1,10 +1,9 @@
 package Modelo;
 
-import java.util.Date;
-
 public class Asiento {
 
     private int idasiento;
+    private int numAsiento;
     private String fecha;
     private String descripcion;
     private int usuario;
@@ -19,6 +18,14 @@ public class Asiento {
 
     public void setIdasiento(int idasiento) {
         this.idasiento = idasiento;
+    }
+
+    public int getNumAsiento() {
+        return numAsiento;
+    }
+
+    public void setNumAsiento(int numAsiento) {
+        this.numAsiento = numAsiento;
     }
 
     public String getFecha() {

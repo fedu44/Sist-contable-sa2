@@ -115,6 +115,30 @@ public class SqlUsuarios extends Conexion {
         System.out.println(2);
         return false;
     }
-    
+
+    public int idUsuario(Usuario usr) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+
+        String sql = "SELECT idusuarios FROM usuarios WHERE nombre = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, usr.getNombre());
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+        return -1;
+
+    }
 
 }

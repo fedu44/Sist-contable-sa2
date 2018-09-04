@@ -25,7 +25,6 @@ public class Home extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.mod = mod;
         
-        
         switch (mod.getTipoUsuario()) {
             case 1:
                 break;
