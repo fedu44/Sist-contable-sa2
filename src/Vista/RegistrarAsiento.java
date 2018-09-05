@@ -157,7 +157,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Cuenta", "Debe", "Title 3"
+                "Cuenta", "Debe", "Haber"
             }
         ));
         jScrollPane2.setViewportView(tablaAsiento);
