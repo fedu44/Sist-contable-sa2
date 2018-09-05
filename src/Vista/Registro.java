@@ -67,6 +67,11 @@ public class Registro extends javax.swing.JFrame {
         txtTipo_usuario.setText("<html><br>Tipo_usuario: <br></html>");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "administrador", "contador", "asistentes"  }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -185,6 +190,10 @@ public class Registro extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_formWindowClosing
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void limpiar() {
         txtUsuario.setText("");
