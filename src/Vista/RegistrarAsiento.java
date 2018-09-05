@@ -21,6 +21,11 @@ import javax.swing.table.DefaultTableModel;
 public class RegistrarAsiento extends javax.swing.JFrame {
 
     private static Usuario mod;
+    private ArrayList<Renglon> renglones = new ArrayList<Renglon>();
+    private DefaultTableModel tModel;
+    //la jList lstRenglon muestra los elementos que contiene modelList
+    private int asiento = 0;
+    private ArrayList<Integer> asientos_cuenta = new ArrayList<Integer>();
 
     public RegistrarAsiento(Usuario usr) {
         initComponents();
@@ -30,6 +35,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         txtUsuario.setText(usr.getNombre());
         SqlAsientos asiSql = new SqlAsientos();
         tModel = (DefaultTableModel) tablaAsiento.getModel();
+        
         java.util.Date date = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String fecha = sdf.format(date);
@@ -356,6 +362,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 }
                 asiento.setIdasiento(sqlAsiento.ultimoIdAsiento());
                 ac.setAsiento(asiento.getIdasiento());
+                this.asiento=ac.getAsiento();
                 ctaI.setIdcuenta(SqlCta.idCuenta(ctaN)); 
                 saldo_parcial = SqlAc.saldoParcial(ctaI);
                 if (saldo_parcial == -1) {
@@ -387,8 +394,20 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
                 ac.setSaldo_parcial(nuevoSaldo_parcial);
                 SqlAc.registrar(ac);
+                this.asientos_cuenta.add(ac.getIdasiento_cuenta());
+                
             
 
+            }
+            if(nuevoSaldo_parcial == -1 || ac.getCuenta() == -1 ){
+                
+                for (Integer i : this.asientos_cuenta){
+                    ac.setIdasiento_cuenta(i);
+                    SqlAc.eliminar(ac);
+                }
+                asiento.setIdasiento(this.asiento);
+                sqlAsiento.eliminar(asiento);
+                
             }
             actualizarRegistrarAsiento();
             JOptionPane.showMessageDialog(null, "Asiento guardado");
@@ -477,8 +496,5 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     private javax.swing.JLabel txtUsuario;
     // End of variables declaration//GEN-END:variables
 
-    private ArrayList<Renglon> renglones = new ArrayList<Renglon>();
-    private DefaultTableModel tModel;
-    //la jList lstRenglon muestra los elementos que contiene modelList
-
+    
 }

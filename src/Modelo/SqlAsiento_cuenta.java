@@ -55,5 +55,24 @@ public class SqlAsiento_cuenta extends Conexion {
         }
         return -1;
     }
+    
+    public boolean eliminar(Asiento_cuenta ac) {
+        PreparedStatement ps = null;
+        Connection con = getConexion();
+
+        String sql = "DELETE FROM asiento_cuenta WHERE asiento = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, ac.getAsiento());
+            ps.execute();
+            return true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
+    }
 
 }

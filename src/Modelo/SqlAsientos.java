@@ -74,4 +74,21 @@ public class SqlAsientos extends Conexion {
 
         return false;
     }
+    
+    public Boolean eliminar(Asiento asiento) {
+        PreparedStatement ps = null;
+        Connection con = getConexion();
+
+        String sql = "DELETE FROM asiento WHERE idasiento = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, asiento.getIdasiento());
+            ps.execute();        
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlAsientos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }
