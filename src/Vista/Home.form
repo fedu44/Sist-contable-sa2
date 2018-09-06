@@ -26,8 +26,18 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuLibroDiario">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Libro diario"/>
+            <Property name="text" type="java.lang.String" value="Libro Diario"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="subVerLibroDiario">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="ver libro diario"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subVerLibroDiarioActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuUsuarios">
           <Properties>

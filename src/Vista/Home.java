@@ -50,6 +50,7 @@ public class Home extends javax.swing.JFrame {
         subAgregarAsiento = new javax.swing.JMenuItem();
         menuLibroMayor = new javax.swing.JMenu();
         menuLibroDiario = new javax.swing.JMenu();
+        subVerLibroDiario = new javax.swing.JMenuItem();
         menuUsuarios = new javax.swing.JMenu();
         subAgregarUsuario = new javax.swing.JCheckBoxMenuItem();
         subEliminarUsuario = new javax.swing.JCheckBoxMenuItem();
@@ -72,7 +73,16 @@ public class Home extends javax.swing.JFrame {
         menuLibroMayor.setText("Libro mayor");
         jMenuBar1.add(menuLibroMayor);
 
-        menuLibroDiario.setText("Libro diario");
+        menuLibroDiario.setText("Libro Diario");
+
+        subVerLibroDiario.setText("ver libro diario");
+        subVerLibroDiario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subVerLibroDiarioActionPerformed(evt);
+            }
+        });
+        menuLibroDiario.add(subVerLibroDiario);
+
         jMenuBar1.add(menuLibroDiario);
 
         menuUsuarios.setText("Usuarios");
@@ -143,6 +153,11 @@ public class Home extends javax.swing.JFrame {
         
     }//GEN-LAST:event_subAgregarAsientoActionPerformed
 
+    private void subVerLibroDiarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subVerLibroDiarioActionPerformed
+        LibroDiario libroDiario = new LibroDiario();
+        libroDiario.setVisible(true);
+    }//GEN-LAST:event_subVerLibroDiarioActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -186,5 +201,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenuItem subAgregarAsiento;
     private javax.swing.JCheckBoxMenuItem subAgregarUsuario;
     private javax.swing.JCheckBoxMenuItem subEliminarUsuario;
+    private javax.swing.JMenuItem subVerLibroDiario;
     // End of variables declaration//GEN-END:variables
 }

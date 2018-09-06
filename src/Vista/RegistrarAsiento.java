@@ -73,6 +73,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         tablaAsiento = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         txtNumAsiento = new javax.swing.JLabel();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -159,7 +160,15 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             new String [] {
                 "Cuenta", "Debe", "Haber"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tablaAsiento);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -168,6 +177,13 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         txtNumAsiento.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtNumAsiento.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        btnLimpiar.setText("limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelRegLayout = new javax.swing.GroupLayout(panelReg);
         panelReg.setLayout(panelRegLayout);
         panelRegLayout.setHorizontalGroup(
@@ -175,7 +191,10 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
                 .addContainerGap(48, Short.MAX_VALUE)
                 .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelRegLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLimpiar))
                     .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
                             .addComponent(btnRegistrar)
@@ -259,7 +278,9 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                     .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar))
                 .addGap(18, 18, 18)
                 .addComponent(btnRegistrar)
                 .addGap(57, 57, 57))
@@ -315,7 +336,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             Renglon newRenglon = new Renglon(cuenta, descripcion, debe, haber);
             this.renglones.add(newRenglon);
             this.tModel.addRow(new Object[]{cuenta, debe, haber});
-
+            
             limpiar();
         }
 
@@ -427,6 +448,24 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+
+        
+        this.renglones.clear();
+        this.tablaAsiento.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Cuenta", "Debe", "Haber"
+            }
+        ));
+         this.tModel = (DefaultTableModel) tablaAsiento.getModel();
+        
+        
+       
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
     private boolean checkAsiento() {
         //valida que el asiento este balanceado
         double sumHab = 0;
@@ -482,6 +521,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> comboCuenta;
     private javax.swing.JLabel jLabel1;
