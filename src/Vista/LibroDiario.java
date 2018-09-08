@@ -37,7 +37,7 @@ public class LibroDiario extends javax.swing.JFrame {
         //setSize(1400, 800);
 
         tModel = (DefaultTableModel) tablaAsiento.getModel();
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -55,6 +55,7 @@ public class LibroDiario extends javax.swing.JFrame {
         jTextMes = new javax.swing.JTextField();
         jTextAnio = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -91,13 +92,21 @@ public class LibroDiario extends javax.swing.JFrame {
             }
         });
 
+        jTextDia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextDiaActionPerformed(evt);
+            }
+        });
+
         jTextMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextMesActionPerformed(evt);
             }
         });
 
-        jLabel1.setText(" DIa                  Mes                Año");
+        jLabel1.setText(" Dia                  Mes                Año");
+
+        jLabel2.setText("Ej:         09                  09                  2018");
 
         javax.swing.GroupLayout panelRegLayout = new javax.swing.GroupLayout(panelReg);
         panelReg.setLayout(panelRegLayout);
@@ -114,17 +123,21 @@ public class LibroDiario extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelRegLayout.createSequentialGroup()
                         .addGap(124, 124, 124)
-                        .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelRegLayout.createSequentialGroup()
                                 .addComponent(jTextDia, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextMes, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(btnIr)))))
+                                .addComponent(jTextAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(26, 26, 26)
+                        .addComponent(btnIr)))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(panelRegLayout.createSequentialGroup()
+                .addGap(108, 108, 108)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRegLayout.setVerticalGroup(
             panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,7 +150,9 @@ public class LibroDiario extends javax.swing.JFrame {
                     .addComponent(jTextMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnIr))
-                .addGap(50, 50, 50)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -164,78 +179,55 @@ public class LibroDiario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    private void agregarRenglones(Renglon renglon){
+    private void agregarRenglones(Renglon renglon) {
         String cuenta = renglon.getCuenta();
         double debe = renglon.getDebe();
         double haber = renglon.getHaber();
         this.tModel.addRow(new Object[]{cuenta, debe, haber});
     }
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        
-        Calendar c = Calendar.getInstance();
-        try{
-        c.setTime(sdf.parse(this.fecha));
-        }catch(ParseException ex){
-            JOptionPane.showMessageDialog(null, "asodsoaidj");
-        }
-        c.add(Calendar.DATE, -1);  
-        this.fecha = sdf.format(c.getTime()); 
-        
 
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DATE, Integer.parseInt(jTextDia.getText()));
+        c.set(Calendar.MONTH, Integer.parseInt(jTextMes.getText()));
+        c.set(Calendar.YEAR, Integer.parseInt(jTextAnio.getText()));
+        c.add(Calendar.DATE, -1);
+        jTextAnio.setText(String.valueOf(c.get(Calendar.YEAR)));
+        jTextMes.setText(String.valueOf(c.get(Calendar.MONTH)));
+        jTextDia.setText(String.valueOf(c.get(Calendar.DATE)));
+        desplegarAsientos();
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnAdelanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdelanteActionPerformed
-        
-        
+
         Calendar c = Calendar.getInstance();
-        try{
-        c.setTime(sdf.parse(this.fecha));
-        }catch(ParseException ex){
-            JOptionPane.showMessageDialog(null, "asodsoaidj");
-        }
-        c.add(Calendar.DATE, 1);  
-        this.fecha = sdf.format(c.getTime()); 
-        
+        c.set(Calendar.DATE, Integer.parseInt(jTextDia.getText()));
+        c.set(Calendar.MONTH, Integer.parseInt(jTextMes.getText()));
+        c.set(Calendar.YEAR, Integer.parseInt(jTextAnio.getText()));
+        c.add(Calendar.DATE, 1);
+        jTextAnio.setText(String.valueOf(c.get(Calendar.YEAR)));
+        jTextMes.setText(String.valueOf(c.get(Calendar.MONTH)));
+        jTextDia.setText(String.valueOf(c.get(Calendar.DATE)));
+        desplegarAsientos();
+
     }//GEN-LAST:event_btnAdelanteActionPerformed
 
     private void btnIrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIrActionPerformed
-        
-        limpiar();
-        SqlAsientos asiSql = new SqlAsientos();
-        this.renglones = null;
-        Asiento asi = new Asiento();
-        String dia = jTextDia.getText();
-        String mes = jTextMes.getText();
-        String anio = jTextAnio.getText();
-        this.fecha = dia + '-' + mes + '-' + anio;
-        this.sdf.setLenient(false);
-        try {
-            Date date = this.sdf.parse(fecha);
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Fecha invalida");
-        }
-        this.fecha = anio + '-' + mes + '-' + dia;
-        asi.setFecha(fecha);
-        renglones = asiSql.asientoCuentaPorFecha(asi);
-        if(renglones != null){
-            for(Renglon renglon : renglones){
-                agregarRenglones(renglon);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "No hay asientos realizados en la fecha indicada");
-        }
+
+        desplegarAsientos();
     }//GEN-LAST:event_btnIrActionPerformed
 
     private void jTextMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextMesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextMesActionPerformed
 
-
+    private void jTextDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextDiaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextDiaActionPerformed
 
     private void limpiar() {
-        
-        renglones.removeAll(renglones);
+
+        this.renglones = new ArrayList<Renglon>();
         tablaAsiento.removeAll();
         for (int i = 0; i < renglones.size(); i++) {
             tModel.removeRow(i);
@@ -263,15 +255,41 @@ public class LibroDiario extends javax.swing.JFrame {
         });
     }
 
-    public void actualizarRegistrarAsiento() {
+    public void desplegarAsientos() {
 
+        limpiar();
+        SqlAsientos asiSql = new SqlAsientos();
+        this.renglones = null;
+        Asiento asi = new Asiento();
+        String dia = jTextDia.getText();
+        String mes = jTextMes.getText();
+        String anio = jTextAnio.getText();
+        this.fecha = dia + '-' + mes + '-' + anio;
+        this.sdf.setLenient(false);
+        try {
+            Date date = this.sdf.parse(fecha);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Fecha invalida");
+        }
+        this.fecha = anio + '-' + mes + '-' + dia;
+        asi.setFecha(fecha);
+        renglones = asiSql.asientoCuentaPorFecha(asi);
+        if (renglones != null) {
+            for (Renglon renglon : renglones) {
+                agregarRenglones(renglon);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay asientos realizados en la fecha indicada");
+        }
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdelante;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnIr;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextAnio;
     private javax.swing.JTextField jTextDia;
