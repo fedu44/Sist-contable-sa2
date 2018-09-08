@@ -97,7 +97,6 @@ public class SqlAsientos extends Conexion {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection con = getConexion();
-        Renglon renglon = new Renglon();
         ArrayList<Renglon> renglones = new ArrayList<Renglon>();
             
         String sql = "SELECT  c.nombre, ac.debe, ac.haber FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE a.fecha > ? AND a.fecha < ?";
@@ -108,11 +107,11 @@ public class SqlAsientos extends Conexion {
             ps.setString(2, (asiento.getFecha() + " 23:59:59"));
             rs = ps.executeQuery();
             if(rs.first()){
+                Renglon renglon = new Renglon(rs.getString(1), rs.getInt(2), rs.getInt(3));
+                renglones.add(renglon);
                 while (rs.next()) {
-                    renglon.setCuenta(rs.getString(1));
-                    renglon.setDebe(rs.getInt(2));
-                    renglon.setHaber(rs.getInt(3));
-                    renglones.add(renglon);
+                    Renglon renglon2 = new Renglon(rs.getString(1), rs.getInt(2), rs.getInt(3));
+                    renglones.add(renglon2);
                 }
                 return renglones;
             }else{
