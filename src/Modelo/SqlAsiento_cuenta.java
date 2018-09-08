@@ -55,7 +55,7 @@ public class SqlAsiento_cuenta extends Conexion {
         }
         return -1;
     }
-    
+
     public boolean eliminar(Asiento_cuenta ac) {
         PreparedStatement ps = null;
         Connection con = getConexion();
@@ -74,5 +74,4 @@ public class SqlAsiento_cuenta extends Conexion {
 
         return false;
     }
-
 }

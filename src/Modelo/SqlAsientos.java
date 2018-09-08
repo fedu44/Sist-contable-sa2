@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +32,7 @@ public class SqlAsientos extends Conexion {
         }
         return -1;
     }
-    
+
     public int ultimoIdAsiento() {
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -74,7 +75,7 @@ public class SqlAsientos extends Conexion {
 
         return false;
     }
-    
+
     public Boolean eliminar(Asiento asiento) {
         PreparedStatement ps = null;
         Connection con = getConexion();
@@ -84,11 +85,42 @@ public class SqlAsientos extends Conexion {
         try {
             ps = con.prepareStatement(sql);
             ps.setInt(1, asiento.getIdasiento());
-            ps.execute();        
+            ps.execute();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(SqlAsientos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    public ArrayList<Renglon> asientoCuentaPorFecha(Asiento asiento) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+        Renglon renglon = new Renglon();
+        ArrayList<Renglon> renglones = new ArrayList<Renglon>();
+            
+        String sql = "SELECT  c.nombre, ac.debe, ac.haber FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE a.fecha > ? AND a.fecha < ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, (asiento.getFecha() + " 00:00:00"));
+            ps.setString(2, (asiento.getFecha() + " 23:59:59"));
+            rs = ps.executeQuery();
+            if(rs.first()){
+                while (rs.next()) {
+                    renglon.setCuenta(rs.getString(1));
+                    renglon.setDebe(rs.getInt(2));
+                    renglon.setHaber(rs.getInt(3));
+                    renglones.add(renglon);
+                }
+                return renglones;
+            }else{
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

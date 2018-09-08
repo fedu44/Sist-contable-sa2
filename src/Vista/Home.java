@@ -75,7 +75,7 @@ public class Home extends javax.swing.JFrame {
 
         menuLibroDiario.setText("Libro Diario");
 
-        subVerLibroDiario.setText("ver libro diario");
+        subVerLibroDiario.setText("Ver libro diario");
         subVerLibroDiario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 subVerLibroDiarioActionPerformed(evt);

@@ -333,7 +333,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Monto negativo");
 
         } else {
-            Renglon newRenglon = new Renglon(cuenta, descripcion, debe, haber);
+            Renglon newRenglon = new Renglon(cuenta, debe, haber);
             this.renglones.add(newRenglon);
             this.tModel.addRow(new Object[]{cuenta, debe, haber});
 

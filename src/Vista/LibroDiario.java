@@ -36,8 +36,8 @@ public class LibroDiario extends javax.swing.JFrame {
         initComponents();
         //setSize(1400, 800);
 
-        SqlAsientos asiSql = new SqlAsientos();
         tModel = (DefaultTableModel) tablaAsiento.getModel();
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -165,8 +165,11 @@ public class LibroDiario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    private void agregarRenglones(){
-        //this.tModel.addRow(new Object[]{cuenta, debe, haber});
+    private void agregarRenglones(Renglon renglon){
+        String cuenta = renglon.getCuenta();
+        double debe = renglon.getDebe();
+        double haber = renglon.getHaber();
+        this.tModel.addRow(new Object[]{cuenta, debe, haber});
     }
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         
@@ -178,8 +181,7 @@ public class LibroDiario extends javax.swing.JFrame {
         }
         c.add(Calendar.DATE, -1);  
         this.fecha = sdf.format(c.getTime()); 
-        System.out.println(this.fecha);
-
+        
 
     }//GEN-LAST:event_btnAtrasActionPerformed
 
@@ -194,12 +196,14 @@ public class LibroDiario extends javax.swing.JFrame {
         }
         c.add(Calendar.DATE, 1);  
         this.fecha = sdf.format(c.getTime()); 
-        System.out.println(this.fecha);
-
+        
     }//GEN-LAST:event_btnAdelanteActionPerformed
 
     private void btnIrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIrActionPerformed
-        // TODO add your handling code here:
+        
+        SqlAsientos asiSql = new SqlAsientos();
+        this.renglones = null;
+        Asiento asi = new Asiento();
         String dia = jTextDia.getText();
         String mes = jTextMes.getText();
         String anio = jTextAnio.getText();
@@ -207,9 +211,18 @@ public class LibroDiario extends javax.swing.JFrame {
         this.sdf.setLenient(false);
         try {
             Date date = this.sdf.parse(fecha);
-            System.out.println(date);
         } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "fecha invalida");
+            JOptionPane.showMessageDialog(null, "Fecha invalida");
+        }
+        this.fecha = anio + '-' + mes + '-' + dia;
+        asi.setFecha(fecha);
+        renglones = asiSql.asientoCuentaPorFecha(asi);
+        if(renglones != null){
+            for(Renglon renglon : renglones){
+                agregarRenglones(renglon);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "No hay asientos realizados en la fecha indicada");
         }
     }//GEN-LAST:event_btnIrActionPerformed
 
