@@ -99,7 +99,7 @@ public class SqlAsientos extends Conexion {
         Connection con = getConexion();
         ArrayList<Renglon> renglones = new ArrayList<Renglon>();
             
-        String sql = "SELECT  c.nombre, ac.debe, ac.haber FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE a.fecha > ? AND a.fecha < ?";
+        String sql = "SELECT  c.nombre, ac.debe, ac.haber FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE a.fecha > ? AND a.fecha < ? ORDER BY a.fecha";
 
         try {
             ps = con.prepareStatement(sql);

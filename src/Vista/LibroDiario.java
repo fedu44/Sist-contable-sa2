@@ -201,6 +201,7 @@ public class LibroDiario extends javax.swing.JFrame {
 
     private void btnIrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIrActionPerformed
         
+        limpiar();
         SqlAsientos asiSql = new SqlAsientos();
         this.renglones = null;
         Asiento asi = new Asiento();
@@ -233,6 +234,20 @@ public class LibroDiario extends javax.swing.JFrame {
 
 
     private void limpiar() {
+        
+        renglones.removeAll(renglones);
+        tablaAsiento.removeAll();
+        for (int i = 0; i < renglones.size(); i++) {
+            tModel.removeRow(i);
+        }
+        this.renglones.clear();
+        this.tablaAsiento.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Cuenta", "Debe", "Haber"
+                }
+        ));
+        this.tModel = (DefaultTableModel) tablaAsiento.getModel();
 
     }
 
