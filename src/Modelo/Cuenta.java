@@ -6,6 +6,8 @@ public class Cuenta {
     private String tipo;
     private String nombre;
     private int empresa;
+    private String codigo;
+    private Boolean recibeSaldo;
 
     public Cuenta() {
     }
@@ -41,5 +43,23 @@ public class Cuenta {
     public void setEmpresa(int empresa) {
         this.empresa = empresa;
     }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public Boolean getRecibeSaldo() {
+        return recibeSaldo;
+    }
+
+    public void setRecibeSaldo(Boolean recibeSaldo) {
+        this.recibeSaldo = recibeSaldo;
+    }
+
+    
 
 }

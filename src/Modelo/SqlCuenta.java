@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -54,6 +55,35 @@ public class SqlCuenta extends Conexion {
             Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
+    }
+    
+     public ArrayList<Cuenta> planCuenta() {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+        ArrayList<Cuenta> cuentas = new ArrayList<>();
+        
+        String sql = "SELECT * FROM cuenta ORDER BY codigo";
+
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                Cuenta cuenta = new Cuenta();
+                cuenta.setIdcuenta(rs.getInt(1));
+                cuenta.setNombre(rs.getString(2));
+                cuenta.setTipo(rs.getString(3));
+                cuenta.setEmpresa(rs.getInt(4));
+                cuenta.setCodigo(rs.getString(5));
+                cuenta.setRecibeSaldo(rs.getBoolean(6));
+                cuentas.add(cuenta);
+            }
+            return cuentas;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

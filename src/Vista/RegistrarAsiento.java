@@ -335,8 +335,11 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         } else {
             Renglon newRenglon = new Renglon(cuenta, debe, haber);
             this.renglones.add(newRenglon);
+            if(haber>0){
+                cuenta = "         "+cuenta;
+            }
             this.tModel.addRow(new Object[]{cuenta, debe, haber});
-
+            
             limpiar();
         }
 
