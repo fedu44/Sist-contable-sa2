@@ -474,14 +474,13 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
     private void limpiar() {
         txtMonto.setText("");
-        txtDesc.setText("");
         radBtnGrupo.clearSelection();
     }
 
     public void cerrar() {
         this.dispose();
     }
-
+    
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

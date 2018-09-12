@@ -8,55 +8,49 @@ import javax.swing.table.DefaultTableModel;
 
 public class PlanDeCuentas extends javax.swing.JFrame {
 
-    
     private ArrayList<Cuenta> cuentas = new ArrayList<>();
     private DefaultTableModel tModel;
     private Integer cantColumnas;
+
     public PlanDeCuentas() {
         initComponents();
         SqlCuenta sqlCuenta = new SqlCuenta();
         this.cuentas = sqlCuenta.planCuenta();
-        
+
         this.cantColumnas = cantColumnas();
         tModel = (DefaultTableModel) tablaPlan.getModel();
-        for(int i=0;i<this.cantColumnas;i++){
-            tModel.addColumn(i);
+        tModel.addColumn("Codigo");
+        for (int i = 0; i < this.cantColumnas; i++) {
+            tModel.addColumn("Cuenta");
         }
         carga();
-         
-        
-        
-      
-        
-        
-        
+
     }
-    
-    private Integer cantColumnas(){
-        Integer max=0;
-        for (Cuenta c : cuentas){
-            if (c.getCodigo().length() > max){
-                max=c.getCodigo().length();
+
+    private Integer cantColumnas() {
+        Integer max = 0;
+        for (Cuenta c : cuentas) {
+            if (c.getCodigo().length() > max) {
+                max = c.getCodigo().length();
             }
         }
         return max;
     }
-    
-    private void carga(){
-        Object row[] = new Object[cantColumnas];
-        for(Cuenta c : this.cuentas){
-            int i =c.getCodigo().indexOf("0");
+
+    private void carga() {
+
+        for (Cuenta c : this.cuentas) {
+            Object row[] = new Object[cantColumnas + 1];
+            row[0] = c.getCodigo();
+            int i = c.getCodigo().indexOf("0");
             System.out.println(i);
-            if (i==-1){
-                row[cantColumnas-1]=c.getNombre();
-            }else{
-                row[i-1]=c.getNombre();
+            if (i == -1) {
+                row[cantColumnas] = c.getNombre();
+            } else {
+                row[i] = c.getNombre();
             }
             tModel.addRow(row);
-            for(int n = 0; n<cantColumnas;n++){
-                row[n] = "";
-            }
-            
+
         }
     }
 
@@ -116,7 +110,7 @@ public class PlanDeCuentas extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(PlanDeCuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-         /* Create and display the form */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new PlanDeCuentas().setVisible(true);
