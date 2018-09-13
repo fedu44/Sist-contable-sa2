@@ -359,7 +359,9 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMontoActionPerformed
 
     private void comboCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCuentaActionPerformed
-        // TODO add your handling code here:
+        
+        
+        
     }//GEN-LAST:event_comboCuentaActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
