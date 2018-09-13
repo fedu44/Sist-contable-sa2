@@ -23,6 +23,16 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Libro mayor"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="subVerLibroMayor">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ver libro Mayor"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subVerLibroMayorActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuLibroDiario">
           <Properties>
@@ -64,7 +74,7 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="btnImprimir">
+        <Menu class="javax.swing.JMenu" name="menuImprimir">
           <Properties>
             <Property name="text" type="java.lang.String" value="Imprimir"/>
           </Properties>

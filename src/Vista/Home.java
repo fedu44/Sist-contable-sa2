@@ -49,12 +49,13 @@ public class Home extends javax.swing.JFrame {
         menuAsientoContable = new javax.swing.JMenu();
         subAgregarAsiento = new javax.swing.JMenuItem();
         menuLibroMayor = new javax.swing.JMenu();
+        subVerLibroMayor = new javax.swing.JMenuItem();
         menuLibroDiario = new javax.swing.JMenu();
         subVerLibroDiario = new javax.swing.JMenuItem();
         menuUsuarios = new javax.swing.JMenu();
         subAgregarUsuario = new javax.swing.JCheckBoxMenuItem();
         subEliminarUsuario = new javax.swing.JCheckBoxMenuItem();
-        btnImprimir = new javax.swing.JMenu();
+        menuImprimir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,6 +72,15 @@ public class Home extends javax.swing.JFrame {
         jMenuBar1.add(menuAsientoContable);
 
         menuLibroMayor.setText("Libro mayor");
+
+        subVerLibroMayor.setText("Ver libro Mayor");
+        subVerLibroMayor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subVerLibroMayorActionPerformed(evt);
+            }
+        });
+        menuLibroMayor.add(subVerLibroMayor);
+
         jMenuBar1.add(menuLibroMayor);
 
         menuLibroDiario.setText("Libro Diario");
@@ -107,8 +117,8 @@ public class Home extends javax.swing.JFrame {
 
         jMenuBar1.add(menuUsuarios);
 
-        btnImprimir.setText("Imprimir");
-        jMenuBar1.add(btnImprimir);
+        menuImprimir.setText("Imprimir");
+        jMenuBar1.add(menuImprimir);
 
         setJMenuBar(jMenuBar1);
 
@@ -158,6 +168,11 @@ public class Home extends javax.swing.JFrame {
         libroDiario.setVisible(true);
     }//GEN-LAST:event_subVerLibroDiarioActionPerformed
 
+    private void subVerLibroMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subVerLibroMayorActionPerformed
+        LibroMayor libroMayor = new LibroMayor();
+        libroMayor.setVisible(true);
+    }//GEN-LAST:event_subVerLibroMayorActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -192,9 +207,9 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu btnImprimir;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu menuAsientoContable;
+    private javax.swing.JMenu menuImprimir;
     private javax.swing.JMenu menuLibroDiario;
     private javax.swing.JMenu menuLibroMayor;
     private javax.swing.JMenu menuUsuarios;
@@ -202,5 +217,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem subAgregarUsuario;
     private javax.swing.JCheckBoxMenuItem subEliminarUsuario;
     private javax.swing.JMenuItem subVerLibroDiario;
+    private javax.swing.JMenuItem subVerLibroMayor;
     // End of variables declaration//GEN-END:variables
 }

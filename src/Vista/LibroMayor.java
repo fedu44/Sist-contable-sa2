@@ -1,56 +1,18 @@
 package Vista;
 
-import Modelo.Cuenta;
-import Modelo.SqlCuenta;
-import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
-public class PlanDeCuentas extends javax.swing.JFrame {
+public class LibroMayor extends javax.swing.JFrame {
 
-    private ArrayList<Cuenta> cuentas = new ArrayList<>();
     private DefaultTableModel tModel;
-    private Integer cantColumnas;
-
-    public PlanDeCuentas() {
+    
+    
+    
+    public LibroMayor() {
         initComponents();
-        SqlCuenta sqlCuenta = new SqlCuenta();
-        this.cuentas = sqlCuenta.planCuenta();
-
-        this.cantColumnas = cantColumnas();
         tModel = (DefaultTableModel) tablaPlan.getModel();
-        tModel.addColumn("Codigo");
-        for (int i = 0; i < this.cantColumnas; i++) {
-            tModel.addColumn("Cuenta");
-        }
-        carga();
-
-    }
-
-    private Integer cantColumnas() {
-        Integer max = 0;
-        for (Cuenta c : cuentas) {
-            if (c.getCodigo().length() > max) {
-                max = c.getCodigo().length();
-            }
-        }
-        return max;
-    }
-
-    private void carga() {
-
-        for (Cuenta c : this.cuentas) {
-            Object row[] = new Object[cantColumnas + 1];
-            row[0] = c.getCodigo();
-            int i = c.getCodigo().indexOf("0");
-            System.out.println(i);
-            if (i == -1) {
-                row[cantColumnas] = c.getNombre();
-            } else {
-                row[i] = c.getNombre();
-            }
-            tModel.addRow(row);
-
-        }
+        
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -76,17 +38,17 @@ public class PlanDeCuentas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(182, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(119, 119, 119)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(131, 131, 131))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(109, 109, 109)
+                .addGap(50, 50, 50)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
 
         pack();
@@ -101,18 +63,18 @@ public class PlanDeCuentas extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PlanDeCuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibroMayor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PlanDeCuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibroMayor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PlanDeCuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibroMayor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PlanDeCuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibroMayor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        /* Create and display the form */
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PlanDeCuentas().setVisible(true);
+                new LibroMayor().setVisible(true);
             }
         });
     }
