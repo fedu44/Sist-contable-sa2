@@ -183,8 +183,8 @@ public class LibroDiario extends javax.swing.JFrame {
         String cuenta = renglon.getCuenta();
         double debe = renglon.getDebe();
         double haber = renglon.getHaber();
-        String hora = "agregarhora";
-        this.tModel.addRow(new Object[]{hora,cuenta, debe, haber});
+        String hora = renglon.getFecha();
+        this.tModel.addRow(new Object[]{hora ,cuenta, debe, haber});
     }
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
 

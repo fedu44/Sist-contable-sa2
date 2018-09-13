@@ -2,18 +2,34 @@ package Modelo;
 
 public class Renglon {
 
-    double debe = 0;
-    double haber = 0;
-    String cuenta = "";
+    private double debe = 0;
+    private double haber = 0;
+    private String cuenta = "";
+    private String fecha;
 
-    public Renglon(String cuenta, double debe, double haber) {
+    public Renglon( String cuenta, double debe, double haber) {
         this.cuenta = cuenta;
         this.debe = debe;
         this.haber = haber;
     }
+    
+    public Renglon( String fecha, String cuenta, double debe, double haber) {
+        this.cuenta = cuenta;
+        this.debe = debe;
+        this.haber = haber;
+        this.fecha = fecha;
+    }
 
     public Renglon() {
 
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     public void setDebe(double debe) {
