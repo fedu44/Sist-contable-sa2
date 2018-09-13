@@ -1,17 +1,23 @@
 package Vista;
 
+import Modelo.Cuenta;
+import Modelo.SqlCuenta;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 public class LibroMayor extends javax.swing.JFrame {
 
     private DefaultTableModel tModel;
-    
+    private ArrayList<Cuenta> cuentas = new ArrayList<>();
     
     
     public LibroMayor() {
         initComponents();
         tModel = (DefaultTableModel) tablaPlan.getModel();
-        
+        SqlCuenta sqlCuenta = new SqlCuenta();
+        cuentas = sqlCuenta.nombreCuentasHoja();
+        for (Cuenta cuenta : cuentas) {
+            }
         
     }
 
@@ -29,7 +35,7 @@ public class LibroMayor extends javax.swing.JFrame {
 
             },
             new String [] {
-
+                "N° asiento", "", "Debe", "Haber", "Saldo"
             }
         ));
         jScrollPane1.setViewportView(tablaPlan);
