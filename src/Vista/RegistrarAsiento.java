@@ -26,6 +26,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     //la jList lstRenglon muestra los elementos que contiene modelList
     private int asiento = 0;
     private ArrayList<Integer> asientos_cuenta = new ArrayList<Integer>();
+    private ArrayList<Cuenta> cuentas = new ArrayList<>();
 
     public RegistrarAsiento(Usuario usr) {
         initComponents();
@@ -44,6 +45,12 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         if (txtNumAsiento.getText().equals("-1")) {
             JOptionPane.showMessageDialog(null, "Intente nuevamente");
             cerrar();
+        }
+        
+        SqlCuenta sqlCuenta = new SqlCuenta();
+        cuentas = sqlCuenta.nombreCuentasHoja();
+        for (Cuenta cuenta : cuentas) {
+            comboCuenta.addItem(cuenta.getNombre());
         }
 
     }
@@ -93,7 +100,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         txtFecha.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         comboCuenta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {""}));
         comboCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboCuentaActionPerformed(evt);
@@ -189,7 +196,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         panelRegLayout.setHorizontalGroup(
             panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
-                .addContainerGap(48, Short.MAX_VALUE)
+                .addGap(48, 48, 48)
                 .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRegLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -197,53 +204,50 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                         .addComponent(btnLimpiar))
                     .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
                             .addComponent(btnRegistrar)
                             .addGap(238, 238, 238))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
-                            .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(panelRegLayout.createSequentialGroup()
-                                    .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4)
-                                        .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(panelRegLayout.createSequentialGroup()
-                                                .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(44, 44, 44))
-                                            .addGroup(panelRegLayout.createSequentialGroup()
-                                                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addGroup(panelRegLayout.createSequentialGroup()
-                                                        .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(jLabel2)
-                                                            .addComponent(jLabel3))
-                                                        .addGap(89, 89, 89))
-                                                    .addGroup(panelRegLayout.createSequentialGroup()
-                                                        .addComponent(jLabel7)
-                                                        .addGap(18, 18, 18)))
-                                                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(comboCuenta, 0, 95, Short.MAX_VALUE)
-                                                    .addComponent(txtNumAsiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                                    .addGap(4, 4, 4)
-                                    .addComponent(jLabel6)
-                                    .addGap(18, 18, 18)
-                                    .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(panelRegLayout.createSequentialGroup()
-                                            .addComponent(radBtnDebe)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(radBtnHaber))
-                                        .addGroup(panelRegLayout.createSequentialGroup()
-                                            .addComponent(jLabel1)
-                                            .addGap(0, 0, Short.MAX_VALUE))))
-                                .addGroup(panelRegLayout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(26, 26, 26)
-                                    .addComponent(btnAgregar)))
-                            .addGap(91, 91, 91))
                         .addGroup(panelRegLayout.createSequentialGroup()
-                            .addGap(345, 345, 345)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap()))))
+                            .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(panelRegLayout.createSequentialGroup()
+                                        .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel3))
+                                        .addGap(89, 89, 89))
+                                    .addGroup(panelRegLayout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(18, 18, 18)))
+                                .addGroup(panelRegLayout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(94, 94, 94))
+                                .addComponent(jLabel5))
+                            .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
+                                    .addComponent(txtDesc)
+                                    .addGap(26, 26, 26)
+                                    .addComponent(btnAgregar)
+                                    .addGap(91, 91, 91))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
+                                    .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtMonto)
+                                        .addComponent(comboCuenta, 0, 156, Short.MAX_VALUE)
+                                        .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtNumAsiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(panelRegLayout.createSequentialGroup()
+                                            .addGap(48, 48, 48)
+                                            .addComponent(jLabel1)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(panelRegLayout.createSequentialGroup()
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel6)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(radBtnDebe)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(radBtnHaber)))
+                                    .addGap(0, 51, Short.MAX_VALUE)))))))
         );
         panelRegLayout.setVerticalGroup(
             panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,11 +339,11 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         } else {
             Renglon newRenglon = new Renglon(cuenta, debe, haber);
             this.renglones.add(newRenglon);
-            if(haber>0){
-                cuenta = "         "+cuenta;
+            if (haber > 0) {
+                cuenta = "         " + cuenta;
             }
             this.tModel.addRow(new Object[]{cuenta, debe, haber});
-            
+
             limpiar();
         }
 
@@ -359,9 +363,9 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMontoActionPerformed
 
     private void comboCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCuentaActionPerformed
+
         
-        
-        
+
     }//GEN-LAST:event_comboCuentaActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
@@ -482,7 +486,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     public void cerrar() {
         this.dispose();
     }
-    
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -509,7 +513,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     public boolean cuentaRepetida() {
 
         for (int i = 0; i < renglones.size(); i++) {
-            for (int n = i + 1; n < renglones.size() ; n++) {
+            for (int n = i + 1; n < renglones.size(); n++) {
                 if (renglones.get(i).getCuenta().equals(renglones.get(n).getCuenta())) {
                     return true;
                 }

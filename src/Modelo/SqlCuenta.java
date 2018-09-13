@@ -85,25 +85,20 @@ public class SqlCuenta extends Conexion {
         return null;
     }
 
-    public ArrayList<Cuenta> nombreCuenta() {
+    public ArrayList<Cuenta> nombreCuentasHoja() {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection con = getConexion();
         ArrayList<Cuenta> cuentas = new ArrayList<>();
 
-        String sql = "SELECT * FROM cuenta WHERE recibe_saldo = 1";
+        String sql = "SELECT nombre FROM cuenta WHERE recibeSaldo = 1";
 
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Cuenta cuenta = new Cuenta();
-                cuenta.setIdcuenta(rs.getInt(1));
-                cuenta.setNombre(rs.getString(2));
-                cuenta.setTipo(rs.getString(3));
-                cuenta.setEmpresa(rs.getInt(4));
-                cuenta.setCodigo(rs.getString(5));
-                cuenta.setRecibeSaldo(rs.getBoolean(6));
+                cuenta.setNombre(rs.getString(1));
                 cuentas.add(cuenta);
             }
             return cuentas;
@@ -113,5 +108,7 @@ public class SqlCuenta extends Conexion {
         }
         return null;
     }
+    
+    
 
 }
