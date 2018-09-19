@@ -46,13 +46,11 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Intente nuevamente");
             cerrar();
         }
-        
         SqlCuenta sqlCuenta = new SqlCuenta();
         cuentas = sqlCuenta.nombreCuentasHoja();
         for (Cuenta cuenta : cuentas) {
             comboCuenta.addItem(cuenta.getNombre());
         }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -101,6 +99,14 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
         comboCuenta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {""}));
+        comboCuenta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboCuentaMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                comboCuentaMousePressed(evt);
+            }
+        });
         comboCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboCuentaActionPerformed(evt);
@@ -219,9 +225,10 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                                         .addComponent(jLabel7)
                                         .addGap(18, 18, 18)))
                                 .addGroup(panelRegLayout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addGap(94, 94, 94))
-                                .addComponent(jLabel5))
+                                    .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel5))
+                                    .addGap(63, 63, 63)))
                             .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
                                     .addComponent(txtDesc)
@@ -364,8 +371,6 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
     private void comboCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCuentaActionPerformed
 
-        
-
     }//GEN-LAST:event_comboCuentaActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
@@ -462,6 +467,14 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         actualizarRegistrarAsiento();
 
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void comboCuentaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboCuentaMousePressed
+
+    }//GEN-LAST:event_comboCuentaMousePressed
+
+    private void comboCuentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboCuentaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboCuentaMouseClicked
 
     private boolean checkAsiento() {
         //valida que el asiento este balanceado

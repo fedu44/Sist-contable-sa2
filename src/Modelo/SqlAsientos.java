@@ -123,4 +123,33 @@ public class SqlAsientos extends Conexion {
         }
         return null;
     }
+    
+    public ArrayList<Renglon> asientoCuentaPorFecha(String nombreCuenta) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+        ArrayList<Renglon> renglones = new ArrayList<Renglon>();
+            
+        String sql = "SELECT a.fecha, ac.debe, ac.haber FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE c.nombre = ? ORDER BY a.fecha";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, nombreCuenta);
+            rs = ps.executeQuery();
+            if(rs.first()){
+                Renglon renglon = new Renglon(rs.getString(1).substring(10, 19), null, rs.getInt(2), rs.getInt(3));
+                renglones.add(renglon);
+                while (rs.next()) {
+                    Renglon renglon2 = new Renglon(rs.getString(1).substring(10, 19), null,  rs.getInt(2), rs.getInt(3));
+                    renglones.add(renglon2);
+                }
+                return renglones;
+            }else{
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

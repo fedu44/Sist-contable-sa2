@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class LibroDiario extends javax.swing.JFrame {
 
-    private ArrayList<Renglon> renglones = new ArrayList<Renglon>();
+    private ArrayList<Renglon> renglones = new ArrayList<>();
     private DefaultTableModel tModel;
     private String fechaD;
     private String fechaH;
