@@ -6,6 +6,7 @@ public class Renglon {
     private double haber = 0;
     private String cuenta = "";
     private String fecha;
+    private double saldo_parcial;
 
     public Renglon( String cuenta, double debe, double haber) {
         this.cuenta = cuenta;
@@ -13,17 +14,27 @@ public class Renglon {
         this.haber = haber;
     }
     
-    public Renglon( String fecha, String cuenta, double debe, double haber) {
+    public Renglon( String fecha, String cuenta, double debe, double haber, double saldo_parcial) {
         this.cuenta = cuenta;
         this.debe = debe;
         this.haber = haber;
         this.fecha = fecha;
+        this.saldo_parcial = saldo_parcial;
     }
 
     public Renglon() {
 
     }
 
+    public double getSaldo_parcial() {
+        return saldo_parcial;
+    }
+
+    public void setSaldo_parcial(double saldo_parcial) {
+        this.saldo_parcial = saldo_parcial;
+    }
+
+    
     public String getFecha() {
         return fecha;
     }

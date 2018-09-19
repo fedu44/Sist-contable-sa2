@@ -107,10 +107,10 @@ public class SqlAsientos extends Conexion {
             
             rs = ps.executeQuery();
             if(rs.first()){
-                Renglon renglon = new Renglon(rs.getString(1).substring(10, 19), rs.getString(2), rs.getInt(3), rs.getInt(4));
+                Renglon renglon = new Renglon(rs.getString(1).substring(10, 19), rs.getString(2), rs.getInt(3), rs.getInt(4), 0.0);
                 renglones.add(renglon);
                 while (rs.next()) {
-                    Renglon renglon2 = new Renglon(rs.getString(1).substring(10, 19), rs.getString(2), rs.getInt(3), rs.getInt(4));
+                    Renglon renglon2 = new Renglon(rs.getString(1).substring(10, 19), rs.getString(2), rs.getInt(3), rs.getInt(4), 0.0);
                     renglones.add(renglon2);
                 }
                 return renglones;
@@ -129,17 +129,17 @@ public class SqlAsientos extends Conexion {
         Connection con = getConexion();
         ArrayList<Renglon> renglones = new ArrayList<>();
             
-        String sql = "SELECT a.fecha, ac.debe, ac.haber FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE c.nombre = ? ORDER BY a.fecha";
+        String sql = "SELECT a.fecha, ac.debe, ac.haber, saldo_parcial FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE c.nombre = ? ORDER BY a.fecha";
 
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, nombreCuenta);
             rs = ps.executeQuery();
             if(rs.first()){
-                Renglon renglon = new Renglon(rs.getString(1), null, rs.getInt(2), rs.getInt(3));
+                Renglon renglon = new Renglon(rs.getString(1), null, rs.getInt(2), rs.getInt(3), rs.getInt(4));
                 renglones.add(renglon);
                 while (rs.next()) {
-                    Renglon renglon2 = new Renglon(rs.getString(1), null,  rs.getInt(2), rs.getInt(3));
+                    Renglon renglon2 = new Renglon(rs.getString(1), null,  rs.getInt(2), rs.getInt(3), rs.getInt(4));
                     renglones.add(renglon2);
                 }
                 return renglones;
