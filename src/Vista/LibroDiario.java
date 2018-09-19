@@ -1,28 +1,13 @@
 package Vista;
 
-import Modelo.Asiento;
-import Modelo.Asiento_cuenta;
-import Modelo.Cuenta;
 import Modelo.Renglon;
-import Modelo.SqlAsiento_cuenta;
 import Modelo.SqlAsientos;
-import Modelo.SqlCuenta;
-import Modelo.SqlUsuarios;
-import Modelo.Usuario;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
 
 public class LibroDiario extends javax.swing.JFrame {
@@ -348,9 +333,9 @@ public class LibroDiario extends javax.swing.JFrame {
         this.fechaH = anioH + '-' + mesH + '-' + diaH;
         renglones = asiSql.asientoPorFecha(fechaD, fechaH);
         if (renglones != null) {
-            for (Renglon renglon : renglones) {
+            renglones.forEach((renglon) -> {
                 agregarRenglones(renglon);
-            }
+            });
         } else {
             JOptionPane.showMessageDialog(null, "No hay asientos realizados en la fecha indicada");
         }

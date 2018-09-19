@@ -1,7 +1,6 @@
 package Modelo;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -97,7 +96,7 @@ public class SqlAsientos extends Conexion {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection con = getConexion();
-        ArrayList<Renglon> renglones = new ArrayList<Renglon>();
+        ArrayList<Renglon> renglones = new ArrayList<>();
             
         String sql = "SELECT a.fecha, c.nombre, ac.debe, ac.haber FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE a.fecha > ? AND a.fecha < ? ORDER BY a.fecha";
 
@@ -128,7 +127,7 @@ public class SqlAsientos extends Conexion {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection con = getConexion();
-        ArrayList<Renglon> renglones = new ArrayList<Renglon>();
+        ArrayList<Renglon> renglones = new ArrayList<>();
             
         String sql = "SELECT a.fecha, ac.debe, ac.haber FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE c.nombre = ? ORDER BY a.fecha";
 
@@ -137,10 +136,10 @@ public class SqlAsientos extends Conexion {
             ps.setString(1, nombreCuenta);
             rs = ps.executeQuery();
             if(rs.first()){
-                Renglon renglon = new Renglon(rs.getString(1).substring(10, 19), null, rs.getInt(2), rs.getInt(3));
+                Renglon renglon = new Renglon(rs.getString(1), null, rs.getInt(2), rs.getInt(3));
                 renglones.add(renglon);
                 while (rs.next()) {
-                    Renglon renglon2 = new Renglon(rs.getString(1).substring(10, 19), null,  rs.getInt(2), rs.getInt(3));
+                    Renglon renglon2 = new Renglon(rs.getString(1), null,  rs.getInt(2), rs.getInt(3));
                     renglones.add(renglon2);
                 }
                 return renglones;

@@ -7,31 +7,28 @@ import Modelo.Renglon;
 import Modelo.SqlAsiento_cuenta;
 import Modelo.SqlAsientos;
 import Modelo.SqlCuenta;
-import Modelo.SqlUsuarios;
 import Modelo.Usuario;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
 
 public class RegistrarAsiento extends javax.swing.JFrame {
 
     private static Usuario mod;
-    private ArrayList<Renglon> renglones = new ArrayList<Renglon>();
+    private ArrayList<Renglon> renglones = new ArrayList<>();
     private DefaultTableModel tModel;
     //la jList lstRenglon muestra los elementos que contiene modelList
     private int asiento = 0;
-    private ArrayList<Integer> asientos_cuenta = new ArrayList<Integer>();
+    private ArrayList<Integer> asientos_cuenta = new ArrayList<>();
     private ArrayList<Cuenta> cuentas = new ArrayList<>();
 
     public RegistrarAsiento(Usuario usr) {
         initComponents();
         //setSize(1400, 800);
-        this.mod = usr;
+        RegistrarAsiento.mod = usr;
         // la sentencia de abajo hay que probarlo solo con loguin
         txtUsuario.setText(usr.getNombre());
         SqlAsientos asiSql = new SqlAsientos();
@@ -48,9 +45,9 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         }
         SqlCuenta sqlCuenta = new SqlCuenta();
         cuentas = sqlCuenta.nombreCuentasHoja();
-        for (Cuenta cuenta : cuentas) {
+        cuentas.forEach((cuenta) -> {
             comboCuenta.addItem(cuenta.getNombre());
-        }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -383,12 +380,12 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 Date date = new Date();
                 DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 SqlAsientos sqlAsiento = new SqlAsientos();
-                Asiento asiento = new Asiento();
-                asiento.setNumAsiento(Integer.parseInt(txtNumAsiento.getText()));
-                asiento.setDescripcion(txtDesc.getText());
-                asiento.setFecha(fechaHora.format(date).toString());
-                asiento.setUsuario(mod.getIdusuario());
-                sqlAsiento.registrarAsiento(asiento);
+                Asiento asientoRegistrar = new Asiento();
+                asientoRegistrar.setNumAsiento(Integer.parseInt(txtNumAsiento.getText()));
+                asientoRegistrar.setDescripcion(txtDesc.getText());
+                asientoRegistrar.setFecha(fechaHora.format(date).toString());
+                asientoRegistrar.setUsuario(mod.getIdusuario());
+                sqlAsiento.registrarAsiento(asientoRegistrar);
                 // Se agrega Asiento_cuenta en BD
                 SqlAsiento_cuenta SqlAc = new SqlAsiento_cuenta();
                 Asiento_cuenta ac = new Asiento_cuenta();
@@ -406,13 +403,19 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Cuenta inexistente");
                         break;
                     }
-                    asiento.setIdasiento(sqlAsiento.ultimoIdAsiento());
-                    ac.setAsiento(asiento.getIdasiento());
+                    asientoRegistrar.setIdasiento(sqlAsiento.ultimoIdAsiento());
+                    ac.setAsiento(asientoRegistrar.getIdasiento());
                     this.asiento = ac.getAsiento();
+                    int codigo = SqlAc.ultimoCodigo();
+                    if (codigo == -1){
+                        JOptionPane.showMessageDialog(null, "Error de codigo de cuenta");
+                    }        
+                    ac.setCodigo(codigo);
                     ctaI.setIdcuenta(SqlCta.idCuenta(ctaN));
                     saldo_parcial = SqlAc.saldoParcial(ctaI);
                     if (saldo_parcial == -1) {
                         JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
+                        nuevoSaldo_parcial = -1;
                         break;
                     }
 
@@ -440,14 +443,14 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
                     ac.setSaldo_parcial(nuevoSaldo_parcial);
                     SqlAc.registrar(ac);
-                    this.asientos_cuenta.add(ac.getIdasiento_cuenta());
+                    this.asientos_cuenta.add(ac.getCodigo());
 
                 }
 
-                if (nuevoSaldo_parcial == -1 || ac.getCuenta() == -1) {
+                if (nuevoSaldo_parcial == -1 || ac.getCuenta() == -1 || ac.getCodigo() == -1 ) {
 
-                    corregirError();
-
+                    JOptionPane.showMessageDialog(null, "Asiento no guardado");
+                    
                 } else {
                     actualizarRegistrarAsiento();
                     JOptionPane.showMessageDialog(null, "Asiento guardado");
@@ -484,11 +487,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             sumDeb += rg.getDebe();
             sumHab += rg.getHaber();
         }
-        if ((sumDeb == sumHab) && (sumDeb != 0)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (sumDeb == sumHab) && (sumDeb != 0);
     }
 
     private void limpiar() {
@@ -513,14 +512,14 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         SqlAsiento_cuenta SqlAc = new SqlAsiento_cuenta();
         Asiento_cuenta ac = new Asiento_cuenta();
         SqlAsientos sqlAsiento = new SqlAsientos();
-        Asiento asiento = new Asiento();
+        Asiento asientoCorregirError = new Asiento();
 
         for (Integer i : this.asientos_cuenta) {
-            ac.setIdasiento_cuenta(i);
+            ac.setCodigo(i);
             SqlAc.eliminar(ac);
         }
-        asiento.setIdasiento(this.asiento);
-        sqlAsiento.eliminar(asiento);
+        asientoCorregirError.setIdasiento(this.asiento);
+        sqlAsiento.eliminar(asientoCorregirError);
     }
 
     public boolean cuentaRepetida() {
@@ -561,6 +560,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 }
         ));
         this.tModel = (DefaultTableModel) tablaAsiento.getModel();
+        this.asientos_cuenta.removeAll(cuentas);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

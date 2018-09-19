@@ -41,7 +41,7 @@ public class LibroMayor extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Hora", "Debe", "Haber"
+                "Fecha", "Debe", "Haber"
             }
         ));
         jScrollPane2.setViewportView(tablaAsiento);
@@ -130,9 +130,9 @@ public class LibroMayor extends javax.swing.JFrame {
         SqlAsientos asiSql = new SqlAsientos();
         renglones = asiSql.asientoCuentaPorFecha(comboCuenta.getSelectedItem().toString());
         if (renglones != null) {
-            for (Renglon renglon : renglones) {
+            renglones.forEach((renglon) -> {
                 agregarRenglones(renglon);
-            }
+            });
         } else {
             JOptionPane.showMessageDialog(null, "No hay asientos realizados en la cuenta indicada");
         }

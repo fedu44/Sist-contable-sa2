@@ -60,7 +60,7 @@ public class SqlAsiento_cuenta extends Conexion {
         PreparedStatement ps = null;
         Connection con = getConexion();
 
-        String sql = "DELETE FROM asiento_cuenta WHERE asiento = ?";
+        String sql = "DELETE FROM asiento_cuenta WHERE codigo = ?";
 
         try {
             ps = con.prepareStatement(sql);
@@ -74,4 +74,27 @@ public class SqlAsiento_cuenta extends Conexion {
 
         return false;
     }
+    
+    public int ultimoCodigo() {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+
+        String sql = "SELECT codigo FROM asiento_cuenta WHERE codigo >= ALL (SELECT codigo FROM asiento_cuenta)";
+
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+
+                return rs.getInt(1);
+            } else {
+                return -1;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+    
 }

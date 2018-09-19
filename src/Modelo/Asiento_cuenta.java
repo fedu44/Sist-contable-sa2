@@ -8,6 +8,7 @@ public class Asiento_cuenta {
     private int cuenta;
     private int asiento;
     private double saldo_parcial;
+    private int codigo;
 
     public Asiento_cuenta() {
     }
@@ -60,6 +61,12 @@ public class Asiento_cuenta {
         this.saldo_parcial = saldo_parcial;
     }
 
-    
-    
-}
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    }
