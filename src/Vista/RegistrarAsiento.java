@@ -409,6 +409,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                     int codigo = SqlAc.ultimoCodigo();
                     if (codigo == -1){
                         JOptionPane.showMessageDialog(null, "Error de codigo de cuenta");
+                        break;
                     }        
                     ac.setCodigo(codigo);
                     ctaI.setIdcuenta(SqlCta.idCuenta(ctaN));
@@ -450,6 +451,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 if (nuevoSaldo_parcial == -1 || ac.getCuenta() == -1 || ac.getCodigo() == -1 ) {
 
                     JOptionPane.showMessageDialog(null, "Asiento no guardado");
+                    corregirError();
                     
                 } else {
                     actualizarRegistrarAsiento();
