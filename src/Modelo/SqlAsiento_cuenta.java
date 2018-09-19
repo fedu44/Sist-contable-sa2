@@ -13,7 +13,7 @@ public class SqlAsiento_cuenta extends Conexion {
         PreparedStatement ps = null;
         Connection con = getConexion();
 
-        String sql = "INSERT INTO asiento_cuenta (debe, haber, cuenta, asiento, saldo_parcial) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO asiento_cuenta (debe, haber, cuenta, asiento, saldo_parcial, codigo) VALUES (?,?,?,?,?,?)";
 
         try {
             ps = con.prepareStatement(sql);
@@ -22,6 +22,7 @@ public class SqlAsiento_cuenta extends Conexion {
             ps.setDouble(3, ac.getCuenta());
             ps.setDouble(4, ac.getAsiento());
             ps.setDouble(5, ac.getSaldo_parcial());
+            ps.setInt(6, ac.getCodigo());
             ps.execute();
             return true;
 

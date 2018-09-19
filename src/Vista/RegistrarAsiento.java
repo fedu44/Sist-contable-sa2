@@ -383,7 +383,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 Asiento asientoRegistrar = new Asiento();
                 asientoRegistrar.setNumAsiento(Integer.parseInt(txtNumAsiento.getText()));
                 asientoRegistrar.setDescripcion(txtDesc.getText());
-                asientoRegistrar.setFecha(fechaHora.format(date).toString());
+                asientoRegistrar.setFecha(fechaHora.format(date));
                 asientoRegistrar.setUsuario(mod.getIdusuario());
                 sqlAsiento.registrarAsiento(asientoRegistrar);
                 // Se agrega Asiento_cuenta en BD
@@ -411,7 +411,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Error de codigo de cuenta");
                         break;
                     }        
-                    ac.setCodigo(codigo);
+                    ac.setCodigo(codigo+1);
                     ctaI.setIdcuenta(SqlCta.idCuenta(ctaN));
                     saldo_parcial = SqlAc.saldoParcial(ctaI);
                     if (saldo_parcial == -1) {
@@ -427,11 +427,14 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                         case "Pasivo":
                             nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe() + renglones.get(i).getHaber();
                             break;
-                        case "r-":
+                        case "Ingresos":
                             nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe();
                             break;
-                        case "r+":
+                        case "Egresos":
                             nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getHaber();
+                            break;
+                        case "Patrimonio":
+                            nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe() + renglones.get(i).getHaber();
                             break;
                         case "":
                             JOptionPane.showMessageDialog(null, "Error de carga de cuenta");
