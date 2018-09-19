@@ -32,10 +32,10 @@ public class LibroDiario extends javax.swing.JFrame {
 
         radBtnGrupo = new javax.swing.ButtonGroup();
         panelReg = new javax.swing.JPanel();
-        btnAtras = new javax.swing.JButton();
+        btnAtrasD = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaAsiento = new javax.swing.JTable();
-        btnAdelante = new javax.swing.JButton();
+        btnAdelanteD = new javax.swing.JButton();
         btnIr = new javax.swing.JButton();
         jTextDiaD = new javax.swing.JTextField();
         jTextMesD = new javax.swing.JTextField();
@@ -47,15 +47,17 @@ public class LibroDiario extends javax.swing.JFrame {
         jTextAnioH = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        btnAtrasH = new javax.swing.JButton();
+        btnAdelanteH = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         panelReg.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnAtras.setText("<");
-        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+        btnAtrasD.setText("<");
+        btnAtrasD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtrasActionPerformed(evt);
+                btnAtrasDActionPerformed(evt);
             }
         });
 
@@ -69,10 +71,10 @@ public class LibroDiario extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tablaAsiento);
 
-        btnAdelante.setText(">");
-        btnAdelante.addActionListener(new java.awt.event.ActionListener() {
+        btnAdelanteD.setText(">");
+        btnAdelanteD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdelanteActionPerformed(evt);
+                btnAdelanteDActionPerformed(evt);
             }
         });
 
@@ -121,29 +123,41 @@ public class LibroDiario extends javax.swing.JFrame {
 
         jLabel4.setText("Hasta:");
 
+        btnAtrasH.setText("<");
+        btnAtrasH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasHActionPerformed(evt);
+            }
+        });
+
+        btnAdelanteH.setText(">");
+        btnAdelanteH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdelanteHActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelRegLayout = new javax.swing.GroupLayout(panelReg);
         panelReg.setLayout(panelRegLayout);
         panelRegLayout.setHorizontalGroup(
             panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRegLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(btnAtras)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAdelante)
-                .addGap(36, 36, 36))
             .addGroup(panelRegLayout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelRegLayout.createSequentialGroup()
                         .addComponent(jTextDiaH, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextMesH, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextAnioH, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextAnioH, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAtrasH)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAdelanteH))
                     .addGroup(panelRegLayout.createSequentialGroup()
                         .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(panelRegLayout.createSequentialGroup()
@@ -154,45 +168,49 @@ public class LibroDiario extends javax.swing.JFrame {
                                 .addComponent(jTextAnioD, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(btnIr)))
-                .addGap(0, 204, Short.MAX_VALUE))
+                        .addComponent(btnAtrasD)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAdelanteD)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnIr)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(panelRegLayout.createSequentialGroup()
                 .addGap(108, 108, 108)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane2)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
         );
         panelRegLayout.setVerticalGroup(
             panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRegLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextDiaD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextMesD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextAnioD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAtrasD)
+                            .addComponent(btnAdelanteD))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextDiaH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextMesH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextAnioH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAtrasH)
+                            .addComponent(btnAdelanteH)))
                     .addGroup(panelRegLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
+                        .addGap(75, 75, 75)
                         .addComponent(btnIr)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAtras)
-                    .addComponent(btnAdelante))
-                .addGap(57, 57, 57))
+                .addGap(98, 98, 98))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -220,7 +238,7 @@ public class LibroDiario extends javax.swing.JFrame {
         String hora = renglon.getFecha();
         this.tModel.addRow(new Object[]{hora ,cuenta, debe, haber});
     }
-    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+    private void btnAtrasDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasDActionPerformed
 
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DATE, Integer.parseInt(jTextDiaD.getText()));
@@ -231,9 +249,9 @@ public class LibroDiario extends javax.swing.JFrame {
         jTextMesD.setText(String.valueOf(c.get(Calendar.MONTH)));
         jTextDiaD.setText(String.valueOf(c.get(Calendar.DATE)));
         desplegarAsientos();
-    }//GEN-LAST:event_btnAtrasActionPerformed
+    }//GEN-LAST:event_btnAtrasDActionPerformed
 
-    private void btnAdelanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdelanteActionPerformed
+    private void btnAdelanteDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdelanteDActionPerformed
 
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DATE, Integer.parseInt(jTextDiaD.getText()));
@@ -245,7 +263,7 @@ public class LibroDiario extends javax.swing.JFrame {
         jTextDiaD.setText(String.valueOf(c.get(Calendar.DATE)));
         desplegarAsientos();
 
-    }//GEN-LAST:event_btnAdelanteActionPerformed
+    }//GEN-LAST:event_btnAdelanteDActionPerformed
 
     private void btnIrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIrActionPerformed
 
@@ -271,6 +289,34 @@ public class LibroDiario extends javax.swing.JFrame {
     private void jTextAnioHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextAnioHActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextAnioHActionPerformed
+
+    private void btnAtrasHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasHActionPerformed
+     
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DATE, Integer.parseInt(jTextDiaH.getText()));
+        c.set(Calendar.MONTH, Integer.parseInt(jTextMesH.getText()));
+        c.set(Calendar.YEAR, Integer.parseInt(jTextAnioH.getText()));
+        c.add(Calendar.DATE, -1);
+        jTextAnioH.setText(String.valueOf(c.get(Calendar.YEAR)));
+        jTextMesH.setText(String.valueOf(c.get(Calendar.MONTH)));
+        jTextDiaH.setText(String.valueOf(c.get(Calendar.DATE)));
+        desplegarAsientos();
+        
+    }//GEN-LAST:event_btnAtrasHActionPerformed
+
+    private void btnAdelanteHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdelanteHActionPerformed
+        
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DATE, Integer.parseInt(jTextDiaH.getText()));
+        c.set(Calendar.MONTH, Integer.parseInt(jTextMesH.getText()));
+        c.set(Calendar.YEAR, Integer.parseInt(jTextAnioH.getText()));
+        c.add(Calendar.DATE, 1);
+        jTextAnioH.setText(String.valueOf(c.get(Calendar.YEAR)));
+        jTextMesH.setText(String.valueOf(c.get(Calendar.MONTH)));
+        jTextDiaH.setText(String.valueOf(c.get(Calendar.DATE)));
+        desplegarAsientos();
+        
+    }//GEN-LAST:event_btnAdelanteHActionPerformed
 
     private void limpiar() {
 
@@ -341,8 +387,10 @@ public class LibroDiario extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdelante;
-    private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnAdelanteD;
+    private javax.swing.JButton btnAdelanteH;
+    private javax.swing.JButton btnAtrasD;
+    private javax.swing.JButton btnAtrasH;
     private javax.swing.JButton btnIr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
