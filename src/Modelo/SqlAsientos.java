@@ -93,7 +93,7 @@ public class SqlAsientos extends Conexion {
         return false;
     }
 
-    public ArrayList<Renglon> asientoCuentaPorFecha(Asiento asiento) {
+    public ArrayList<Renglon> asientoPorFecha(String fechaD, String fechaH) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection con = getConexion();
@@ -103,8 +103,9 @@ public class SqlAsientos extends Conexion {
 
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, (asiento.getFecha() + " 00:00:00"));
-            ps.setString(2, (asiento.getFecha() + " 23:59:59"));
+            ps.setString(1, (fechaD + " 00:00:00"));
+            ps.setString(2, (fechaH + " 23:59:59"));
+            
             rs = ps.executeQuery();
             if(rs.first()){
                 Renglon renglon = new Renglon(rs.getString(1).substring(10, 19), rs.getString(2), rs.getInt(3), rs.getInt(4));
