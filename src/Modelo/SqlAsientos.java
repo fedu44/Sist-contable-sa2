@@ -107,10 +107,10 @@ public class SqlAsientos extends Conexion {
             
             rs = ps.executeQuery();
             if(rs.first()){
-                Renglon renglon = new Renglon(rs.getString(1).substring(10, 19), rs.getString(2), rs.getInt(3), rs.getInt(4), 0.0);
+                Renglon renglon = new Renglon(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), 0.0);
                 renglones.add(renglon);
                 while (rs.next()) {
-                    Renglon renglon2 = new Renglon(rs.getString(1).substring(10, 19), rs.getString(2), rs.getInt(3), rs.getInt(4), 0.0);
+                    Renglon renglon2 = new Renglon(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), 0.0);
                     renglones.add(renglon2);
                 }
                 return renglones;
