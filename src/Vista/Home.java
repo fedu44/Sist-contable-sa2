@@ -62,7 +62,7 @@ public class Home extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        imagensarasa.setIcon(new javax.swing.ImageIcon("C:\\Users\\fragno\\Documents\\prog\\java\\Sist-contable-sa2\\pantera-band-1994.png")); // NOI18N
+        imagensarasa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resurces/pantera-band-1994.png"))); // NOI18N
 
         menuAsientoContable.setText("Asientos contables");
 
