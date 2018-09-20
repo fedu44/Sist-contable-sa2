@@ -46,7 +46,6 @@ public class PlanDeCuentas extends javax.swing.JFrame {
             }
             row[0] = c.getCodigo();
             int i = c.getCodigo().indexOf("0");
-            System.out.println(i);
             if (i == -1) {
                 row[cantColumnas] = c.getNombre();
             } else {
