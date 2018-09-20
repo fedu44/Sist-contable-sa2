@@ -185,14 +185,13 @@ public class LibroDiario extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
             .addGroup(panelRegLayout.createSequentialGroup()
-                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRegLayout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelRegLayout.createSequentialGroup()
-                        .addGap(213, 213, 213)
-                        .addComponent(btnImprimir)))
+                .addGap(108, 108, 108)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnImprimir)
+                .addContainerGap())
         );
         panelRegLayout.setVerticalGroup(
             panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,9 +223,9 @@ public class LibroDiario extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(54, 54, 54)
                 .addComponent(btnImprimir)
-                .addGap(46, 46, 46))
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -336,7 +335,26 @@ public class LibroDiario extends javax.swing.JFrame {
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
 
-        new GenerarPdf(this.tModel, "DESDE " + fechaD + " " + "HASTA " + fechaH + ".pdf");
+        String[] cmd = {"cmd.exe", "/c", "mkdir PDF_Libro_Diario"};
+        ProcessBuilder builder = new ProcessBuilder(cmd);
+        builder.redirectErrorStream(true);
+        try {
+            builder.start();
+        } catch (Exception e) {
+            System.out.println("por favor contacte al servicio tecnico");
+        }
+        
+        String nombre ="PDF_Libro_Diario\\" + "DESDE " + fechaD + " " + "HASTA " + fechaH + ".pdf";
+        new GenerarPdf(this.tModel,nombre);
+        
+        String[] commando = {"cmd.exe", "/c", nombre};
+        builder = new ProcessBuilder(commando);
+        builder.redirectErrorStream(true);
+        try {
+            builder.start();            
+        } catch (Exception e) {
+            System.out.println("por favor contacte al servicio tecnico");
+        }
 
 
     }//GEN-LAST:event_btnImprimirActionPerformed

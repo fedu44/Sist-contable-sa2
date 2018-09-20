@@ -12,7 +12,7 @@ public class GenerarPdf {
    
     private TableModel content;
     private String nombre;
-
+      
     
     public GenerarPdf(TableModel content, String nombre) {
         
@@ -24,17 +24,17 @@ public class GenerarPdf {
     public static void drawTable(PDPage page, PDPageContentStream contentStream,
             float y, float margin,
             TableModel content) throws IOException {
-        final int rows = content.getRowCount();
+        final int rows = content.getRowCount()+1;
         final int cols = content.getColumnCount();
         final float rowHeight = 20f;
         final float tableWidth = page.getMediaBox().getWidth() - (2 * margin);
-        final float tableHeight = rowHeight * rows;
+        final float tableHeight = rowHeight * (rows);
         final float colWidth = tableWidth / (float) cols;
         final float cellMargin = 5f;
 
         //draw the rows
         float nexty = y;
-        for (int i = 0; i <= rows+1; i++) {
+        for (int i = 0; i <= rows; i++) {
             contentStream.drawLine(margin, nexty, margin + tableWidth, nexty);
             nexty -= rowHeight;
         }
@@ -49,9 +49,24 @@ public class GenerarPdf {
         //now add the text
         contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
         
+        
+        
         float textx = margin + cellMargin;
         float texty = y - 15;
-        for (int i = 0; i < rows; i++) {
+        
+        
+        for (int h = 0; h < cols; h++) {
+                String text = content.getColumnName(h);
+                contentStream.beginText();
+                contentStream.moveTextPositionByAmount(textx, texty);
+                contentStream.drawString(text);
+                contentStream.endText();
+                textx += colWidth;
+            }
+        texty -= rowHeight;
+        textx = margin + cellMargin;
+            
+        for (int i =0; i < rows-1; i++) {
             for (int j = 0; j < cols; j++) {
                 String text = content.getValueAt(i, j).toString();
                 contentStream.beginText();
