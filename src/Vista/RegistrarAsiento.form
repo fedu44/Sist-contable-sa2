@@ -420,7 +420,7 @@
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\fragno\Documents\prog\java\Sist-contable-sa2\pantera-band-1994.png"/>
+          <Image iconType="3" name="/resurces/pantera-band-1994.png"/>
         </Property>
       </Properties>
     </Component>
