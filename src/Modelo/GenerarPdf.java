@@ -47,7 +47,7 @@ public class GenerarPdf {
         }
 
         //now add the text
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 11);
         
         
         
@@ -99,7 +99,7 @@ public class GenerarPdf {
         PDPageContentStream contentStream;
         try {
             contentStream = new PDPageContentStream(doc, page);
-            drawTable(page, contentStream, 700, 30, content);
+            drawTable(page, contentStream, 700, 0, content);
             contentStream.close();
             doc.save(getNombre());
 

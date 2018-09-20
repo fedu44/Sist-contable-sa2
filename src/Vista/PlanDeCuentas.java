@@ -1,6 +1,7 @@
 package Vista;
 
 import Modelo.Cuenta;
+import Modelo.GenerarPdf;
 import Modelo.SqlCuenta;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -40,6 +41,9 @@ public class PlanDeCuentas extends javax.swing.JFrame {
 
         for (Cuenta c : this.cuentas) {
             Object row[] = new Object[cantColumnas + 1];
+            for (int i=0;i< cantColumnas+1;i++){
+                row[i]="";
+            }
             row[0] = c.getCodigo();
             int i = c.getCodigo().indexOf("0");
             System.out.println(i);
@@ -59,6 +63,7 @@ public class PlanDeCuentas extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPlan = new javax.swing.JTable();
+        btnImprimir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,13 +77,24 @@ public class PlanDeCuentas extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaPlan);
 
+        btnImprimir.setText("imprimir");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(182, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnImprimir)
+                        .addGap(202, 202, 202)))
                 .addGap(131, 131, 131))
         );
         layout.setVerticalGroup(
@@ -86,11 +102,29 @@ public class PlanDeCuentas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(109, 109, 109)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addComponent(btnImprimir)
+                .addGap(32, 32, 32))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        
+        
+        String nombre = "PDF_Plan_De_Cunta" + ".pdf";
+        new GenerarPdf(this.tModel,nombre);
+        
+        String[] commando = {"cmd.exe", "/c", nombre};
+        ProcessBuilder builder = new ProcessBuilder(commando);
+        builder.redirectErrorStream(true);
+        try {
+            builder.start();            
+        } catch (Exception e) {
+            System.out.println("por favor contacte al servicio tecnico");
+        }
+    }//GEN-LAST:event_btnImprimirActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -112,6 +146,7 @@ public class PlanDeCuentas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnImprimir;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaPlan;
     // End of variables declaration//GEN-END:variables
