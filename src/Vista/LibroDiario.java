@@ -336,7 +336,7 @@ public class LibroDiario extends javax.swing.JFrame {
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
 
-        new GenerarPdf(this.tModel, "Desde" + fechaD + " " + "hasta" + fechaH + ".pdf");
+        new GenerarPdf(this.tModel, "DESDE " + fechaD + " " + "HASTA " + fechaH + ".pdf");
 
 
     }//GEN-LAST:event_btnImprimirActionPerformed
