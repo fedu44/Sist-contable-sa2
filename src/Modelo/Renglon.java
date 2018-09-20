@@ -21,6 +21,13 @@ public class Renglon {
         this.fecha = fecha;
         this.saldo_parcial = saldo_parcial;
     }
+    
+    public Renglon( String fecha, String cuenta, double debe, double haber) {
+        this.cuenta = cuenta;
+        this.debe = debe;
+        this.haber = haber;
+        this.fecha = fecha;
+    }
 
     public Renglon() {
 

@@ -1,5 +1,6 @@
 package Vista;
 
+import Modelo.GenerarPdf;
 import Modelo.Renglon;
 import Modelo.SqlAsientos;
 import java.text.ParseException;
@@ -49,6 +50,7 @@ public class LibroDiario extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         btnAtrasH = new javax.swing.JButton();
         btnAdelanteH = new javax.swing.JButton();
+        btnImprimir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -137,6 +139,13 @@ public class LibroDiario extends javax.swing.JFrame {
             }
         });
 
+        btnImprimir.setText("Imprimir");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelRegLayout = new javax.swing.GroupLayout(panelReg);
         panelReg.setLayout(panelRegLayout);
         panelRegLayout.setHorizontalGroup(
@@ -174,11 +183,16 @@ public class LibroDiario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnIr)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(panelRegLayout.createSequentialGroup()
-                .addGap(108, 108, 108)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
+            .addGroup(panelRegLayout.createSequentialGroup()
+                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRegLayout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRegLayout.createSequentialGroup()
+                        .addGap(213, 213, 213)
+                        .addComponent(btnImprimir)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRegLayout.setVerticalGroup(
             panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,7 +224,9 @@ public class LibroDiario extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(98, 98, 98))
+                .addGap(29, 29, 29)
+                .addComponent(btnImprimir)
+                .addGap(46, 46, 46))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -236,7 +252,7 @@ public class LibroDiario extends javax.swing.JFrame {
         double debe = renglon.getDebe();
         double haber = renglon.getHaber();
         String hora = renglon.getFecha();
-        this.tModel.addRow(new Object[]{hora ,cuenta, debe, haber});
+        this.tModel.addRow(new Object[]{hora, cuenta, debe, haber});
     }
     private void btnAtrasDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasDActionPerformed
 
@@ -291,7 +307,7 @@ public class LibroDiario extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextAnioHActionPerformed
 
     private void btnAtrasHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasHActionPerformed
-     
+
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DATE, Integer.parseInt(jTextDiaH.getText()));
         c.set(Calendar.MONTH, Integer.parseInt(jTextMesH.getText()));
@@ -301,11 +317,11 @@ public class LibroDiario extends javax.swing.JFrame {
         jTextMesH.setText(String.valueOf(c.get(Calendar.MONTH)));
         jTextDiaH.setText(String.valueOf(c.get(Calendar.DATE)));
         desplegarAsientos();
-        
+
     }//GEN-LAST:event_btnAtrasHActionPerformed
 
     private void btnAdelanteHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdelanteHActionPerformed
-        
+
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DATE, Integer.parseInt(jTextDiaH.getText()));
         c.set(Calendar.MONTH, Integer.parseInt(jTextMesH.getText()));
@@ -315,8 +331,17 @@ public class LibroDiario extends javax.swing.JFrame {
         jTextMesH.setText(String.valueOf(c.get(Calendar.MONTH)));
         jTextDiaH.setText(String.valueOf(c.get(Calendar.DATE)));
         desplegarAsientos();
-        
+
     }//GEN-LAST:event_btnAdelanteHActionPerformed
+
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        
+        
+        new GenerarPdf(this.tModel, fechaD + "" + fechaH + ".pdf");
+        
+        
+        
+    }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void limpiar() {
 
@@ -329,7 +354,7 @@ public class LibroDiario extends javax.swing.JFrame {
         this.tablaAsiento.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "Hora","Cuenta", "Debe", "Haber"
+                    "Hora", "Cuenta", "Debe", "Haber"
                 }
         ));
         this.tModel = (DefaultTableModel) tablaAsiento.getModel();
@@ -391,6 +416,7 @@ public class LibroDiario extends javax.swing.JFrame {
     private javax.swing.JButton btnAdelanteH;
     private javax.swing.JButton btnAtrasD;
     private javax.swing.JButton btnAtrasH;
+    private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnIr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
