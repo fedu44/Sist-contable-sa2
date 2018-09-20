@@ -2,6 +2,7 @@
 package Vista;
 
 import Modelo.Usuario;
+import javax.swing.JFrame;
 
 
 public class Home extends javax.swing.JFrame {
@@ -55,7 +56,8 @@ public class Home extends javax.swing.JFrame {
         menuUsuarios = new javax.swing.JMenu();
         subAgregarUsuario = new javax.swing.JCheckBoxMenuItem();
         subEliminarUsuario = new javax.swing.JCheckBoxMenuItem();
-        menuImprimir = new javax.swing.JMenu();
+        menuPlanDeCuentas = new javax.swing.JMenu();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,8 +119,18 @@ public class Home extends javax.swing.JFrame {
 
         jMenuBar1.add(menuUsuarios);
 
-        menuImprimir.setText("Imprimir");
-        jMenuBar1.add(menuImprimir);
+        menuPlanDeCuentas.setText("Plan de cuentas");
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("Ver plan de cuentas");
+        jCheckBoxMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItem1ActionPerformed(evt);
+            }
+        });
+        menuPlanDeCuentas.add(jCheckBoxMenuItem1);
+
+        jMenuBar1.add(menuPlanDeCuentas);
 
         setJMenuBar(jMenuBar1);
 
@@ -159,19 +171,30 @@ public class Home extends javax.swing.JFrame {
     private void subAgregarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAgregarAsientoActionPerformed
         
         RegistrarAsiento asiento = new RegistrarAsiento(mod);
+        asiento.setExtendedState(JFrame.MAXIMIZED_BOTH);
         asiento.setVisible(true);
         
     }//GEN-LAST:event_subAgregarAsientoActionPerformed
 
     private void subVerLibroDiarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subVerLibroDiarioActionPerformed
         LibroDiario libroDiario = new LibroDiario();
+        libroDiario.setExtendedState(JFrame.MAXIMIZED_BOTH);
         libroDiario.setVisible(true);
     }//GEN-LAST:event_subVerLibroDiarioActionPerformed
 
     private void subVerLibroMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subVerLibroMayorActionPerformed
         LibroMayor libroMayor = new LibroMayor();
+        libroMayor.setExtendedState(JFrame.MAXIMIZED_BOTH);
         libroMayor.setVisible(true);
     }//GEN-LAST:event_subVerLibroMayorActionPerformed
+
+    private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
+        
+        PlanDeCuentas plan = new PlanDeCuentas();
+        plan.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        plan.setVisible(true);
+        
+    }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -207,11 +230,12 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu menuAsientoContable;
-    private javax.swing.JMenu menuImprimir;
     private javax.swing.JMenu menuLibroDiario;
     private javax.swing.JMenu menuLibroMayor;
+    private javax.swing.JMenu menuPlanDeCuentas;
     private javax.swing.JMenu menuUsuarios;
     private javax.swing.JMenuItem subAgregarAsiento;
     private javax.swing.JCheckBoxMenuItem subAgregarUsuario;

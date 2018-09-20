@@ -4,6 +4,7 @@ import Modelo.Cuenta;
 import Modelo.GenerarPdf;
 import Modelo.SqlCuenta;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 public class PlanDeCuentas extends javax.swing.JFrame {
@@ -14,6 +15,8 @@ public class PlanDeCuentas extends javax.swing.JFrame {
 
     public PlanDeCuentas() {
         initComponents();
+        this.setResizable(false);
+        
         SqlCuenta sqlCuenta = new SqlCuenta();
         this.cuentas = sqlCuenta.planCuenta();
 
