@@ -180,10 +180,25 @@ public class LibroMayor extends javax.swing.JFrame {
                 agregarRenglones(renglon);
             });
         } else {
+            limpiar();
             JOptionPane.showMessageDialog(null, "No hay asientos realizados en la cuenta indicada");
         }
-        
+   }
+    
+     private void limpiar(){
+        this.tablaAsiento.removeAll();
+            this.tablaAsiento.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Fecha", "Debe", "Haber", "Saldo_parcial"
+                }
+        ));
+            this.tModel = (DefaultTableModel) tablaAsiento.getModel();
+            
+            
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImprimir;
