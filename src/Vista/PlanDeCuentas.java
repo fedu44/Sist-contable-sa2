@@ -4,7 +4,6 @@ import Modelo.Cuenta;
 import Modelo.GenerarPdf;
 import Modelo.SqlCuenta;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 public class PlanDeCuentas extends javax.swing.JFrame {
@@ -68,7 +67,12 @@ public class PlanDeCuentas extends javax.swing.JFrame {
         btnImprimir = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         tablaPlan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -133,6 +137,13 @@ public class PlanDeCuentas extends javax.swing.JFrame {
             System.out.println("por favor contacte al servicio tecnico");
         }
     }//GEN-LAST:event_btnImprimirActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        
+        Home.frmPlan = null;
+        this.dispose(); 
+        
+    }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) {
         try {

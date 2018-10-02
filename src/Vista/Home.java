@@ -1,4 +1,3 @@
-
 package Vista;
 
 import Modelo.SqlAsientos;
@@ -9,28 +8,30 @@ import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-
 public class Home extends javax.swing.JFrame {
-    
+
     public static Borrar frmBorr;
     public static Registro frmReg;
+    public static RegistrarAsiento frmRegAsis;
+    public static LibroDiario frmLibDia;
+    public static LibroMayor frmLibMay;
+    public static PlanDeCuentas frmPlan;
     Usuario mod;
-    
+
     public Home() {
         initComponents();
         setResizable(false);
-        setSize(1400,800);
+        setSize(1400, 800);
         setLocationRelativeTo(null);
     }
-    
-    public Home(Usuario mod)
-    {
+
+    public Home(Usuario mod) {
         initComponents();
         setResizable(false);
-        setSize(1400,800);
+        setSize(1400, 800);
         setLocationRelativeTo(null);
         this.mod = mod;
-        
+
         switch (mod.getTipoUsuario()) {
             case 1:
                 break;
@@ -45,12 +46,12 @@ public class Home extends javax.swing.JFrame {
             default:
                 break;
         }
-         this.jTxtUser.setText(mod.getNombre());
-         Timer t = new Timer(1000, updateClockAction);
-         t.start(); 
-        
+        this.jTxtUser.setText(mod.getNombre());
+        Timer t = new Timer(1000, updateClockAction);
+        t.start();
+
         SqlAsientos asiSql = new SqlAsientos();
-        this.cantAsientos.setText(asiSql.cantidadAsientos(300,mod).toString());
+        this.cantAsientos.setText(asiSql.cantidadAsientos(300, mod).toString());
     }
 
     @SuppressWarnings("unchecked")
@@ -74,19 +75,19 @@ public class Home extends javax.swing.JFrame {
         subAgregarUsuario = new javax.swing.JCheckBoxMenuItem();
         subEliminarUsuario = new javax.swing.JCheckBoxMenuItem();
         menuPlanDeCuentas = new javax.swing.JMenu();
-        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        subVerPlanDeCuentas = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         gftfudttug.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resurces/pantera-band-1994.png"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("usuario");
+        jLabel1.setText("Usuario:");
 
         jTxtUser.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("<html>cantidad asientos registrados<br/>ultimos 30 dias</html>");
+        jLabel2.setText("<html>Cantidad de asientos registrados<br/>en los últimos 30 días</html>");
 
         cantAsientos.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
 
@@ -152,14 +153,14 @@ public class Home extends javax.swing.JFrame {
 
         menuPlanDeCuentas.setText("Plan de cuentas");
 
-        jCheckBoxMenuItem1.setSelected(true);
-        jCheckBoxMenuItem1.setText("Ver plan de cuentas");
-        jCheckBoxMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        subVerPlanDeCuentas.setSelected(true);
+        subVerPlanDeCuentas.setText("Ver plan de cuentas");
+        subVerPlanDeCuentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItem1ActionPerformed(evt);
+                subVerPlanDeCuentasActionPerformed(evt);
             }
         });
-        menuPlanDeCuentas.add(jCheckBoxMenuItem1);
+        menuPlanDeCuentas.add(subVerPlanDeCuentas);
 
         jMenuBar1.add(menuPlanDeCuentas);
 
@@ -172,7 +173,7 @@ public class Home extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(gftfudttug, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1078, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1057, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -208,52 +209,58 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void subAgregarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAgregarUsuarioActionPerformed
-        
-        if(frmReg == null)
-        {
+
+        if (frmReg == null) {
             frmReg = new Registro();
             frmReg.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_subAgregarUsuarioActionPerformed
 
     private void subEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subEliminarUsuarioActionPerformed
-        
-        if (frmBorr == null)
-        {
-            Borrar frmBorrar = new Borrar();
-            frmBorrar.setVisible(true);
+
+        if (frmBorr == null) {
+            frmBorr = new Borrar();
+            frmBorr.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_subEliminarUsuarioActionPerformed
 
     private void subAgregarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAgregarAsientoActionPerformed
-        
-        RegistrarAsiento asiento = new RegistrarAsiento(mod);
-        asiento.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        asiento.setVisible(true);
-        
+
+        if (frmRegAsis == null) {
+            frmRegAsis = new RegistrarAsiento(mod);
+            frmRegAsis.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frmRegAsis.setVisible(true);
+        }
     }//GEN-LAST:event_subAgregarAsientoActionPerformed
 
     private void subVerLibroDiarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subVerLibroDiarioActionPerformed
-        LibroDiario libroDiario = new LibroDiario();
-        libroDiario.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        libroDiario.setVisible(true);
+
+        if (frmLibDia == null) {
+            frmLibDia = new LibroDiario();
+            frmLibDia.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frmLibDia.setVisible(true);
+        }
     }//GEN-LAST:event_subVerLibroDiarioActionPerformed
 
     private void subVerLibroMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subVerLibroMayorActionPerformed
-        LibroMayor libroMayor = new LibroMayor();
-        libroMayor.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        libroMayor.setVisible(true);
+
+        if (frmLibMay == null) {
+            frmLibMay = new LibroMayor();
+            frmLibMay.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frmLibMay.setVisible(true);
+        }
     }//GEN-LAST:event_subVerLibroMayorActionPerformed
 
-    private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
-        
-        PlanDeCuentas plan = new PlanDeCuentas();
-        plan.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        plan.setVisible(true);
-        
-    }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
+    private void subVerPlanDeCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subVerPlanDeCuentasActionPerformed
+
+        if (frmPlan == null) {
+            frmPlan = new PlanDeCuentas();
+            frmPlan.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frmPlan.setVisible(true);
+        }
+    }//GEN-LAST:event_subVerPlanDeCuentasActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -288,19 +295,17 @@ public class Home extends javax.swing.JFrame {
         });
     }
 
-    
     ActionListener updateClockAction = new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        Calendar now = Calendar.getInstance();
-        
-        jTxtReloj.setText(now.get(Calendar.HOUR_OF_DAY) + " : " + now.get(Calendar.MINUTE)+" : "+now.get(Calendar.SECOND)); 
-    }
-   };
-    
+        public void actionPerformed(ActionEvent e) {
+            Calendar now = Calendar.getInstance();
+
+            jTxtReloj.setText(now.get(Calendar.HOUR_OF_DAY) + " : " + now.get(Calendar.MINUTE) + " : " + now.get(Calendar.SECOND));
+        }
+    };
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel cantAsientos;
     private javax.swing.JLabel gftfudttug;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -316,5 +321,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem subEliminarUsuario;
     private javax.swing.JMenuItem subVerLibroDiario;
     private javax.swing.JMenuItem subVerLibroMayor;
+    private javax.swing.JCheckBoxMenuItem subVerPlanDeCuentas;
     // End of variables declaration//GEN-END:variables
 }

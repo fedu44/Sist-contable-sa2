@@ -79,6 +79,11 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         panelReg.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -490,6 +495,13 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     private void radBtnDebeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radBtnDebeActionPerformed
 
     }//GEN-LAST:event_radBtnDebeActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        
+        Home.frmRegAsis = null;
+        this.dispose(); 
+        
+    }//GEN-LAST:event_formWindowClosing
 
     private boolean checkAsiento() {
         //valida que el asiento este balanceado

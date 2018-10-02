@@ -40,7 +40,12 @@ public class LibroMayor extends javax.swing.JFrame {
         btnImprimir = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         tablaAsiento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -155,6 +160,13 @@ public class LibroMayor extends javax.swing.JFrame {
         }
        
     }//GEN-LAST:event_btnImprimirActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        
+        Home.frmLibMay = null;
+        this.dispose(); 
+        
+    }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
