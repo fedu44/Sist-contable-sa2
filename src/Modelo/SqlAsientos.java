@@ -74,6 +74,26 @@ public class SqlAsientos extends Conexion {
 
         return false;
     }
+    
+    public Integer cantidadAsientos(int nDias, Usuario usr){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+
+        String sql="SELECT count(*) from asiento where fecha >= curdate() - interval ? DAY AND usuario = ?";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, nDias);
+            ps.setInt(2,usr.getIdusuario());
+            rs = ps.executeQuery();
+            if(rs.first()){
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlAsientos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    return 0;   
+    }
 
     public Boolean eliminar(Asiento asiento) {
         PreparedStatement ps = null;

@@ -1,8 +1,13 @@
 
 package Vista;
 
+import Modelo.SqlAsientos;
 import Modelo.Usuario;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Calendar;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 
 public class Home extends javax.swing.JFrame {
@@ -40,13 +45,24 @@ public class Home extends javax.swing.JFrame {
             default:
                 break;
         }
+         this.jTxtUser.setText(mod.getNombre());
+         Timer t = new Timer(1000, updateClockAction);
+         t.start(); 
+        
+        SqlAsientos asiSql = new SqlAsientos();
+        this.cantAsientos.setText(asiSql.cantidadAsientos(300,mod).toString());
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        imagensarasa = new javax.swing.JLabel();
+        gftfudttug = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jTxtUser = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        cantAsientos = new javax.swing.JLabel();
+        jTxtReloj = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAsientoContable = new javax.swing.JMenu();
         subAgregarAsiento = new javax.swing.JMenuItem();
@@ -62,7 +78,19 @@ public class Home extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        imagensarasa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resurces/pantera-band-1994.png"))); // NOI18N
+        gftfudttug.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resurces/pantera-band-1994.png"))); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setText("usuario");
+
+        jTxtUser.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("<html>cantidad asientos registrados<br/>ultimos 30 dias</html>");
+
+        cantAsientos.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+
+        jTxtReloj.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
 
         menuAsientoContable.setText("Asientos contables");
 
@@ -141,15 +169,38 @@ public class Home extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(imagensarasa, javax.swing.GroupLayout.PREFERRED_SIZE, 1297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 892, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(gftfudttug, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1078, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTxtReloj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jTxtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addComponent(cantAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(36, 36, 36))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(340, Short.MAX_VALUE)
-                .addComponent(imagensarasa, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cantAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(gftfudttug, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtReloj, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -237,10 +288,24 @@ public class Home extends javax.swing.JFrame {
         });
     }
 
+    
+    ActionListener updateClockAction = new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        Calendar now = Calendar.getInstance();
+        
+        jTxtReloj.setText(now.get(Calendar.HOUR_OF_DAY) + " : " + now.get(Calendar.MINUTE)+" : "+now.get(Calendar.SECOND)); 
+    }
+   };
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel imagensarasa;
+    private javax.swing.JLabel cantAsientos;
+    private javax.swing.JLabel gftfudttug;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JLabel jTxtReloj;
+    private javax.swing.JLabel jTxtUser;
     private javax.swing.JMenu menuAsientoContable;
     private javax.swing.JMenu menuLibroDiario;
     private javax.swing.JMenu menuLibroMayor;
