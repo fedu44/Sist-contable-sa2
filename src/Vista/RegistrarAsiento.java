@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class RegistrarAsiento extends javax.swing.JFrame {
 
     private static Usuario mod;
+    private static Home home;
     private ArrayList<Renglon> renglones = new ArrayList<>();
     private DefaultTableModel tModel;
     //la jList lstRenglon muestra los elementos que contiene modelList
@@ -25,10 +26,11 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     private ArrayList<Integer> asientos_cuenta = new ArrayList<>();
     private ArrayList<Cuenta> cuentas = new ArrayList<>();
 
-    public RegistrarAsiento(Usuario usr) {
+    public RegistrarAsiento(Usuario usr, Home home) {
         initComponents();
         //setSize(1400, 800);
         RegistrarAsiento.mod = usr;
+        RegistrarAsiento.home = home;
         // la sentencia de abajo hay que probarlo solo con loguin
         txtUsuario.setText(usr.getNombre());
         SqlAsientos asiSql = new SqlAsientos();
@@ -482,7 +484,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 } else {
                     actualizarRegistrarAsiento();
                     JOptionPane.showMessageDialog(null, "Asiento guardado");
-
+                    home.agregarAsiento();
                 }
             }
         } else {
@@ -526,7 +528,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegistrarAsiento(mod).setVisible(true);
+                new RegistrarAsiento(mod,home).setVisible(true);
             }
         });
     }
