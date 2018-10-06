@@ -13,13 +13,14 @@ public class SqlUsuarios extends Conexion {
         PreparedStatement ps = null;
         Connection con = getConexion();
 
-        String sql = "INSERT INTO usuarios (nombre, contrasena, tipoUsuario) VALUES (?,?,?)";
+        String sql = "INSERT INTO usuarios (nombre, contrasena, tipoUsuario, editor) VALUES (?,?,?,?)";
 
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, usr.getNombre());
             ps.setString(2, usr.getContrasena());
             ps.setInt(3, usr.getTipoUsuario());
+            ps.setInt(4, usr.getEditor());
             ps.execute();
             return true;
 

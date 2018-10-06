@@ -7,6 +7,7 @@ public class Usuario {
     private String contrasena;
     private int tipoUsuario;
     private String nombreTipo;
+    private int editor;
 
     public String getNombreTipo() {
         return nombreTipo;
@@ -47,5 +48,15 @@ public class Usuario {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
+
+    public int getEditor() {
+        return editor;
+    }
+
+    public void setEditor(int editor) {
+        this.editor = editor;
+    }
+    
+    
 
 }

@@ -1,5 +1,6 @@
 package Vista;
 
+import Modelo.SqlEditor;
 import Modelo.SqlUsuarios;
 import Modelo.Usuario;
 import javax.swing.JOptionPane;
@@ -152,7 +153,14 @@ public class Registro extends javax.swing.JFrame {
 
             if (pass.equals(passCon)) {
                 if (modSql.existeUsuario(txtUsuario.getText()) == 0) {
-
+                    
+                    SqlEditor sqlEditor = new SqlEditor();
+                    sqlEditor.registrarEditor(txtUsuario.getText());
+                    int idEditor = sqlEditor.idEditorPorNombre(txtUsuario.getText());
+                    if(idEditor == -1){
+                        JOptionPane.showMessageDialog(null, "Error al crear el note pad");
+                    }
+                    mod.setEditor(idEditor);
                     mod.setNombre(txtUsuario.getText());
                     mod.setContrasena(pass);
                     if (tipo.equals("administrador")) {

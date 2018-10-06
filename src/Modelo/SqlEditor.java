@@ -26,5 +26,29 @@ public class SqlEditor extends Conexion {
             return false;
         }
     }
+    
+    public int idEditorPorNombre(String nombre){
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+        
+        String sql = "SELECT ideditor FROM editor WHERE nombre = ?";
+        
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
+            rs = ps.executeQuery();
+            
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+            return -1;
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlEditor.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+        
+    }
 
 }
