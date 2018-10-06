@@ -1,6 +1,7 @@
 package Modelo;
 
 import java.io.IOException;
+import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import org.apache.pdfbox.pdfwriter.ContentStreamWriter;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -104,7 +105,7 @@ public class GenerarPdf {
             doc.save(getNombre());
 
         } catch (Exception e) {
-            System.out.println("Error de generacion de PDF");
+            JOptionPane.showMessageDialog(null, "Error de generacion de PDF");
         }
 
     }

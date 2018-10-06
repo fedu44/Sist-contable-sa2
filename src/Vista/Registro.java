@@ -155,10 +155,12 @@ public class Registro extends javax.swing.JFrame {
                 if (modSql.existeUsuario(txtUsuario.getText()) == 0) {
                     
                     SqlEditor sqlEditor = new SqlEditor();
-                    sqlEditor.registrarEditor(txtUsuario.getText());
+                    if(!(sqlEditor.registrarEditor(txtUsuario.getText()))){
+                        JOptionPane.showMessageDialog(null, "Error al crear el note pad");
+                    }
                     int idEditor = sqlEditor.idEditorPorNombre(txtUsuario.getText());
                     if(idEditor == -1){
-                        JOptionPane.showMessageDialog(null, "Error al crear el note pad");
+                        JOptionPane.showMessageDialog(null, "Error al asignar el note pad");
                     }
                     mod.setEditor(idEditor);
                     mod.setNombre(txtUsuario.getText());

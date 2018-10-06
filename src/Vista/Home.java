@@ -1,11 +1,13 @@
 package Vista;
 
 import Modelo.SqlAsientos;
+import Modelo.SqlEditor;
 import Modelo.Usuario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class Home extends javax.swing.JFrame {
@@ -109,6 +111,11 @@ public class Home extends javax.swing.JFrame {
         jLabel4.setText("<html>Asientos registrados<br/>en los últimos 30 días:</html>");
 
         btnGuardad.setText("Guardar");
+        btnGuardad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardadActionPerformed(evt);
+            }
+        });
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -401,6 +408,16 @@ public class Home extends javax.swing.JFrame {
         this.txtEditor.setText("");
         
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnGuardadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardadActionPerformed
+        
+        SqlEditor sqlEditor = new SqlEditor();
+        if(!(sqlEditor.guardadTexto(this.txtEditor.getText(), this.txtUsuario.getText()))){
+            JOptionPane.showMessageDialog(null, "Error al guardar, intente nuevamente");
+        }else{
+            JOptionPane.showMessageDialog(null, "Se ha guardado correctamente");
+        }
+    }//GEN-LAST:event_btnGuardadActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
