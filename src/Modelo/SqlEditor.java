@@ -70,4 +70,27 @@ public class SqlEditor extends Conexion {
         }
     }
 
+    public String TraerTexto(String nombre) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+
+        String sql = "SELECT texto FROM editor WHERE nombre = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+            return "";
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlEditor.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+    }
+
 }

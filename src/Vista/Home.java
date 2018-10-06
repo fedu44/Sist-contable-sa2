@@ -53,7 +53,9 @@ public class Home extends javax.swing.JFrame {
         t.start();
 
         SqlAsientos asiSql = new SqlAsientos();
-        this.txtCantAsientos.setText(asiSql.cantidadAsientos(300, mod).toString());
+        this.txtCantAsientos.setText(asiSql.cantidadAsientos(30, mod).toString());
+        SqlEditor sqlEditor = new SqlEditor();
+        this.txtEditor.setText(sqlEditor.TraerTexto(mod.getNombre()));
     }
 
     @SuppressWarnings("unchecked")
