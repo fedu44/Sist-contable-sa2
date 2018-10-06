@@ -86,6 +86,8 @@ public class Home extends javax.swing.JFrame {
         subEliminarUsuario = new javax.swing.JCheckBoxMenuItem();
         menuPlanDeCuentas = new javax.swing.JMenu();
         subVerPlanDeCuentas = new javax.swing.JCheckBoxMenuItem();
+        menuSesion = new javax.swing.JMenu();
+        subCerrarSesion = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -295,6 +297,19 @@ public class Home extends javax.swing.JFrame {
 
         jMenuBar1.add(menuPlanDeCuentas);
 
+        menuSesion.setText("Sesion");
+
+        subCerrarSesion.setSelected(true);
+        subCerrarSesion.setText("Cerrar  sesion");
+        subCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subCerrarSesionActionPerformed(evt);
+            }
+        });
+        menuSesion.add(subCerrarSesion);
+
+        jMenuBar1.add(menuSesion);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -417,6 +432,15 @@ public class Home extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardadActionPerformed
 
+    private void subCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCerrarSesionActionPerformed
+        
+        Login login = new Login();
+        login.setVisible(true);
+        this.dispose();
+        JOptionPane.showMessageDialog(null, "Sesion cerrada");
+        
+    }//GEN-LAST:event_subCerrarSesionActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -481,9 +505,11 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenu menuLibroDiario;
     private javax.swing.JMenu menuLibroMayor;
     private javax.swing.JMenu menuPlanDeCuentas;
+    private javax.swing.JMenu menuSesion;
     private javax.swing.JMenu menuUsuarios;
     private javax.swing.JMenuItem subAgregarAsiento;
     private javax.swing.JCheckBoxMenuItem subAgregarUsuario;
+    private javax.swing.JCheckBoxMenuItem subCerrarSesion;
     private javax.swing.JCheckBoxMenuItem subEliminarUsuario;
     private javax.swing.JMenuItem subVerLibroDiario;
     private javax.swing.JMenuItem subVerLibroMayor;
