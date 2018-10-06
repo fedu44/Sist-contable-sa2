@@ -2,6 +2,7 @@ package Vista;
 
 import Modelo.SqlUsuarios;
 import Modelo.Usuario;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 
@@ -110,6 +111,7 @@ public class Login extends javax.swing.JFrame {
                 this.dispose();
                 
                 Home frmHome = new Home(mod);
+                frmHome.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 frmHome.setVisible(true);
                 
             } else {

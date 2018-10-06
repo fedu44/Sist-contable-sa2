@@ -23,15 +23,11 @@ public class Home extends javax.swing.JFrame {
     public Home() {
         initComponents();
         setResizable(false);
-        setSize(1400, 800);
-        setLocationRelativeTo(null);
     }
 
     public Home(Usuario mod) {
         initComponents();
         setResizable(false);
-        setSize(1400, 800);
-        setLocationRelativeTo(null);
         this.mod = mod;
 
         switch (mod.getTipoUsuario()) {
