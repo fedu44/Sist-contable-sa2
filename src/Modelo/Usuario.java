@@ -8,6 +8,7 @@ public class Usuario {
     private int tipoUsuario;
     private String nombreTipo;
     private int editor;
+    private int empresa;
 
     public String getNombreTipo() {
         return nombreTipo;
@@ -56,6 +57,16 @@ public class Usuario {
     public void setEditor(int editor) {
         this.editor = editor;
     }
+
+    public int getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(int empresa) {
+        this.empresa = empresa;
+    }
+    
+    
     
     
 

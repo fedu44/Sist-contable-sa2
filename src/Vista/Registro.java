@@ -7,8 +7,14 @@ import javax.swing.JOptionPane;
 
 public class Registro extends javax.swing.JFrame {
 
+    Usuario mod;
+
     public Registro() {
+    }
+
+    public Registro(Usuario mod) {
         initComponents();
+        this.mod = mod;
     }
 
     @SuppressWarnings("unchecked")
@@ -153,18 +159,19 @@ public class Registro extends javax.swing.JFrame {
 
             if (pass.equals(passCon)) {
                 if (modSql.existeUsuario(txtUsuario.getText()) == 0) {
-                    
+
                     SqlEditor sqlEditor = new SqlEditor();
-                    if(!(sqlEditor.registrarEditor(txtUsuario.getText()))){
+                    if (!(sqlEditor.registrarEditor(txtUsuario.getText()))) {
                         JOptionPane.showMessageDialog(null, "Error al crear el note pad");
                     }
                     int idEditor = sqlEditor.idEditorPorNombre(txtUsuario.getText());
-                    if(idEditor == -1){
+                    if (idEditor == -1) {
                         JOptionPane.showMessageDialog(null, "Error al asignar el note pad");
                     }
                     mod.setEditor(idEditor);
                     mod.setNombre(txtUsuario.getText());
                     mod.setContrasena(pass);
+                    mod.setEmpresa(mod.getEmpresa());
                     if (tipo.equals("administrador")) {
                         mod.setTipoUsuario(1);
                     }
@@ -195,10 +202,10 @@ public class Registro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+
         Home.frmReg = null;
         this.dispose();
-        
+
     }//GEN-LAST:event_formWindowClosing
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -209,7 +216,7 @@ public class Registro extends javax.swing.JFrame {
         txtUsuario.setText("");
         txtContraseña.setText("");
         txtConfirmarContraseña.setText("");
-       
+
     }
 
     public static void main(String args[]) {

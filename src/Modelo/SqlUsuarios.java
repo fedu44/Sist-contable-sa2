@@ -140,5 +140,30 @@ public class SqlUsuarios extends Conexion {
         return -1;
 
     }
+    
+    public int empresa(String usuario) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+
+        String sql = "SELECT empresa FROM usuarios WHERE nombre = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, usuario);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+            return -1;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+
+    }
 
 }
