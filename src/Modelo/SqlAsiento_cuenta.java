@@ -65,7 +65,7 @@ public class SqlAsiento_cuenta extends Conexion {
 
         try {
             ps = con.prepareStatement(sql);
-            ps.setInt(1, ac.getAsiento());
+            ps.setInt(1, ac.getCodigo());
             ps.execute();
             return true;
 

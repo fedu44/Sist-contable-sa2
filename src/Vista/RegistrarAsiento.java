@@ -472,10 +472,10 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                         nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe() + renglones.get(i).getHaber();
                         break;
                         case "Ingresos":
-                        nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe();
+                        nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getHaber();
                         break;
                         case "Egresos":
-                        nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getHaber();
+                        nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe();
                         break;
                         case "Patrimonio":
                         nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe() + renglones.get(i).getHaber();
@@ -495,7 +495,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
                 }
 
-                if (nuevoSaldo_parcial == -1 || ac.getCuenta() == -1 || ac.getCodigo() == -1 ) {
+                if (ac.getCuenta() == -1 || ac.getCodigo() == -1 || nuevoSaldo_parcial < 0  ) {
 
                     JOptionPane.showMessageDialog(null, "Asiento no guardado");
                     corregirError();
@@ -559,7 +559,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         SqlAsientos sqlAsiento = new SqlAsientos();
         Asiento asientoCorregirError = new Asiento();
 
-        for (Integer i : this.asientos_cuenta) {
+        for (Integer i  : this.asientos_cuenta) {
             ac.setCodigo(i);
             SqlAc.eliminar(ac);
         }
