@@ -206,7 +206,7 @@ public class LibroMayor extends javax.swing.JFrame {
     
     public void desplegar(){
         SqlAsientos asiSql = new SqlAsientos();
-        renglones = asiSql.asientoCuentaPorFecha(comboCuenta.getSelectedItem().toString(), ((String.valueOf((Integer.parseInt(this.txtActividad.getText().substring(32, 35))) + 1))) + this.txtActividad.getText().substring(35, 42));
+        renglones = asiSql.asientoCuentaPorFecha(comboCuenta.getSelectedItem().toString(),this.txtActividad.getText().substring(32, 42 ));
         if (renglones != null) {
             renglones.forEach((renglon) -> {
                 agregarRenglones(renglon);

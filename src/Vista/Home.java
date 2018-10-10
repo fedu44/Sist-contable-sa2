@@ -60,7 +60,14 @@ public class Home extends javax.swing.JFrame {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String fecha = sdf.format(date);
         String inicioAct = sqlEmpresa.inicioActividad(mod.getEmpresa());
-        this.txtActividad.setText("Fecha de inicio de actividades: " + fecha.substring(0, 4) + inicioAct.substring(4, 10));
+        System.out.println(Integer.parseInt((inicioAct.substring(5, 7)) + (inicioAct.substring(8, 10))));
+        System.out.println(Integer.parseInt((fecha.substring(5, 7)) + (fecha.substring(8, 10))));
+        if(Integer.parseInt((inicioAct.substring(5, 7)) + (inicioAct.substring(8, 10))) <= Integer.parseInt((fecha.substring(5, 7)) + (fecha.substring(8, 10)))){
+            this.txtActividad.setText("Fecha de inicio de actividades: " + fecha.substring(0, 4) + inicioAct.substring(4, 10));
+        } else{
+            String año = String.valueOf(Integer.parseInt(fecha.substring(0, 4)) - 1);
+            this.txtActividad.setText("Fecha de inicio de actividades: " + año + inicioAct.substring(4, 10));
+        }
         String empresa = sqlEmpresa.empresa(mod.getEmpresa());
         this.txtEmpresa.setText(empresa);
         this.actividad = txtActividad.getText();
