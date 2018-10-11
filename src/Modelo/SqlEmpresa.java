@@ -55,4 +55,27 @@ public class SqlEmpresa extends Conexion{
         return "";
     }
     
+    public String cuit(int empresa) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+
+        String sql = "SELECT cuit FROM empresa WHERE idempresa = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, empresa);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            } else {
+                return "";
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+    
 }

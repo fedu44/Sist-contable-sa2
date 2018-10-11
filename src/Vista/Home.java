@@ -22,6 +22,7 @@ public class Home extends javax.swing.JFrame {
     Usuario mod;
     public static String actividad;
     public static String empresa;
+    public static String cuit;
 
     public Home() {
         initComponents();
@@ -69,9 +70,14 @@ public class Home extends javax.swing.JFrame {
             this.txtActividad.setText("Fecha de inicio de actividades: " + año + inicioAct.substring(4, 10));
         }
         String empresa = sqlEmpresa.empresa(mod.getEmpresa());
+        String cuit = sqlEmpresa.cuit(mod.getEmpresa());
         this.txtEmpresa.setText(empresa);
+        this.txtCuit.setText("Cuit: " + cuit);
         this.actividad = txtActividad.getText();
         this.empresa = txtEmpresa.getText();
+        this.cuit = txtCuit.getText();
+        
+        
     }
 
     public String getActividad() {
@@ -89,6 +95,16 @@ public class Home extends javax.swing.JFrame {
     public void setEmpresa(String empresa) {
         this.empresa = empresa;
     }
+
+    public static String getCuit() {
+        return cuit;
+    }
+
+    public static void setCuit(String cuit) {
+        Home.cuit = cuit;
+    }
+    
+    
     
     
 
@@ -115,6 +131,7 @@ public class Home extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         txtEmpresa = new javax.swing.JLabel();
         txtActividad = new javax.swing.JLabel();
+        txtCuit = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAsientoContable = new javax.swing.JMenu();
         subAgregarAsiento = new javax.swing.JMenuItem();
@@ -271,28 +288,36 @@ public class Home extends javax.swing.JFrame {
 
         txtActividad.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
 
+        txtCuit.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(303, 303, 303))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(372, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(txtActividad, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(239, 239, 239))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(txtEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(249, 249, 249))))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(364, 364, 364)
+                        .addComponent(txtCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(296, 296, 296)
+                        .addComponent(txtActividad, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(315, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
-                .addComponent(txtEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(txtEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtActividad, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addComponent(txtCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtActividad, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         menuAsientoContable.setText("Asientos contables");
@@ -410,7 +435,7 @@ public class Home extends javax.swing.JFrame {
                         .addGap(361, 361, 361)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 184, Short.MAX_VALUE)
                 .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
@@ -593,6 +618,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem subVerPlanDeCuentas;
     private javax.swing.JLabel txtActividad;
     private javax.swing.JLabel txtCantAsientos;
+    private javax.swing.JLabel txtCuit;
     private javax.swing.JTextArea txtEditor;
     private javax.swing.JLabel txtEmpresa;
     private javax.swing.JLabel txtUsuario;
