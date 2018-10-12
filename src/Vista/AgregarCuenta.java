@@ -18,6 +18,8 @@ public class AgregarCuenta extends javax.swing.JFrame {
     public AgregarCuenta() {
         initComponents();   
         iniciar();
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
     
     private void iniciar(){
@@ -43,6 +45,11 @@ public class AgregarCuenta extends javax.swing.JFrame {
         rBtnRecibeSaldo = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         comboCuentas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -54,7 +61,7 @@ public class AgregarCuenta extends javax.swing.JFrame {
         });
 
         btnAgregar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnAgregar.setText("agregar");
+        btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
@@ -82,7 +89,7 @@ public class AgregarCuenta extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
+                        .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
@@ -90,21 +97,22 @@ public class AgregarCuenta extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(txtNewCuenta))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(151, 151, 151)
-                                .addComponent(btnAgregar))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(comboCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(149, 149, 149)
-                        .addComponent(rBtnRecibeSaldo)))
-                .addContainerGap(63, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rBtnRecibeSaldo)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
+                                .addComponent(btnAgregar)))))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addContainerGap(75, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtNewCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -114,9 +122,9 @@ public class AgregarCuenta extends javax.swing.JFrame {
                     .addComponent(comboCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(rBtnRecibeSaldo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
                 .addComponent(btnAgregar)
-                .addGap(54, 54, 54))
+                .addGap(67, 67, 67))
         );
 
         pack();
@@ -198,6 +206,13 @@ public class AgregarCuenta extends javax.swing.JFrame {
     private void rBtnRecibeSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBtnRecibeSaldoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rBtnRecibeSaldoActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        
+        Home.frmAgrCta = null;
+        this.dispose();
+        
+    }//GEN-LAST:event_formWindowClosing
 
 
     public static void main(String args[]) {

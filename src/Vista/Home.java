@@ -553,6 +553,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_subCerrarSesionActionPerformed
 
     private void subAgregarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAgregarCuentaActionPerformed
+       
         if (frmAgrCta == null) {
             frmAgrCta = new AgregarCuenta();
             frmAgrCta.setVisible(true);
