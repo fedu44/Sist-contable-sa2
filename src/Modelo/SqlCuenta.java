@@ -127,9 +127,8 @@ public class SqlCuenta extends Conexion {
 
         } catch (SQLException ex) {
             Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-
-       return false;
     }
 
 }
