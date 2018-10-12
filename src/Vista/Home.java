@@ -19,6 +19,7 @@ public class Home extends javax.swing.JFrame {
     public static LibroDiario frmLibDia;
     public static LibroMayor frmLibMay;
     public static PlanDeCuentas frmPlan;
+    public static AgregarCuenta frmAgrCta;
     Usuario mod;
     public static String actividad;
     public static String empresa;
@@ -144,6 +145,7 @@ public class Home extends javax.swing.JFrame {
         subEliminarUsuario = new javax.swing.JCheckBoxMenuItem();
         menuPlanDeCuentas = new javax.swing.JMenu();
         subVerPlanDeCuentas = new javax.swing.JCheckBoxMenuItem();
+        subAgregarCuenta = new javax.swing.JMenuItem();
         menuSesion = new javax.swing.JMenu();
         subCerrarSesion = new javax.swing.JCheckBoxMenuItem();
 
@@ -389,6 +391,14 @@ public class Home extends javax.swing.JFrame {
         });
         menuPlanDeCuentas.add(subVerPlanDeCuentas);
 
+        subAgregarCuenta.setText("Agregar cuenta");
+        subAgregarCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subAgregarCuentaActionPerformed(evt);
+            }
+        });
+        menuPlanDeCuentas.add(subAgregarCuenta);
+
         jMenuBar1.add(menuPlanDeCuentas);
 
         menuSesion.setText("Sesion");
@@ -542,6 +552,17 @@ public class Home extends javax.swing.JFrame {
         
     }//GEN-LAST:event_subCerrarSesionActionPerformed
 
+    private void subAgregarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAgregarCuentaActionPerformed
+        if (frmAgrCta == null) {
+            frmAgrCta = new AgregarCuenta();
+            frmAgrCta.setVisible(true);
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_subAgregarCuentaActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -610,6 +631,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenu menuSesion;
     private javax.swing.JMenu menuUsuarios;
     private javax.swing.JMenuItem subAgregarAsiento;
+    private javax.swing.JMenuItem subAgregarCuenta;
     private javax.swing.JCheckBoxMenuItem subAgregarUsuario;
     private javax.swing.JCheckBoxMenuItem subCerrarSesion;
     private javax.swing.JCheckBoxMenuItem subEliminarUsuario;

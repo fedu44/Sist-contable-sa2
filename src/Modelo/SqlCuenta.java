@@ -109,6 +109,27 @@ public class SqlCuenta extends Conexion {
         return null;
     }
     
-    
+    public boolean agregar(Cuenta cta) {
+        PreparedStatement ps = null;
+        Connection con = getConexion();
+
+        String sql ="INSERT INTO cuenta (`nombre`, `tipo`, `empresa`, `codigo`, `recibeSaldo`) VALUES ( ? , ? , ? , ? , ?);";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, cta.getNombre());
+            ps.setString(2, cta.getTipo());
+            ps.setInt(3, cta.getEmpresa());
+            ps.setString(4, cta.getCodigo());
+            ps.setBoolean(5, cta.getRecibeSaldo());
+            ps.execute();
+            return true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+       return false;
+    }
 
 }
