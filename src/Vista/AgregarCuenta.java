@@ -2,6 +2,7 @@
 package Vista;
 
 import Modelo.Cuenta;
+import Modelo.Renglon;
 import Modelo.SqlCuenta;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -14,8 +15,12 @@ public class AgregarCuenta extends javax.swing.JFrame {
 
     private ArrayList<Cuenta> cuentas = new ArrayList<>();
     private SqlCuenta sqlCt = new SqlCuenta();
+    private static Home home;
+    
     SqlCuenta sqlCuenta = new SqlCuenta();
-    public AgregarCuenta() {
+    
+    public AgregarCuenta(Home home) {
+        AgregarCuenta.home = home;
         initComponents();   
         iniciar();
         setResizable(false);
@@ -187,7 +192,22 @@ public class AgregarCuenta extends javax.swing.JFrame {
         if(this.sqlCt.agregar(newCuenta)){
              JOptionPane.showMessageDialog(null, "Cuenta agregada");
         }
-       
+        if(this.rBtnRecibeSaldo.isSelected()){
+            ArrayList<Renglon> renglones = new ArrayList<>();
+            Renglon renglon = new Renglon();
+            renglon.setCuenta(newCuenta.getNombre());
+            renglon.setDebe(0.0);
+            renglon.setHaber(0.0);
+            renglones.add(renglon);
+            Renglon renglon2 = new Renglon();
+            renglon2.setCuenta("Caja");
+            renglon2.setDebe(0.0);
+            renglon2.setHaber(0.0);
+            renglones.add(renglon2);
+            RegistrarAsiento registrarAsiento = new RegistrarAsiento(Home.getMod(), renglones);
+            registrarAsiento.desplegarCuentaInicializada("Iniciar cuenta: " + this.txtNewCuenta.getText());
+            home.agregarAsiento();
+        }
         iniciar();
         clean();
         
@@ -242,7 +262,7 @@ public class AgregarCuenta extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarCuenta().setVisible(true);
+                new AgregarCuenta(home).setVisible(true);
             }
         });
     }

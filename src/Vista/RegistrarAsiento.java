@@ -8,6 +8,7 @@ import Modelo.SqlAsiento_cuenta;
 import Modelo.SqlAsientos;
 import Modelo.SqlCuenta;
 import Modelo.Usuario;
+import java.awt.event.ActionEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     private int asiento = 0;
     private ArrayList<Integer> asientos_cuenta = new ArrayList<>();
     private ArrayList<Cuenta> cuentas = new ArrayList<>();
+    
 
     public RegistrarAsiento(Usuario usr, Home home) {
         initComponents();
@@ -53,6 +55,11 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         this.txtActividad.setText(Home.actividad);
         this.txtEmpresa.setText(Home.empresa);
         this.txtCuit.setText(Home.cuit);
+    }
+
+    public RegistrarAsiento(Usuario usr, ArrayList<Renglon> renglones ) {
+        this.mod = usr;
+        this.renglones = renglones;
     }
 
     @SuppressWarnings("unchecked")
@@ -438,100 +445,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
 
-        if (checkAsiento()) {;
-            if (cuentaRepetida()) {
-                JOptionPane.showMessageDialog(null, "Hay cuentas repetidas");
-            } else {
-                // Se agrega asiento en BD
-                Date date = new Date();
-                DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                SqlAsientos sqlAsiento = new SqlAsientos();
-                Asiento asientoRegistrar = new Asiento();
-                asientoRegistrar.setNumAsiento(Integer.parseInt(txtNumAsiento.getText()));
-                asientoRegistrar.setDescripcion(txtDesc.getText());
-                asientoRegistrar.setFecha(fechaHora.format(date));
-                asientoRegistrar.setUsuario(mod.getIdusuario());
-                sqlAsiento.registrarAsiento(asientoRegistrar);
-                // Se agrega Asiento_cuenta en BD
-                SqlAsiento_cuenta SqlAc = new SqlAsiento_cuenta();
-                Asiento_cuenta ac = new Asiento_cuenta();
-                SqlCuenta SqlCta = new SqlCuenta();
-                Cuenta ctaN = new Cuenta();
-                Cuenta ctaI = new Cuenta();
-                double nuevoSaldo_parcial = -1;
-                for (int i = 0; i < renglones.size(); i++) {
-                    double saldo_parcial = -1;
-                    ac.setDebe((int) renglones.get(i).getDebe());
-                    ac.setHaber((int) renglones.get(i).getHaber());
-                    ctaN.setNombre(renglones.get(i).getCuenta());
-                    ac.setCuenta(SqlCta.idCuenta(ctaN));
-                    if (ac.getCuenta() == -1) {
-                        JOptionPane.showMessageDialog(null, "Cuenta inexistente");
-                        break;
-                    }
-                    asientoRegistrar.setIdasiento(sqlAsiento.ultimoIdAsiento());
-                    ac.setAsiento(asientoRegistrar.getIdasiento());
-                    this.asiento = ac.getAsiento();
-                    int codigo = SqlAc.ultimoCodigo();
-                    if (codigo == -1){
-                        JOptionPane.showMessageDialog(null, "Error de codigo de cuenta");
-                        break;
-                    }
-                    ac.setCodigo(codigo+1);
-                    ctaI.setIdcuenta(SqlCta.idCuenta(ctaN));
-                    saldo_parcial = SqlAc.saldoParcial(ctaI);
-                    if (saldo_parcial == -1) {
-                        JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
-                        nuevoSaldo_parcial = -1;
-                        break;
-                    }
-
-                    switch (SqlCta.tipoCuenta(ctaN)) {
-                        case "Activo":
-                        nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe() - renglones.get(i).getHaber();
-                        break;
-                        case "Pasivo":
-                        nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe() + renglones.get(i).getHaber();
-                        break;
-                        case "Ingresos":
-                        nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getHaber();
-                        break;
-                        case "Egresos":
-                        nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe();
-                        break;
-                        case "Patrimonio":
-                        nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe() + renglones.get(i).getHaber();
-                        break;
-                        case "":
-                        JOptionPane.showMessageDialog(null, "Error de carga de cuenta");
-                        break;
-                    }
-                    if (nuevoSaldo_parcial < 0) {
-                        JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
-                        break;
-                    }
-
-                    ac.setSaldo_parcial(nuevoSaldo_parcial);
-                    SqlAc.registrar(ac);
-                    this.asientos_cuenta.add(ac.getCodigo());
-
-                }
-
-                if (ac.getCuenta() == -1 || ac.getCodigo() == -1 || nuevoSaldo_parcial < 0  ) {
-
-                    JOptionPane.showMessageDialog(null, "Asiento no guardado");
-                    corregirError();
-
-                } else {
-                    actualizarRegistrarAsiento();
-                    JOptionPane.showMessageDialog(null, "Asiento guardado");
-                    home.agregarAsiento();
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Error cuenta no balanceada");
-
-        }
+        desplegarVista();
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -540,10 +454,10 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     }//GEN-LAST:event_radBtnDebeActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+
         Home.frmRegAsis = null;
-        this.dispose(); 
-        
+        this.dispose();
+
     }//GEN-LAST:event_formWindowClosing
 
     private boolean checkAsiento() {
@@ -554,7 +468,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             sumDeb += rg.getDebe();
             sumHab += rg.getHaber();
         }
-        return (sumDeb == sumHab) && (sumDeb != 0);
+        return ((sumDeb == sumHab) && ((sumDeb != 0) || mod.getTipoUsuario() == 1 ));
     }
 
     private void limpiar() {
@@ -569,7 +483,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegistrarAsiento(mod,home).setVisible(true);
+                new RegistrarAsiento(mod, home).setVisible(true);
             }
         });
     }
@@ -581,7 +495,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         SqlAsientos sqlAsiento = new SqlAsientos();
         Asiento asientoCorregirError = new Asiento();
 
-        for (Integer i  : this.asientos_cuenta) {
+        for (Integer i : this.asientos_cuenta) {
             ac.setCodigo(i);
             SqlAc.eliminar(ac);
         }
@@ -629,6 +543,319 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         this.tModel = (DefaultTableModel) tablaAsiento.getModel();
         this.asientos_cuenta.removeAll(cuentas);
     }
+    
+    public void desplegarVista(){
+        
+        if (checkAsiento()) {
+            if (cuentaRepetida()) {
+                JOptionPane.showMessageDialog(null, "Hay cuentas repetidas");
+            } else {
+                // Se agrega asiento en BD
+                Date date = new Date();
+                DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SqlAsientos sqlAsiento = new SqlAsientos();
+                Asiento asientoRegistrar = new Asiento();
+                asientoRegistrar.setNumAsiento(Integer.parseInt(txtNumAsiento.getText()));
+                asientoRegistrar.setDescripcion(txtDesc.getText());
+                asientoRegistrar.setFecha(fechaHora.format(date));
+                asientoRegistrar.setUsuario(mod.getIdusuario());
+                sqlAsiento.registrarAsiento(asientoRegistrar);
+                // Se agrega Asiento_cuenta en BD
+                SqlAsiento_cuenta SqlAc = new SqlAsiento_cuenta();
+                Asiento_cuenta ac = new Asiento_cuenta();
+                SqlCuenta SqlCta = new SqlCuenta();
+                Cuenta ctaN = new Cuenta();
+                Cuenta ctaI = new Cuenta();
+                double nuevoSaldo_parcial = -1;
+                for (int i = 0; i < renglones.size(); i++) {
+                    double saldo_parcial = -1;
+                    ac.setDebe((int) renglones.get(i).getDebe());
+                    ac.setHaber((int) renglones.get(i).getHaber());
+                    ctaN.setNombre(renglones.get(i).getCuenta());
+                    ac.setCuenta(SqlCta.idCuenta(ctaN));
+                    if (ac.getCuenta() == -1) {
+                        JOptionPane.showMessageDialog(null, "Cuenta inexistente");
+                        break;
+                    }
+                    asientoRegistrar.setIdasiento(sqlAsiento.ultimoIdAsiento());
+                    ac.setAsiento(asientoRegistrar.getIdasiento());
+                    this.asiento = ac.getAsiento();
+                    int codigo = SqlAc.ultimoCodigo();
+                    if (codigo == -1) {
+                        JOptionPane.showMessageDialog(null, "Error de codigo de cuenta");
+                        break;
+                    }
+                    ac.setCodigo(codigo + 1);
+                    ctaI.setIdcuenta(SqlCta.idCuenta(ctaN));
+                    saldo_parcial = SqlAc.saldoParcial(ctaI);
+                    if (saldo_parcial == -1) {
+                        JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
+                        nuevoSaldo_parcial = -1;
+                        break;
+                    }
+
+                    switch (SqlCta.tipoCuenta(ctaN)) {
+                        case "Activo":
+                            nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe() - renglones.get(i).getHaber();
+                            break;
+                        case "Pasivo":
+                            nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe() + renglones.get(i).getHaber();
+                            break;
+                        case "Ingresos":
+                            nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getHaber();
+                            break;
+                        case "Egresos":
+                            nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe();
+                            break;
+                        case "Patrimonio":
+                            nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe() + renglones.get(i).getHaber();
+                            break;
+                        case "":
+                            JOptionPane.showMessageDialog(null, "Error de carga de cuenta");
+                            break;
+                    }
+                    if (nuevoSaldo_parcial < 0) {
+                        JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
+                        break;
+                    }
+
+                    ac.setSaldo_parcial(nuevoSaldo_parcial);
+                    SqlAc.registrar(ac);
+                    this.asientos_cuenta.add(ac.getCodigo());
+
+                }
+
+                if (ac.getCuenta() == -1 || ac.getCodigo() == -1 || nuevoSaldo_parcial < 0) {
+
+                    JOptionPane.showMessageDialog(null, "Asiento no guardado");
+                    corregirError();
+
+                } else {
+                    actualizarRegistrarAsiento();
+                    JOptionPane.showMessageDialog(null, "Asiento guardado");
+                    home.agregarAsiento();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Error cuenta no balanceada");
+
+        }
+    }
+
+        
+        public void desplegarPorAtras(String descripcion){
+        
+        if (checkAsiento()) {
+            if (cuentaRepetida()) {
+                JOptionPane.showMessageDialog(null, "Hay cuentas repetidas");
+            } else {
+                // Se agrega asiento en BD
+                Date date = new Date();
+                DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SqlAsientos sqlAsiento = new SqlAsientos();
+                Asiento asientoRegistrar = new Asiento();
+                SqlAsientos asiSql = new SqlAsientos();
+                int numeroAsiento;
+                numeroAsiento = ((asiSql.ultimoNumAsiento()) + 1);
+                if (numeroAsiento == -1) {
+                    JOptionPane.showMessageDialog(null, "Intente nuevamente");
+                    cerrar();
+                }
+                asientoRegistrar.setNumAsiento(numeroAsiento);
+                asientoRegistrar.setDescripcion(descripcion);
+                asientoRegistrar.setFecha(fechaHora.format(date));
+                asientoRegistrar.setUsuario(mod.getIdusuario());
+                sqlAsiento.registrarAsiento(asientoRegistrar);
+                // Se agrega Asiento_cuenta en BD
+                SqlAsiento_cuenta SqlAc = new SqlAsiento_cuenta();
+                Asiento_cuenta ac = new Asiento_cuenta();
+                SqlCuenta SqlCta = new SqlCuenta();
+                Cuenta ctaN = new Cuenta();
+                Cuenta ctaI = new Cuenta();
+                double nuevoSaldo_parcial = -1;
+                for (int i = 0; i < renglones.size(); i++) {
+                    double saldo_parcial = -1;
+                    ac.setDebe((int) renglones.get(i).getDebe());
+                    ac.setHaber((int) renglones.get(i).getHaber());
+                    ctaN.setNombre(renglones.get(i).getCuenta());
+                    ac.setCuenta(SqlCta.idCuenta(ctaN));
+                    if (ac.getCuenta() == -1) {
+                        JOptionPane.showMessageDialog(null, "Cuenta inexistente");
+                        break;
+                    }
+                    asientoRegistrar.setIdasiento(sqlAsiento.ultimoIdAsiento());
+                    ac.setAsiento(asientoRegistrar.getIdasiento());
+                    this.asiento = ac.getAsiento();
+                    int codigo = SqlAc.ultimoCodigo();
+                    if (codigo == -1) {
+                        JOptionPane.showMessageDialog(null, "Error de codigo de cuenta");
+                        break;
+                    }
+                    ac.setCodigo(codigo + 1);
+                    ctaI.setIdcuenta(SqlCta.idCuenta(ctaN));
+                    saldo_parcial = SqlAc.saldoParcial(ctaI);
+                    if (saldo_parcial == -1) {
+                        JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
+                        nuevoSaldo_parcial = -1;
+                        break;
+                    }
+
+                    switch (SqlCta.tipoCuenta(ctaN)) {
+                        case "Activo":
+                            nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe() - renglones.get(i).getHaber();
+                            break;
+                        case "Pasivo":
+                            nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe() + renglones.get(i).getHaber();
+                            break;
+                        case "Ingresos":
+                            nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getHaber();
+                            break;
+                        case "Egresos":
+                            nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe();
+                            break;
+                        case "Patrimonio":
+                            nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe() + renglones.get(i).getHaber();
+                            break;
+                        case "":
+                            JOptionPane.showMessageDialog(null, "Error de carga de cuenta");
+                            break;
+                    }
+                    if (nuevoSaldo_parcial < 0) {
+                        JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
+                        break;
+                    }
+
+                    ac.setSaldo_parcial(nuevoSaldo_parcial);
+                    SqlAc.registrar(ac);
+                    this.asientos_cuenta.add(ac.getCodigo());
+
+                }
+
+                if (ac.getCuenta() == -1 || ac.getCodigo() == -1 || nuevoSaldo_parcial < 0) {
+
+                    JOptionPane.showMessageDialog(null, "Asiento no guardado");
+                    corregirError();
+
+                } else {
+                    actualizarRegistrarAsiento();
+                    JOptionPane.showMessageDialog(null, "Asiento guardado");
+                    home.agregarAsiento();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Error cuenta no balanceada");
+
+        }
+        
+    }
+        
+         public void desplegarCuentaInicializada(String descripcion){
+        
+        if (checkAsiento()) {
+            if (cuentaRepetida()) {
+                JOptionPane.showMessageDialog(null, "Hay cuentas repetidas");
+            } else {
+                // Se agrega asiento en BD
+                Date date = new Date();
+                DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SqlAsientos sqlAsiento = new SqlAsientos();
+                Asiento asientoRegistrar = new Asiento();
+                SqlAsientos asiSql = new SqlAsientos();
+                int numeroAsiento;
+                numeroAsiento = ((asiSql.ultimoNumAsiento()) + 1);
+                if (numeroAsiento == -1) {
+                    JOptionPane.showMessageDialog(null, "Intente nuevamente");
+                    cerrar();
+                }
+                asientoRegistrar.setNumAsiento(numeroAsiento);
+                asientoRegistrar.setDescripcion(descripcion);
+                asientoRegistrar.setFecha(fechaHora.format(date));
+                asientoRegistrar.setUsuario(mod.getIdusuario());
+                sqlAsiento.registrarAsiento(asientoRegistrar);
+                // Se agrega Asiento_cuenta en BD
+                SqlAsiento_cuenta SqlAc = new SqlAsiento_cuenta();
+                Asiento_cuenta ac = new Asiento_cuenta();
+                SqlCuenta SqlCta = new SqlCuenta();
+                Cuenta ctaN = new Cuenta();
+                Cuenta ctaI = new Cuenta();
+                double nuevoSaldo_parcial = -1;
+                for (int i = 0; i < renglones.size(); i++) {
+                    double saldo_parcial = -1;
+                    ac.setDebe((int) renglones.get(i).getDebe());
+                    ac.setHaber((int) renglones.get(i).getHaber());
+                    ctaN.setNombre(renglones.get(i).getCuenta());
+                    ac.setCuenta(SqlCta.idCuenta(ctaN));
+                    if (ac.getCuenta() == -1) {
+                        JOptionPane.showMessageDialog(null, "Cuenta inexistente");
+                        break;
+                    }
+                    asientoRegistrar.setIdasiento(sqlAsiento.ultimoIdAsiento());
+                    ac.setAsiento(asientoRegistrar.getIdasiento());
+                    this.asiento = ac.getAsiento();
+                    int codigo = SqlAc.ultimoCodigo();
+                    if (codigo == -1) {
+                        JOptionPane.showMessageDialog(null, "Error de codigo de cuenta");
+                        break;
+                    }
+                    ac.setCodigo(codigo + 1);
+                    ctaI.setIdcuenta(SqlCta.idCuenta(ctaN));
+                    saldo_parcial = SqlAc.saldoParcial(ctaI);
+                    if(i == 0){
+                        saldo_parcial = 0.0;
+                    }
+                    if (saldo_parcial == -1) {
+                        JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
+                        nuevoSaldo_parcial = -1;
+                        break;
+                    }
+
+                    switch (SqlCta.tipoCuenta(ctaN)) {
+                        case "Activo":
+                            nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe() - renglones.get(i).getHaber();
+                            break;
+                        case "Pasivo":
+                            nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe() + renglones.get(i).getHaber();
+                            break;
+                        case "Ingresos":
+                            nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getHaber();
+                            break;
+                        case "Egresos":
+                            nuevoSaldo_parcial = saldo_parcial + renglones.get(i).getDebe();
+                            break;
+                        case "Patrimonio":
+                            nuevoSaldo_parcial = saldo_parcial - renglones.get(i).getDebe() + renglones.get(i).getHaber();
+                            break;
+                        case "":
+                            JOptionPane.showMessageDialog(null, "Error de carga de cuenta");
+                            break;
+                    }
+                    if (nuevoSaldo_parcial < 0) {
+                        JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
+                        break;
+                    }
+
+                    ac.setSaldo_parcial(nuevoSaldo_parcial);
+                    SqlAc.registrar(ac);
+                    this.asientos_cuenta.add(ac.getCodigo());
+
+                }
+
+                if (ac.getCuenta() == -1 || ac.getCodigo() == -1 || nuevoSaldo_parcial < 0) {
+
+                    JOptionPane.showMessageDialog(null, "Asiento no guardado");
+                    corregirError();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Asiento guardado");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Error cuenta no balanceada");
+
+        }
+        
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

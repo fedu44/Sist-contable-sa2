@@ -20,10 +20,11 @@ public class Home extends javax.swing.JFrame {
     public static LibroMayor frmLibMay;
     public static PlanDeCuentas frmPlan;
     public static AgregarCuenta frmAgrCta;
-    Usuario mod;
+    public static Usuario mod;
     public static String actividad;
     public static String empresa;
     public static String cuit;
+    public static Home home;
 
     public Home() {
         initComponents();
@@ -33,7 +34,8 @@ public class Home extends javax.swing.JFrame {
     public Home(Usuario mod) {
         initComponents();
         setResizable(false);
-        this.mod = mod;
+        Home.mod = mod;
+        Home.home = new Home();
 
         switch (mod.getTipoUsuario()) {
             case 1:
@@ -103,6 +105,22 @@ public class Home extends javax.swing.JFrame {
 
     public static void setCuit(String cuit) {
         Home.cuit = cuit;
+    }
+
+    public static Usuario getMod() {
+        return mod;
+    }
+
+    public static void setMod(Usuario mod) {
+        Home.mod = mod;
+    }
+
+    public static Home getHome() {
+        return home;
+    }
+
+    public static void setHome(Home home) {
+        Home.home = home;
     }
     
     
@@ -555,7 +573,7 @@ public class Home extends javax.swing.JFrame {
     private void subAgregarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAgregarCuentaActionPerformed
        
         if (frmAgrCta == null) {
-            frmAgrCta = new AgregarCuenta();
+            frmAgrCta = new AgregarCuenta(this);
             frmAgrCta.setVisible(true);
         }
         
