@@ -1,6 +1,7 @@
 package Modelo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import org.apache.pdfbox.pdfwriter.ContentStreamWriter;
@@ -13,18 +14,20 @@ public class GenerarPdf {
    
     private TableModel content;
     private String nombre;
+    private ArrayList<String> header;
       
     
-    public GenerarPdf(TableModel content, String nombre) {
+    public GenerarPdf(TableModel content,ArrayList<String> header, String nombre) {
         
         this.content=content;
         this.nombre = nombre;
+        this.header=header;
         ejecutar();
     }
 
     public static void drawTable(PDPage page, PDPageContentStream contentStream,
             float y, float margin,
-            TableModel content) throws IOException {
+            TableModel content,ArrayList<String> header) throws IOException {
         final int rows = content.getRowCount()+1;
         final int cols = content.getColumnCount();
         final float rowHeight = 20f;
@@ -32,9 +35,31 @@ public class GenerarPdf {
         final float tableHeight = rowHeight * (rows);
         final float colWidth = tableWidth / (float) cols;
         final float cellMargin = 5f;
+        
+        
+        
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 14);       
+        
+        //header
+        try {
+            
+            for (String txt : header){
+                contentStream.beginText();
+                contentStream.moveTextPositionByAmount(10, y);
+                contentStream.drawString(txt);
+                contentStream.endText();
+                y-=rowHeight;
+            }
+            
+        } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+
+        }
+
+        
 
         //draw the rows
-        float nexty = y;
+        float nexty = y ;
         for (int i = 0; i <= rows; i++) {
             contentStream.drawLine(margin, nexty, margin + tableWidth, nexty);
             nexty -= rowHeight;
@@ -48,10 +73,10 @@ public class GenerarPdf {
         }
 
         //now add the text
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 11);
         
+         contentStream.setFont(PDType1Font.HELVETICA_BOLD, 11);
         
-        
+     
         float textx = margin + cellMargin;
         float texty = y - 15;
         
@@ -100,7 +125,7 @@ public class GenerarPdf {
         PDPageContentStream contentStream;
         try {
             contentStream = new PDPageContentStream(doc, page);
-            drawTable(page, contentStream, 700, 0, content);
+            drawTable(page, contentStream, 750, 0, content,this.header);
             contentStream.close();
             doc.save(getNombre());
 

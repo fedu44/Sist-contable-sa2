@@ -294,7 +294,13 @@ public class LibroDiario extends javax.swing.JFrame {
         }
 
         String nombre = "PDF_Libro_Diario\\" + "DESDE " + fechaD + " " + "HASTA " + fechaH + ".pdf";
-        new GenerarPdf(this.tModel, nombre);
+        ArrayList<String> header = new ArrayList<>();
+        header.add(Home.empresa);
+        header.add(Home.cuit);
+        header.add(Home.actividad);
+        header.add("Libro diario :" + "DESDE " + fechaD + " " + "HASTA " + fechaH);
+                
+        new GenerarPdf(this.tModel,header, nombre);
 
         String[] commando = {"cmd.exe", "/c", nombre};
         builder = new ProcessBuilder(commando);

@@ -190,7 +190,13 @@ public class LibroMayor extends javax.swing.JFrame {
         }
         
         String nombre ="PDF_Libro_Mayor\\" + this.comboCuenta.getSelectedItem().toString().replaceAll("[^A-Za-z]+", " ") +  ".pdf";
-        new GenerarPdf(this.tModel,nombre);
+        ArrayList<String> header = new ArrayList<>();
+        header.add(Home.empresa);
+        header.add(Home.cuit);
+        header.add(Home.actividad);
+        header.add("Libro mayor de "+this.comboCuenta.getSelectedItem().toString());
+        new GenerarPdf(this.tModel,header,nombre);
+        
         
         String[] commando = {"cmd.exe", "/c", nombre};
         builder = new ProcessBuilder(commando);

@@ -174,7 +174,12 @@ public class PlanDeCuentas extends javax.swing.JFrame {
         
         
         String nombre = "PDF_Plan_De_Cunta" + ".pdf";
-        new GenerarPdf(this.tModel,nombre);
+        ArrayList<String> header = new ArrayList<>();
+        header.add(Home.empresa);
+        header.add(Home.cuit);
+        header.add(Home.actividad);
+        header.add("Plan de cuentas");
+        new GenerarPdf(this.tModel,header,nombre);
         
         String[] commando = {"cmd.exe", "/c", nombre};
         ProcessBuilder builder = new ProcessBuilder(commando);
