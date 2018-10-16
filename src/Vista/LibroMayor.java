@@ -59,7 +59,7 @@ public class LibroMayor extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Fecha", "Debe", "Haber", "Saldo_parcial"
+                "Fecha", "Descripcion", "Debe", "Haber", "Saldo_parcial"
             }
         ));
         jScrollPane2.setViewportView(tablaAsiento);
@@ -229,7 +229,8 @@ public class LibroMayor extends javax.swing.JFrame {
         double debe = renglon.getDebe();
         double haber = renglon.getHaber();
         double saldo_parcial = renglon.getSaldo_parcial();
-        this.tModel.addRow(new Object[]{hora, debe, haber, saldo_parcial});
+        String descri = renglon.getDescripcion();
+        this.tModel.addRow(new Object[]{hora,descri , debe, haber, saldo_parcial});
     }
     
     public void desplegar(){
@@ -250,7 +251,7 @@ public class LibroMayor extends javax.swing.JFrame {
             this.tablaAsiento.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "Fecha", "Debe", "Haber", "Saldo_parcial"
+                    "Fecha","Descripcion", "Debe", "Haber", "Saldo_parcial"
                 }
         ));
             this.tModel = (DefaultTableModel) tablaAsiento.getModel();

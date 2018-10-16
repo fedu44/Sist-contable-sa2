@@ -7,22 +7,48 @@ public class Renglon {
     private String cuenta = "";
     private String fecha;
     private double saldo_parcial;
+    private String descripcion;
 
-    public Renglon( String cuenta, double debe, double haber) {
+    public Renglon(String cuenta, double debe, double haber) {
         this.cuenta = cuenta;
         this.debe = debe;
         this.haber = haber;
     }
-    
-    public Renglon( String fecha, String cuenta, double debe, double haber, double saldo_parcial) {
+
+    public Renglon(String fecha, String cuenta, double debe, double haber, double saldo_parcial) {
         this.cuenta = cuenta;
         this.debe = debe;
         this.haber = haber;
         this.fecha = fecha;
         this.saldo_parcial = saldo_parcial;
     }
-    
-    public Renglon( String fecha, String cuenta, double debe, double haber) {
+
+    public Renglon(String fecha, String cuenta, double debe, double haber, String descripcion) {
+        this.cuenta = cuenta;
+        this.debe = debe;
+        this.haber = haber;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+    }
+
+    public Renglon(String fecha, String cuenta, double debe, double haber, double saldo_parcial, String descripcion) {
+        this.cuenta = cuenta;
+        this.debe = debe;
+        this.haber = haber;
+        this.fecha = fecha;
+        this.saldo_parcial = saldo_parcial;
+        this.descripcion = descripcion;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Renglon(String fecha, String cuenta, double debe, double haber) {
         this.cuenta = cuenta;
         this.debe = debe;
         this.haber = haber;
@@ -41,7 +67,6 @@ public class Renglon {
         this.saldo_parcial = saldo_parcial;
     }
 
-    
     public String getFecha() {
         return fecha;
     }

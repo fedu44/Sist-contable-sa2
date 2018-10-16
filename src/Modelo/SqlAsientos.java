@@ -118,7 +118,7 @@ public class SqlAsientos extends Conexion {
         Connection con = getConexion();
         ArrayList<Renglon> renglones = new ArrayList<>();
             
-        String sql = "SELECT a.fecha, c.nombre, ac.debe, ac.haber FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE a.fecha > ? AND a.fecha < ? ORDER BY a.fecha";
+        String sql = "SELECT a.fecha, c.nombre, ac.debe, ac.haber, a.descripcion FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE a.fecha > ? AND a.fecha < ? ORDER BY a.fecha";
 
         try {
             ps = con.prepareStatement(sql);
@@ -127,10 +127,10 @@ public class SqlAsientos extends Conexion {
             
             rs = ps.executeQuery();
             if(rs.first()){
-                Renglon renglon = new Renglon(rs.getString(1).substring(0, 19), rs.getString(2), rs.getInt(3), rs.getInt(4));
+                Renglon renglon = new Renglon(rs.getString(1).substring(0, 19), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5) );
                 renglones.add(renglon);
                 while (rs.next()) {
-                    Renglon renglon2 = new Renglon(rs.getString(1).substring(0, 19), rs.getString(2), rs.getInt(3), rs.getInt(4));
+                    Renglon renglon2 = new Renglon(rs.getString(1).substring(0, 19), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
                     renglones.add(renglon2);
                 }
                 return renglones;
@@ -149,7 +149,7 @@ public class SqlAsientos extends Conexion {
         Connection con = getConexion();
         ArrayList<Renglon> renglones = new ArrayList<>();
             
-        String sql = "SELECT a.fecha, ac.debe, ac.haber, saldo_parcial FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE c.nombre = ? and a.fecha > ? ORDER BY a.fecha";
+        String sql = "SELECT a.fecha, ac.debe, ac.haber, saldo_parcial, a.descripcion FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE c.nombre = ? and a.fecha > ? ORDER BY a.fecha";
 
         try {
             ps = con.prepareStatement(sql);
@@ -157,10 +157,10 @@ public class SqlAsientos extends Conexion {
             ps.setString(2, fecha + " 00:00:00");
             rs = ps.executeQuery();
             if(rs.first()){
-                Renglon renglon = new Renglon(rs.getString(1).substring(0, 19), null, rs.getInt(2), rs.getInt(3), rs.getInt(4));
+                Renglon renglon = new Renglon(rs.getString(1).substring(0, 19), null, rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
                 renglones.add(renglon);
                 while (rs.next()) {
-                    Renglon renglon2 = new Renglon(rs.getString(1).substring(0, 19), null,  rs.getInt(2), rs.getInt(3), rs.getInt(4));
+                    Renglon renglon2 = new Renglon(rs.getString(1).substring(0, 19), null,  rs.getInt(2), rs.getInt(3), rs.getInt(4),rs.getString(5));
                     renglones.add(renglon2);
                 }
                 return renglones;

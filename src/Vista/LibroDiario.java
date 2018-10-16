@@ -69,7 +69,7 @@ public class LibroDiario extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Hora", "Cuenta", "Debe", "Haber"
+                "Hora", "Cuenta", "Descripcion", "Debe", "Haber"
             }
         ));
         jScrollPane2.setViewportView(tablaAsiento);
@@ -264,7 +264,8 @@ public class LibroDiario extends javax.swing.JFrame {
         double debe = renglon.getDebe();
         double haber = renglon.getHaber();
         String hora = renglon.getFecha();
-        this.tModel.addRow(new Object[]{hora, cuenta, debe, haber});
+        String descripcion = renglon.getDescripcion();
+        this.tModel.addRow(new Object[]{hora, cuenta, descripcion, debe, haber});
     }
     private void btnIrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIrActionPerformed
 
@@ -324,7 +325,7 @@ public class LibroDiario extends javax.swing.JFrame {
         this.tablaAsiento.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "Hora", "Cuenta", "Debe", "Haber"
+                    "Hora", "Cuenta", "descripcion", "Debe", "Haber"
                 }
         ));
         this.tModel = (DefaultTableModel) tablaAsiento.getModel();
