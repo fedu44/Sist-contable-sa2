@@ -178,7 +178,7 @@ public class LibroMayor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMostrarActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-       
+        limpiar();
         desplegar();
         String[] cmd = {"cmd.exe", "/c", "mkdir PDF_Libro_Mayor"};
         ProcessBuilder builder = new ProcessBuilder(cmd);
