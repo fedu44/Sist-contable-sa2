@@ -42,11 +42,14 @@ public class Home extends javax.swing.JFrame {
                 break;
             case 2:
                 menuUsuarios.setVisible(false);
-                subEliminarUsuario.setVisible(false);
+                subAgregarCuenta.setVisible(false);
                 break;
             case 3:
                 menuUsuarios.setVisible(false);
-                subEliminarUsuario.setVisible(false);
+                subAgregarAsiento.setVisible(false);
+                menuAsientoContable.setVisible(false);
+                btnRegistrarAsiento.setVisible(false);
+                
                 break;
             default:
                 break;
