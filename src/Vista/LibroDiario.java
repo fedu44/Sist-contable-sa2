@@ -20,7 +20,7 @@ public class LibroDiario extends javax.swing.JFrame {
 
     public LibroDiario() {
         initComponents();
-        this.setResizable(false);
+        this.setResizable(true);
         tModel = (DefaultTableModel) tablaAsiento.getModel();
         this.txtActividad.setText(Home.actividad);
         this.txtEmpresa.setText(Home.empresa);
@@ -165,7 +165,7 @@ public class LibroDiario extends javax.swing.JFrame {
                         .addGap(22, 22, 22)))
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 

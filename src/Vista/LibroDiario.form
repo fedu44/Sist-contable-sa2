@@ -162,7 +162,7 @@
                   </Group>
                   <Component id="jLabel2" min="-2" pref="26" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jScrollPane2" min="-2" pref="318" max="-2" attributes="0"/>
+                  <Component id="jScrollPane2" min="-2" pref="296" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
