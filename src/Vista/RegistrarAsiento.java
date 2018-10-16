@@ -541,7 +541,8 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 }
         ));
         this.tModel = (DefaultTableModel) tablaAsiento.getModel();
-        this.asientos_cuenta.removeAll(cuentas);
+        this.asientos_cuenta.removeAll(asientos_cuenta);
+        this.cuentas.removeAll(cuentas);
     }
     
     public void desplegarVista(){
