@@ -199,11 +199,6 @@ public class AgregarCuenta extends javax.swing.JFrame {
             renglon.setDebe(0.0);
             renglon.setHaber(0.0);
             renglones.add(renglon);
-            Renglon renglon2 = new Renglon();
-            renglon2.setCuenta("Caja");
-            renglon2.setDebe(0.0);
-            renglon2.setHaber(0.0);
-            renglones.add(renglon2);
             RegistrarAsiento registrarAsiento = new RegistrarAsiento(Home.getMod(), renglones);
             registrarAsiento.desplegarCuentaInicializada("Iniciar cuenta: " + this.txtNewCuenta.getText());
             home.agregarAsiento();
