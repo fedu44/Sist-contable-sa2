@@ -59,7 +59,7 @@ public class Home extends javax.swing.JFrame {
         t.start();
 
         SqlAsientos asiSql = new SqlAsientos();
-        this.txtCantAsientos.setText(asiSql.cantidadAsientos(30, mod).toString());
+        //this.txtCantAsientos.setText(asiSql.cantidadAsientos(30, mod).toString());
         SqlEditor sqlEditor = new SqlEditor();
         this.txtEditor.setText(sqlEditor.TraerTexto(mod.getNombre()));
         SqlEmpresa sqlEmpresa = new SqlEmpresa();
@@ -138,12 +138,10 @@ public class Home extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        txtCantAsientos = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JLabel();
         jTxtReloj = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtEditor = new javax.swing.JTextArea();
-        jLabel4 = new javax.swing.JLabel();
         btnGuardad = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -167,6 +165,11 @@ public class Home extends javax.swing.JFrame {
         menuPlanDeCuentas = new javax.swing.JMenu();
         subVerPlanDeCuentas = new javax.swing.JCheckBoxMenuItem();
         subAgregarCuenta = new javax.swing.JMenuItem();
+        menuCliente = new javax.swing.JMenu();
+        subAgregarCliente = new javax.swing.JRadioButtonMenuItem();
+        subVerCliente = new javax.swing.JCheckBoxMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         menuSesion = new javax.swing.JMenu();
         subCerrarSesion = new javax.swing.JCheckBoxMenuItem();
 
@@ -178,8 +181,6 @@ public class Home extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Usuario:");
 
-        txtCantAsientos.setFont(new java.awt.Font("Tahoma", 0, 28)); // NOI18N
-
         txtUsuario.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
 
         jTxtReloj.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
@@ -187,9 +188,6 @@ public class Home extends javax.swing.JFrame {
         txtEditor.setColumns(20);
         txtEditor.setRows(5);
         jScrollPane1.setViewportView(txtEditor);
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel4.setText("<html>Asientos registrados<br/>en los últimos 30 días:</html>");
 
         btnGuardad.setText("Guardar");
         btnGuardad.addActionListener(new java.awt.event.ActionListener() {
@@ -209,20 +207,14 @@ public class Home extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtCantAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(74, 74, 74)
+                .addGap(41, 41, 41)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jTxtReloj, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -241,15 +233,11 @@ public class Home extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(50, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCantAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -422,6 +410,26 @@ public class Home extends javax.swing.JFrame {
 
         jMenuBar1.add(menuPlanDeCuentas);
 
+        menuCliente.setText("Cliente");
+
+        subAgregarCliente.setSelected(true);
+        subAgregarCliente.setText("Agregar cliente");
+        menuCliente.add(subAgregarCliente);
+
+        subVerCliente.setSelected(true);
+        subVerCliente.setText("Ver cliente");
+        menuCliente.add(subVerCliente);
+
+        jMenuBar1.add(menuCliente);
+
+        jMenu1.setText("Stock");
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("Ver stock");
+        jMenu1.add(jCheckBoxMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
         menuSesion.setText("Sesion");
 
         subCerrarSesion.setSelected(true);
@@ -466,7 +474,7 @@ public class Home extends javax.swing.JFrame {
                         .addGap(361, 361, 361)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 184, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
                 .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
@@ -618,10 +626,11 @@ public class Home extends javax.swing.JFrame {
         });
     }
     
-    public void agregarAsiento(){
+    /*public void agregarAsiento(){
         this.txtCantAsientos.setText(String.valueOf((Integer.valueOf(txtCantAsientos.getText()))+1));
     }
-
+    */
+    
     ActionListener updateClockAction = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             Calendar now = Calendar.getInstance();
@@ -637,9 +646,10 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnRegistrarAsiento;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel gftfudttug;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -647,21 +657,23 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jTxtReloj;
     private javax.swing.JMenu menuAsientoContable;
+    private javax.swing.JMenu menuCliente;
     private javax.swing.JMenu menuLibroDiario;
     private javax.swing.JMenu menuLibroMayor;
     private javax.swing.JMenu menuPlanDeCuentas;
     private javax.swing.JMenu menuSesion;
     private javax.swing.JMenu menuUsuarios;
     private javax.swing.JMenuItem subAgregarAsiento;
+    private javax.swing.JRadioButtonMenuItem subAgregarCliente;
     private javax.swing.JMenuItem subAgregarCuenta;
     private javax.swing.JCheckBoxMenuItem subAgregarUsuario;
     private javax.swing.JCheckBoxMenuItem subCerrarSesion;
     private javax.swing.JCheckBoxMenuItem subEliminarUsuario;
+    private javax.swing.JCheckBoxMenuItem subVerCliente;
     private javax.swing.JMenuItem subVerLibroDiario;
     private javax.swing.JMenuItem subVerLibroMayor;
     private javax.swing.JCheckBoxMenuItem subVerPlanDeCuentas;
     private javax.swing.JLabel txtActividad;
-    private javax.swing.JLabel txtCantAsientos;
     private javax.swing.JLabel txtCuit;
     private javax.swing.JTextArea txtEditor;
     private javax.swing.JLabel txtEmpresa;

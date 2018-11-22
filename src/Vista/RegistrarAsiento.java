@@ -634,7 +634,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 } else {
                     actualizarRegistrarAsiento();
                     JOptionPane.showMessageDialog(null, "Asiento guardado");
-                    home.agregarAsiento();
+                    //home.agregarAsiento();
                 }
             }
         } else {
@@ -740,7 +740,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 } else {
                     actualizarRegistrarAsiento();
                     JOptionPane.showMessageDialog(null, "Asiento guardado");
-                    home.agregarAsiento();
+                    //home.agregarAsiento();
                 }
             }
         } else {
