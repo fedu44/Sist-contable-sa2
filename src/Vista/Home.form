@@ -122,10 +122,16 @@
             <Property name="text" type="java.lang.String" value="Stock"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckBoxMenuItem1">
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="subStockFil">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Ver stock"/>
+                <Property name="text" type="java.lang.String" value="Ver stock por filtros"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="subStockBusc">
+              <Properties>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Ver stock por b&#xfa;squeda"/>
               </Properties>
             </MenuItem>
           </SubComponents>

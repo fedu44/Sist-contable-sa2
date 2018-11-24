@@ -169,7 +169,8 @@ public class Home extends javax.swing.JFrame {
         subAgregarCliente = new javax.swing.JRadioButtonMenuItem();
         subVerCliente = new javax.swing.JCheckBoxMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        subStockFil = new javax.swing.JCheckBoxMenuItem();
+        subStockBusc = new javax.swing.JCheckBoxMenuItem();
         menuSesion = new javax.swing.JMenu();
         subCerrarSesion = new javax.swing.JCheckBoxMenuItem();
 
@@ -424,9 +425,13 @@ public class Home extends javax.swing.JFrame {
 
         jMenu1.setText("Stock");
 
-        jCheckBoxMenuItem1.setSelected(true);
-        jCheckBoxMenuItem1.setText("Ver stock");
-        jMenu1.add(jCheckBoxMenuItem1);
+        subStockFil.setSelected(true);
+        subStockFil.setText("Ver stock por filtros");
+        jMenu1.add(subStockFil);
+
+        subStockBusc.setSelected(true);
+        subStockBusc.setText("Ver stock por búsqueda");
+        jMenu1.add(subStockBusc);
 
         jMenuBar1.add(jMenu1);
 
@@ -646,7 +651,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnRegistrarAsiento;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel gftfudttug;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
@@ -669,6 +673,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem subAgregarUsuario;
     private javax.swing.JCheckBoxMenuItem subCerrarSesion;
     private javax.swing.JCheckBoxMenuItem subEliminarUsuario;
+    private javax.swing.JCheckBoxMenuItem subStockBusc;
+    private javax.swing.JCheckBoxMenuItem subStockFil;
     private javax.swing.JCheckBoxMenuItem subVerCliente;
     private javax.swing.JMenuItem subVerLibroDiario;
     private javax.swing.JMenuItem subVerLibroMayor;
