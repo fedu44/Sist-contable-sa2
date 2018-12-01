@@ -6,23 +6,20 @@ import Modelo.SituacionCrediticia;
 import Modelo.SqlCategoriaIva;
 import Modelo.SqlCliente;
 import Modelo.SqlSituacionCrediticia;
-import Modelo.SqlTelefono;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
-public class AgregarCliente extends javax.swing.JFrame {
+public class AgregarClienteAnterior extends javax.swing.JPanel {
     
     private ArrayList<CategoriaIva> categorias = new ArrayList<>();
     private ArrayList<SituacionCrediticia> situaciones = new ArrayList<>();
-    private static Home home;
 
-    public AgregarCliente(Home home) {
+    public AgregarClienteAnterior() {
         initComponents();
         
-        AgregarCliente.home = home;
         SqlCategoriaIva catIva = new SqlCategoriaIva();
         SqlSituacionCrediticia sitCred = new SqlSituacionCrediticia();
         
@@ -33,7 +30,7 @@ public class AgregarCliente extends javax.swing.JFrame {
         
         situaciones = sitCred.situaciones();
         situaciones.forEach((situacion) -> {
-            comboSitCredit.addItem(situacion.getNombre());
+            comboCatIva.addItem(situacion.getNombre());
         });
         
     }
@@ -42,13 +39,20 @@ public class AgregarCliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnGpNombre = new javax.swing.ButtonGroup();
+        btnGpCUI = new javax.swing.ButtonGroup();
+        btnGpBloqueado = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
+        rdBtnCuil = new javax.swing.JRadioButton();
         jLabel9 = new javax.swing.JLabel();
+        rdBtnReal = new javax.swing.JRadioButton();
+        rdBtnCuit = new javax.swing.JRadioButton();
         txtCUI = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        rdBtnFiscal = new javax.swing.JRadioButton();
         txtNombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -70,19 +74,14 @@ public class AgregarCliente extends javax.swing.JFrame {
         rdBtnSi = new javax.swing.JRadioButton();
         rdBtnNo = new javax.swing.JRadioButton();
         jLabel13 = new javax.swing.JLabel();
-        txtNota = new javax.swing.JTextArea();
+        txtEditor = new javax.swing.JTextArea();
         comboSitCredit = new javax.swing.JComboBox<>();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         comboCatIva = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
+        setBackground(new java.awt.Color(142, 148, 145));
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -97,8 +96,20 @@ public class AgregarCliente extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("                Situación crediticia:");
 
+        rdBtnCuil.setBackground(new java.awt.Color(204, 204, 204));
+        rdBtnCuil.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        rdBtnCuil.setText("Cuil");
+
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("                   Límite de crédito:");
+
+        rdBtnReal.setBackground(new java.awt.Color(204, 204, 204));
+        rdBtnReal.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        rdBtnReal.setText("Real");
+
+        rdBtnCuit.setBackground(new java.awt.Color(204, 204, 204));
+        rdBtnCuit.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        rdBtnCuit.setText("Cuit");
 
         txtCUI.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCUI.addActionListener(new java.awt.event.ActionListener() {
@@ -109,6 +120,10 @@ public class AgregarCliente extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Código único de identificación:");
+
+        rdBtnFiscal.setBackground(new java.awt.Color(204, 204, 204));
+        rdBtnFiscal.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        rdBtnFiscal.setText("Fiscal");
 
         txtNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -227,9 +242,9 @@ public class AgregarCliente extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setText("                                     Notas:");
 
-        txtNota.setColumns(20);
-        txtNota.setRows(5);
-        txtNota.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.darkGray, java.awt.Color.lightGray));
+        txtEditor.setColumns(20);
+        txtEditor.setRows(5);
+        txtEditor.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.darkGray, java.awt.Color.lightGray));
 
         comboSitCredit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -276,10 +291,20 @@ public class AgregarCliente extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtCUI, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(144, 144, 144))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtCUI, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(rdBtnReal)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(rdBtnFiscal))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(rdBtnCuit)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(rdBtnCuil))))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -325,7 +350,7 @@ public class AgregarCliente extends javax.swing.JFrame {
                                                 .addComponent(rdBtnNo))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(18, 18, 18)
-                                                .addComponent(txtNota, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(txtEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(18, 18, 18)
                                                 .addComponent(txtLimCred, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -342,16 +367,26 @@ public class AgregarCliente extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33))
-                    .addComponent(txtCUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(rdBtnReal)
+                                .addComponent(rdBtnFiscal))
+                            .addGap(35, 35, 35))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rdBtnCuit)
+                            .addComponent(rdBtnCuil)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel3))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(33, 33, 33))
+                        .addComponent(txtCUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
@@ -391,7 +426,7 @@ public class AgregarCliente extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
-                            .addComponent(txtNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtEditor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnGuardar)
@@ -399,14 +434,14 @@ public class AgregarCliente extends javax.swing.JFrame {
                         .addContainerGap())))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 792, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -415,8 +450,6 @@ public class AgregarCliente extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCUIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCUIActionPerformed
@@ -447,16 +480,14 @@ public class AgregarCliente extends javax.swing.JFrame {
         SqlCategoriaIva catIva = new SqlCategoriaIva();
         SqlSituacionCrediticia sitCred = new SqlSituacionCrediticia();
         SqlCliente sqlCliente = new SqlCliente();
-        SqlTelefono sqlTel = new SqlTelefono();
-        int x = -1;
+        int x = -1;        
         int y = -1;
-        int tel = -1;
 
         //Carga de cliente
         cliente.setNombre_nombreFiscal(txtNombre.getText());
         cliente.setCuit_cuil(txtCUI.getText());
         cliente.setCalle(txtCalle.getText());
-        cliente.setNumeroCasa(Integer.parseInt(txtNumCasa.getText()));
+        cliente.setNumeroCasa(Integer.getInteger(txtNumCasa.getText()));
         cliente.setPiso(txtPiso.getText());
         cliente.setDepto(txtDepto.getText());
         x = sitCred.idSitCred(comboSitCredit.getSelectedItem().toString());
@@ -473,14 +504,14 @@ public class AgregarCliente extends javax.swing.JFrame {
             //cliente.setPeriodoValidez(fechaHora + 360 dias );
             cliente.setPeriodoValidez(fechaHora.format(date));
             //cliente.setPeriodoValidez(fechaHora + 360 dias);
-
+            
         }else{
             //cliente.setPeriodoValidez(fechaHora + 180 dias);
             cliente.setPeriodoValidez(fechaHora.format(date));
             //cliente.setPeriodoValidez(fechaHora + 180 dias);
-
+            
         }
-        cliente.setLimiteCredito(Integer.parseInt(txtLimCred.getText()));
+        cliente.setLimiteCredito(Integer.getInteger(txtLimCred.getText()));
         //Hay que dejarla en null
         cliente.setUltimaOperacion(fechaHora.format(date));
         //Hay que dejarla en null
@@ -490,90 +521,32 @@ public class AgregarCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error de categoria iva");
         }
         cliente.setCategoriaIva(x);
-        tel = sqlTel.agregarTelefono(txtTel.getText());
-        cliente.setTelefono(tel);
-        
-        cliente.setNota(txtNota.getText());
+        try{
+            cliente.setTelefono(Integer.getInteger(txtTel.getText()));
+        }catch(ArithmeticException ex) {
+            JOptionPane.showMessageDialog(null, "Error de categoria iva");
+        }
         if( (x != -1) & (y != -1) ){
-            if(sqlCliente.agregarCliente(cliente)){
-                this.limpiar();
-                JOptionPane.showMessageDialog(null, "Cliente cargado con éxito");
-            }else{
-                JOptionPane.showMessageDialog(null, "Error al agregar cliente a la base de datos");
-            }
+            sqlCliente.agregarCliente(cliente);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
-    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void comboCatIvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCatIvaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboCatIvaActionPerformed
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         
-        Home.frmRegAsis = null;
-        this.dispose();
         
-    }//GEN-LAST:event_formWindowClosing
+        
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
-    public void limpiar(){
-        
-    txtCP.setText("");
-    txtCUI.setText("");
-    txtCalle.setText("");
-    txtCont.setText("");
-    txtDepto.setText("");
-    txtLimCred.setText("");
-    txtNombre.setText("");
-    txtNota.setText("");
-    txtNumCasa.setText("");
-    txtPiso.setText("");
-    txtTel.setText("");
-    rdBtnNo.setSelected(false);
-    rdBtnSi.setSelected(false);
-    }
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AgregarCliente(home).setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.ButtonGroup btnGpBloqueado;
+    private javax.swing.ButtonGroup btnGpCUI;
+    private javax.swing.ButtonGroup btnGpNombre;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> comboCatIva;
     private javax.swing.JComboBox<String> comboSitCredit;
@@ -594,16 +567,20 @@ public class AgregarCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JRadioButton rdBtnCuil;
+    private javax.swing.JRadioButton rdBtnCuit;
+    private javax.swing.JRadioButton rdBtnFiscal;
     private javax.swing.JRadioButton rdBtnNo;
+    private javax.swing.JRadioButton rdBtnReal;
     private javax.swing.JRadioButton rdBtnSi;
     private javax.swing.JTextField txtCP;
     private javax.swing.JTextField txtCUI;
     private javax.swing.JTextField txtCalle;
     private javax.swing.JTextField txtCont;
     private javax.swing.JTextField txtDepto;
+    private javax.swing.JTextArea txtEditor;
     private javax.swing.JTextField txtLimCred;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextArea txtNota;
     private javax.swing.JTextField txtNumCasa;
     private javax.swing.JTextField txtPiso;
     private javax.swing.JTextField txtTel;

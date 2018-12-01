@@ -25,6 +25,7 @@ public class Home extends javax.swing.JFrame {
     public static String empresa;
     public static String cuit;
     public static Home home;
+    public static AgregarCliente frmAgrCli;
 
     public Home() {
         initComponents();
@@ -67,8 +68,6 @@ public class Home extends javax.swing.JFrame {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String fecha = sdf.format(date);
         String inicioAct = sqlEmpresa.inicioActividad(mod.getEmpresa());
-        System.out.println(Integer.parseInt((inicioAct.substring(5, 7)) + (inicioAct.substring(8, 10))));
-        System.out.println(Integer.parseInt((fecha.substring(5, 7)) + (fecha.substring(8, 10))));
         if(Integer.parseInt((inicioAct.substring(5, 7)) + (inicioAct.substring(8, 10))) <= Integer.parseInt((fecha.substring(5, 7)) + (fecha.substring(8, 10)))){
             this.txtActividad.setText("Fecha de inicio de actividades: " + fecha.substring(0, 4) + inicioAct.substring(4, 10));
         } else{
@@ -415,6 +414,11 @@ public class Home extends javax.swing.JFrame {
 
         subAgregarCliente.setSelected(true);
         subAgregarCliente.setText("Agregar cliente");
+        subAgregarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subAgregarClienteActionPerformed(evt);
+            }
+        });
         menuCliente.add(subAgregarCliente);
 
         subVerCliente.setSelected(true);
@@ -597,6 +601,15 @@ public class Home extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_subAgregarCuentaActionPerformed
+
+    private void subAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAgregarClienteActionPerformed
+        
+        if (frmAgrCli == null) {
+            frmAgrCli = new AgregarCliente(this);
+            frmAgrCli.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_subAgregarClienteActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
