@@ -26,7 +26,13 @@ public class Home extends javax.swing.JFrame {
     public static String cuit;
     public static Home home;
     public static AgregarCliente frmAgrCli;
-
+    public static ModificarCliente frmModCli;
+    public static StockManual frmStoMan;
+    public static StockAutomatico frmStoAut;
+    public static VentaContado frmVenCon;
+    
+    
+    
     public Home() {
         initComponents();
         setResizable(false);
@@ -423,6 +429,11 @@ public class Home extends javax.swing.JFrame {
 
         subVerCliente.setSelected(true);
         subVerCliente.setText("Ver cliente");
+        subVerCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subVerClienteActionPerformed(evt);
+            }
+        });
         menuCliente.add(subVerCliente);
 
         jMenuBar1.add(menuCliente);
@@ -431,10 +442,20 @@ public class Home extends javax.swing.JFrame {
 
         subStockFil.setSelected(true);
         subStockFil.setText("Ver stock por filtros");
+        subStockFil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subStockFilActionPerformed(evt);
+            }
+        });
         jMenu1.add(subStockFil);
 
         subStockBusc.setSelected(true);
         subStockBusc.setText("Ver stock por búsqueda");
+        subStockBusc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subStockBuscActionPerformed(evt);
+            }
+        });
         jMenu1.add(subStockBusc);
 
         jMenuBar1.add(jMenu1);
@@ -604,12 +625,39 @@ public class Home extends javax.swing.JFrame {
 
     private void subAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAgregarClienteActionPerformed
         
+        if (frmModCli == null) {
+            frmModCli = new ModificarCliente(this);
+            frmModCli.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_subAgregarClienteActionPerformed
+
+    private void subVerClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subVerClienteActionPerformed
+        
         if (frmAgrCli == null) {
             frmAgrCli = new AgregarCliente(this);
             frmAgrCli.setVisible(true);
         }
         
-    }//GEN-LAST:event_subAgregarClienteActionPerformed
+    }//GEN-LAST:event_subVerClienteActionPerformed
+
+    private void subStockFilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subStockFilActionPerformed
+        
+        if (frmStoMan == null) {
+            frmStoMan = new StockManual(this);
+            frmStoMan.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_subStockFilActionPerformed
+
+    private void subStockBuscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subStockBuscActionPerformed
+       
+        if (frmStoAut == null) {
+            frmStoAut = new StockAutomatico(this);
+            frmStoAut.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_subStockBuscActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
