@@ -20,7 +20,7 @@ public class Renglon {
         this.haber = haber;
     }
 
-    public Renglon(String nombre, String cuit_cuil, String categoria, String fecha_alta, String limite_credito) {
+    public Renglon(String nombre, String cuit_cuil, String categoria, String limite_credito, String fecha_alta) {
         this.nombre = nombre;
         this.cuit_cuil = cuit_cuil;
         this.categoria = categoria;

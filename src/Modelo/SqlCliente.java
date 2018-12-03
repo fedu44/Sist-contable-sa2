@@ -57,7 +57,7 @@ public class SqlCliente extends Conexion {
         Connection con = getConexion();
         ArrayList<Renglon> renglones = new ArrayList<>();
 
-        String sql = "SELECT cl.nombre, cl.nombre_fiscal, cl.limite_credito, sc.nombre, cl.cuit_cuil, cl.fecha_alta FROM cliente cl INNER JOIN situacion_crediticia sc ON(cl.situacion_crediticia = sc.idsituacion_crediticia)";
+        String sql = "SELECT cl.nombre, cl.nombre_fiscal, cl.cuit_cuil, sc.nombre, cl.limite_credito, cl.fecha_alta FROM cliente cl INNER JOIN situacion_crediticia sc ON(cl.situacion_crediticia = sc.idsituacion_crediticia)";
 
         try {
             ps = con.prepareStatement(sql);

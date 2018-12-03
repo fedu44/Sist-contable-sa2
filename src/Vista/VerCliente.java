@@ -9,24 +9,14 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class VerCliente extends javax.swing.JFrame {
-    
+
     private static Home home;
     private ArrayList<Renglon> renglones = new ArrayList<>();
     private DefaultTableModel tModel;
 
     public VerCliente(Home home) {
         initComponents();
-        tModel = (DefaultTableModel) tabla.getModel();
-        SqlCliente sqlCli = new SqlCliente();
-        
-        renglones = sqlCli.clientes();
-        if (renglones != null) {
-            renglones.forEach((renglon) -> {
-                agregarRenglones(renglon);
-            });
-        } else {
-            JOptionPane.showMessageDialog(null, "No hay clientes cargados");
-        }
+        desplegar();
     }
 
     @SuppressWarnings("unchecked")
@@ -55,7 +45,7 @@ public class VerCliente extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "Limite de credito", "Categoria de iva", "Cuit/Cuil", "Fecha de alta"
+                "Nombre", "Cuit/Cuil", "Categoria de iva", "Limite de credito", "Fecha de alta"
             }
         ));
         jScrollPane1.setViewportView(tabla);
@@ -142,23 +132,23 @@ public class VerCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+
         Home.frmVerCli = null;
         this.dispose();
-        
+
     }//GEN-LAST:event_formWindowClosing
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        
-        
+
+        int fila = tabla.getSelectedRow();
         if (frmModCli == null) {
             //FALTA PASAR EL CUIT_CUIL CORRECTO
-            frmModCli = new ModificarCliente(home, "12345" );
+            frmModCli = new ModificarCliente(home, renglones.get(fila).getCuit_cuil(), this);
             //FALTA PASAR EL CUIT_CUIL CORRECTO
             frmModCli.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frmModCli.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void agregarRenglones(Renglon renglon) {
@@ -167,11 +157,42 @@ public class VerCliente extends javax.swing.JFrame {
         String categoria = renglon.getCategoria();
         String fecha = renglon.getFecha_alta();
         String limite = renglon.getLimite_credito();
-        this.tModel.addRow(new Object[]{nombre, cuit_cuil, categoria, fecha, limite});
+        this.tModel.addRow(new Object[]{nombre, cuit_cuil, categoria, limite, fecha});
     }
-    
-    
-    
+
+    public void desplegar() {
+        limpiar();
+        tModel = (DefaultTableModel) tabla.getModel();
+        SqlCliente sqlCli = new SqlCliente();
+
+        renglones = sqlCli.clientes();
+        if (renglones != null) {
+            renglones.forEach((renglon) -> {
+                agregarRenglones(renglon);
+            });
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay clientes cargados");
+        }
+    }
+
+    public void limpiar() {
+
+        this.renglones = new ArrayList<Renglon>();
+        tabla.removeAll();
+        for (int i = 0; i < renglones.size(); i++) {
+            tModel.removeRow(i);
+        }
+        this.renglones.clear();
+        this.tabla.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "nombre", "cuit_cuil", "categoria", "limite", "fecha" 
+                }
+        ));
+        this.tModel = (DefaultTableModel) tabla.getModel();
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

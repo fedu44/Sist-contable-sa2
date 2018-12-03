@@ -20,11 +20,13 @@ public class ModificarCliente extends javax.swing.JFrame {
     private static Home home;
     private final Cliente cliente;
     private int id;
-
-    public ModificarCliente(Home home, String cuit_cuil) {
+    private static VerCliente verCliente;
+    
+    public ModificarCliente(Home home, String cuit_cuil, VerCliente verCliente) {
         initComponents();
         
         ModificarCliente.home = home;
+        ModificarCliente.verCliente = verCliente;
         SqlCategoriaIva catIva = new SqlCategoriaIva();
         SqlSituacionCrediticia sitCred = new SqlSituacionCrediticia();
         SqlCliente sqlCli = new SqlCliente();
@@ -451,6 +453,10 @@ public class ModificarCliente extends javax.swing.JFrame {
         
         
         if( (x != -1) & (y != -1) & sqlCliente.actualizarCliente(id, cliente) ){
+            verCliente.limpiar();
+            verCliente.desplegar();
+            Home.frmModCli = null;
+            this.dispose();
             JOptionPane.showMessageDialog(null, "Cliente actualizado con éxito");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -518,7 +524,7 @@ public class ModificarCliente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModificarCliente(home, "").setVisible(true);
+                new ModificarCliente(home, "", verCliente).setVisible(true);
             }
         });
     }
