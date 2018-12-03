@@ -8,11 +8,24 @@ public class Renglon {
     private String fecha;
     private double saldo_parcial;
     private String descripcion;
+    private String nombre;
+    private String cuit_cuil;
+    private String categoria;
+    private String fecha_alta;
+    private String limite_credito;
 
     public Renglon(String cuenta, double debe, double haber) {
         this.cuenta = cuenta;
         this.debe = debe;
         this.haber = haber;
+    }
+
+    public Renglon(String nombre, String cuit_cuil, String categoria, String fecha_alta, String limite_credito) {
+        this.nombre = nombre;
+        this.cuit_cuil = cuit_cuil;
+        this.categoria = categoria;
+        this.fecha_alta = fecha_alta;
+        this.limite_credito = limite_credito;
     }
 
     public Renglon(String fecha, String cuenta, double debe, double haber, double saldo_parcial) {
@@ -97,6 +110,46 @@ public class Renglon {
 
     public String getCuenta() {
         return cuenta;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCuit_cuil() {
+        return cuit_cuil;
+    }
+
+    public void setCuit_cuil(String cuit_cuil) {
+        this.cuit_cuil = cuit_cuil;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getFecha_alta() {
+        return fecha_alta;
+    }
+
+    public void setFecha_alta(String fecha_alta) {
+        this.fecha_alta = fecha_alta;
+    }
+
+    public String getLimite_credito() {
+        return limite_credito;
+    }
+
+    public void setLimite_credito(String limite_credito) {
+        this.limite_credito = limite_credito;
     }
 
     private String relleno(int n) {

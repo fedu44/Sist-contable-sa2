@@ -2,6 +2,7 @@ package Modelo;
 
 public class Cliente {
 
+    private int id;
     private String nombre_nombreFiscal;
     private String cuit_cuil;
     private String calle;
@@ -18,11 +19,13 @@ public class Cliente {
     private int categoriaIva;
     private int telefono;
     private String nota;
+    private String contacto;
 
     public Cliente() {
     }
 
-    public Cliente(String nombre_nombreFiscal, String cuit_cuil, String calle, int numeroCasa, String piso, String depto, int situacionCrediticia, boolean bloqueado, int tipoCliente, String periodoValidez, double limiteCredito, String ultimaOperacion, String fechaAlta, int categoriaIva, int telefono, String nota) {
+    public Cliente(int id, String nombre_nombreFiscal, String cuit_cuil, String calle, int numeroCasa, String piso, String depto, int situacionCrediticia, boolean bloqueado, int tipoCliente, String periodoValidez, double limiteCredito, String ultimaOperacion, String fechaAlta, int categoriaIva, int telefono, String nota, String contacto) {
+        this.id = id;
         this.nombre_nombreFiscal = nombre_nombreFiscal;
         this.cuit_cuil = cuit_cuil;
         this.calle = calle;
@@ -39,9 +42,16 @@ public class Cliente {
         this.categoriaIva = categoriaIva;
         this.telefono = telefono;
         this.nota = nota;
+        this.contacto = contacto;
     }
 
-    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNombre_nombreFiscal() {
         return nombre_nombreFiscal;
@@ -169,6 +179,14 @@ public class Cliente {
 
     public void setNota(String nota) {
         this.nota = nota;
+    }
+
+    public String getContacto() {
+        return contacto;
+    }
+
+    public void setContacto(String contacto) {
+        this.contacto = contacto;
     }
 
 }

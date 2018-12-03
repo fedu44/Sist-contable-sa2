@@ -30,6 +30,7 @@ public class Home extends javax.swing.JFrame {
     public static StockManual frmStoMan;
     public static StockAutomatico frmStoAut;
     public static VentaContado frmVenCon;
+    public static VerCliente frmVerCli;
     
     
     
@@ -625,18 +626,20 @@ public class Home extends javax.swing.JFrame {
 
     private void subAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAgregarClienteActionPerformed
         
-        if (frmModCli == null) {
-            frmModCli = new ModificarCliente(this);
-            frmModCli.setVisible(true);
+        if (frmAgrCli == null) {
+            frmAgrCli = new AgregarCliente(this);
+            frmAgrCli.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frmAgrCli.setVisible(true);
         }
         
     }//GEN-LAST:event_subAgregarClienteActionPerformed
 
     private void subVerClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subVerClienteActionPerformed
         
-        if (frmAgrCli == null) {
-            frmAgrCli = new AgregarCliente(this);
-            frmAgrCli.setVisible(true);
+        if (frmVerCli == null) {
+            frmVerCli = new VerCliente(this);
+            frmVerCli.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frmVerCli.setVisible(true);
         }
         
     }//GEN-LAST:event_subVerClienteActionPerformed
@@ -645,6 +648,7 @@ public class Home extends javax.swing.JFrame {
         
         if (frmStoMan == null) {
             frmStoMan = new StockManual(this);
+            frmStoMan.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frmStoMan.setVisible(true);
         }
         
@@ -654,6 +658,7 @@ public class Home extends javax.swing.JFrame {
        
         if (frmStoAut == null) {
             frmStoAut = new StockAutomatico(this);
+            frmStoAut.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frmStoAut.setVisible(true);
         }
         
