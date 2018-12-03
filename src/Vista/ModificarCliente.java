@@ -463,6 +463,9 @@ public class ModificarCliente extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
 
+        Home.frmModCli = null;
+        this.dispose();
+        
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void comboCatIvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCatIvaActionPerformed

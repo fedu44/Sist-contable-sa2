@@ -80,6 +80,11 @@ public class VerCliente extends javax.swing.JFrame {
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -150,6 +155,13 @@ public class VerCliente extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        
+        Home.frmVerCli = null;
+        this.dispose();
+        
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void agregarRenglones(Renglon renglon) {
         String nombre = renglon.getNombre();
