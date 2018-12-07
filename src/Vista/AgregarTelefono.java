@@ -1,12 +1,15 @@
 package Vista;
 
 import Modelo.SqlTelefono;
+import Modelo.Telefono;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class AgregarTelefono extends javax.swing.JFrame {
 
     private static ModificarCliente modCli;
     private static int id;
+    private final ArrayList<Telefono> telefonos = new ArrayList<>();
 
     public AgregarTelefono(ModificarCliente modCli, int id) {
         initComponents();
@@ -104,14 +107,10 @@ public class AgregarTelefono extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
 
-        SqlTelefono sqlTel = new SqlTelefono();
-        if (sqlTel.agregarTelefono(txtNum.getText(), id)) {
-            JOptionPane.showMessageDialog(null, "Teléfono agregado con éxito");
-            modCli.agregarTelefonos();
-            txtNum.setText("");
-        } else {
-            JOptionPane.showMessageDialog(null, "Error al agregar teléfono");
-        }
+        Telefono tel = new Telefono(txtNum.getText(), id);
+        telefonos.add(tel);
+        JOptionPane.showMessageDialog(null, "Teléfono agregado");
+        txtNum.setText("");
 
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -129,6 +128,8 @@ public class AgregarTelefono extends javax.swing.JFrame {
 
     public void cerrar() {
         ModificarCliente.frmAgrTel = null;
+        modCli.setTelefonosNuevos(telefonos);
+        modCli.agregarNuevosTelefonos();
         this.dispose();
     }
 

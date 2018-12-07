@@ -77,8 +77,23 @@ public class SqlTelefono extends Conexion {
             Logger.getLogger(SqlTelefono.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+    
+    public boolean borrarTelefono(String numero){
+        PreparedStatement ps = null;
+        Connection con = getConexion();
         
+        String sql = "DELETE FROM telefono WHERE numero = ?";
         
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, numero);
+            ps.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlTelefono.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
 }

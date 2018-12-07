@@ -138,7 +138,7 @@ public class SqlCliente extends Conexion {
         PreparedStatement ps = null;
         Connection con = getConexion();
 
-        String sql = "UPDATE cliente SET nombre = ?, nombre_fiscal = ?, cuit_cuil = ?, calle = ?, numero_casa = ?, piso = ?, depto = ?, situacion_crediticia = ?, bloqueado = ?, categoria_iva = ?, nota = ?, contacto = ?  WHERE idcliente = ? ";
+        String sql = "UPDATE cliente SET nombre = ?, nombre_fiscal = ?, cuit_cuil = ?, calle = ?, numero_casa = ?, piso = ?, depto = ?, situacion_crediticia = ?, bloqueado = ?, categoria_iva = ?, nota = ?, contacto = ?, limite_credito = ?  WHERE idcliente = ? ";
 
         try {
             ps = con.prepareStatement(sql);
@@ -160,6 +160,7 @@ public class SqlCliente extends Conexion {
             ps.setString(11, cliente.getNota());
             ps.setString(12, cliente.getContacto());
             ps.setInt(13, id);
+            ps.setDouble(14, cliente.getLimiteCredito());
             ps.execute();
             return true;
 

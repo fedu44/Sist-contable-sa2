@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class ModificarCliente extends javax.swing.JFrame {
-    
+
     private ArrayList<CategoriaIva> categorias = new ArrayList<>();
     private ArrayList<SituacionCrediticia> situaciones = new ArrayList<>();
     private static Home home;
@@ -21,43 +21,45 @@ public class ModificarCliente extends javax.swing.JFrame {
     private static VerCliente verCliente;
     public static AgregarTelefono frmAgrTel;
     private ArrayList<Telefono> telefonos = new ArrayList<>();
-    
+    private ArrayList<Telefono> telefonosNuevos = new ArrayList<>();
+    private ArrayList<Telefono> telefonosBorrados = new ArrayList<>();
+
     public ModificarCliente(Home home, String cuit_cuil, VerCliente verCliente) {
         initComponents();
-        
+
         ModificarCliente.home = home;
         ModificarCliente.verCliente = verCliente;
         SqlCategoriaIva catIva = new SqlCategoriaIva();
         SqlSituacionCrediticia sitCred = new SqlSituacionCrediticia();
         SqlCliente sqlCli = new SqlCliente();
-        
+
         categorias = catIva.categorias();
         categorias.forEach((categoria) -> {
             comboCatIva.addItem(categoria.getTipo());
         });
-        
+
         situaciones = sitCred.situaciones();
         situaciones.forEach((situacion) -> {
             comboSitCredit.addItem(situacion.getNombre());
         });
-        
+
         cliente = sqlCli.traerCliente(cuit_cuil);
         this.id = cliente.getId();
-        for (int x = 0 ; x < comboCatIva.getItemCount(); x++ ){
-            if(comboCatIva.getItemAt(x).equals(cliente.getCategoriaIva())){
+        for (int x = 0; x < comboCatIva.getItemCount(); x++) {
+            if (comboCatIva.getItemAt(x).equals(cliente.getCategoriaIva())) {
                 comboCatIva.setSelectedIndex(x);
                 break;
             }
         }
-        for (int x = 0 ; x < comboSitCredit.getItemCount(); x++ ){
-            if(comboSitCredit.getItemAt(x).equals(cliente.getSituacionCrediticia())){
+        for (int x = 0; x < comboSitCredit.getItemCount(); x++) {
+            if (comboSitCredit.getItemAt(x).equals(cliente.getSituacionCrediticia())) {
                 comboCatIva.setSelectedIndex(x);
                 break;
             }
         }
-        if(cliente.isBloqueado()){
+        if (cliente.isBloqueado()) {
             rdBtnSi.setSelected(true);
-        }else{
+        } else {
             rdBtnNo.setSelected(true);
         }
         txtCUI.setText(cliente.getCuit_cuil());
@@ -70,6 +72,9 @@ public class ModificarCliente extends javax.swing.JFrame {
         txtNumCasa.setText(String.valueOf(cliente.getNumeroCasa()));
         txtPiso.setText(cliente.getPiso());
         agregarTelefonos();
+        if (home.getMod().getTipoUsuario() != 1){
+            txtLimCred.setEditable(false);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -108,8 +113,8 @@ public class ModificarCliente extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         comboTel = new javax.swing.JComboBox<>();
         btnAgregar = new javax.swing.JButton();
-        btnBorrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -288,19 +293,19 @@ public class ModificarCliente extends javax.swing.JFrame {
             }
         });
 
-        btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnBorrar.setText("Borrar");
-        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBorrarActionPerformed(evt);
-            }
-        });
-
         btnModificar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnModificar.setText("Modificar");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnModificarActionPerformed(evt);
+            }
+        });
+
+        btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnBorrar.setText("Borrar");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
             }
         });
 
@@ -327,11 +332,11 @@ public class ModificarCliente extends javax.swing.JFrame {
                                 .addComponent(comboTel, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(37, 37, 37)
                                 .addComponent(btnAgregar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnModificar)))
-                        .addGap(380, 380, 380))
+                                .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(361, 361, 361))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -394,8 +399,8 @@ public class ModificarCliente extends javax.swing.JFrame {
                     .addComponent(jLabel10)
                     .addComponent(comboTel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar)
-                    .addComponent(btnBorrar)
-                    .addComponent(btnModificar))
+                    .addComponent(btnModificar)
+                    .addComponent(btnBorrar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
@@ -468,9 +473,9 @@ public class ModificarCliente extends javax.swing.JFrame {
         SqlCategoriaIva catIva = new SqlCategoriaIva();
         SqlSituacionCrediticia sitCred = new SqlSituacionCrediticia();
         SqlCliente sqlCliente = new SqlCliente();
-        int x = -1;
-        int y = -1;
-        
+        int x;
+        int y;
+
         //Carga de cliente
         cliente.setNombre_nombreFiscal(txtNombre.getText());
         cliente.setCuit_cuil(txtCUI.getText());
@@ -480,20 +485,22 @@ public class ModificarCliente extends javax.swing.JFrame {
         cliente.setDepto(txtDepto.getText());
         x = sitCred.idSitCred(comboSitCredit.getSelectedItem().toString());
         cliente.setSituacionCrediticia(x);
-        if (rdBtnSi.isSelected()){
+        if (rdBtnSi.isSelected()) {
             cliente.setBloqueado(true);
-        }else{
+        } else {
             cliente.setBloqueado(false);
         }
         y = catIva.idIva((comboCatIva.getSelectedItem().toString()));
-        if( y == -1 ){
+        if (y == -1) {
             JOptionPane.showMessageDialog(null, "Error de categoria iva");
         }
         cliente.setCategoriaIva(x);
+        cliente.setLimiteCredito(Double.parseDouble(txtLimCred.getText()));
         cliente.setNota(txtNota.getText());
-        
-        
-        if( (x != -1) & (y != -1) & sqlCliente.actualizarCliente(id, cliente) ){
+
+        if ((x != -1) & (y != -1) & sqlCliente.actualizarCliente(id, cliente)) {
+            persistirTelefonos();
+            borrarTelefonos();
             verCliente.limpiar();
             verCliente.desplegar();
             Home.frmModCli = null;
@@ -506,33 +513,29 @@ public class ModificarCliente extends javax.swing.JFrame {
 
         Home.frmModCli = null;
         this.dispose();
-        
+
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void comboCatIvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCatIvaActionPerformed
-       
+
     }//GEN-LAST:event_comboCatIvaActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+
         Home.frmModCli = null;
         this.dispose();
-        
+
     }//GEN-LAST:event_formWindowClosing
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        
+
         if (frmAgrTel == null) {
-            frmAgrTel = new AgregarTelefono(this,id);
+            frmAgrTel = new AgregarTelefono(this, id);
             frmAgrTel.setResizable(false);
             frmAgrTel.setVisible(true);
         }
-        
-    }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBorrarActionPerformed
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
@@ -542,29 +545,55 @@ public class ModificarCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboTelActionPerformed
 
-    public void limpiar(){
-        
-    txtCUI.setText("");
-    txtCalle.setText("");
-    txtCont.setText("");
-    txtDepto.setText("");
-    txtLimCred.setText("");
-    txtNombre.setText("");
-    txtNota.setText("");
-    txtNumCasa.setText("");
-    txtPiso.setText("");
-    rdBtnNo.setSelected(false);
-    rdBtnSi.setSelected(false);
-    }
-    
-    
-    public void agregarTelefonos(){
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+
+        String numero = comboTel.getSelectedItem().toString();
+        Telefono tel = new Telefono(numero, id);
+        telefonosBorrados.add(tel);
+        comboTel.removeItemAt(comboTel.getSelectedIndex());
+
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    public void agregarTelefonos() {
         SqlTelefono sqlTel = new SqlTelefono();
-        telefonos = sqlTel.telefonos(cliente.getId());
+        telefonos = sqlTel.telefonos(id);
         telefonos.forEach((telefono) -> {
             comboTel.addItem(telefono.getNumero());
         });
     }
+
+    public void agregarNuevosTelefonos() {
+        telefonosNuevos.forEach((telefono) -> {
+            comboTel.addItem(telefono.getNumero());
+        });
+    }
+
+    public void persistirTelefonos() {
+        if (telefonosNuevos != null) {
+            SqlTelefono sqlTel = new SqlTelefono();
+            telefonosNuevos.forEach((telefono) -> {
+                sqlTel.agregarTelefono(telefono.getNumero(), telefono.getPersona());
+            });
+        }
+    }
+    
+    public void borrarTelefonos(){
+        
+        if(telefonosBorrados != null){
+            SqlTelefono sqlTel = new SqlTelefono();
+            telefonosBorrados.forEach((telefono) -> {
+                sqlTel.borrarTelefono(telefono.getNumero());
+            });
+        }
+        
+    }
+
+    public void setTelefonosNuevos(ArrayList<Telefono> telefonosNuevos) {
+        this.telefonosNuevos = telefonosNuevos;
+    }
+
+    
+
     /**
      * @param args the command line arguments
      */
