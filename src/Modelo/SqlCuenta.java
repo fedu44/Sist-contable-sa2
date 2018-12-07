@@ -81,8 +81,9 @@ public class SqlCuenta extends Conexion {
 
         } catch (SQLException ex) {
             Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        return null;
+        
     }
 
     public ArrayList<Cuenta> nombreCuentasHoja() {

@@ -10,22 +10,23 @@ import java.util.logging.Logger;
 
 public class SqlTelefono extends Conexion {
 
-    public int agregarTelefono(String tel) {
+    public boolean agregarTelefono(String tel, int persona) {
 
         PreparedStatement ps = null;
         Connection con = getConexion();
         SqlTelefono sqlTel = new SqlTelefono();
 
-        String sql = "INSERT INTO telefono(numero) values(?)";
+        String sql = "INSERT INTO telefono(numero, persona) values(?,?)";
 
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, tel);
+            ps.setInt(2, persona);
             ps.execute();
-            return sqlTel.idTelefono(tel);
+            return true;
         } catch (SQLException ex) {
             Logger.getLogger(SqlTelefono.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
+            return false;
         }
 
     }
@@ -52,6 +53,32 @@ public class SqlTelefono extends Conexion {
             return -1;
         }
 
+    }
+    
+    public ArrayList<Telefono> telefonos(int id){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+        ArrayList<Telefono> telefonos = new ArrayList<>();
+
+        String sql = "SELECT numero FROM telefono WHERE persona = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                Telefono tel = new Telefono();
+                tel.setNumero(rs.getString(1));
+                telefonos.add(tel);
+            }
+            return telefonos;
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlTelefono.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+        
     }
 
 }

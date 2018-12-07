@@ -146,13 +146,16 @@ public class VerCliente extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
 
         int fila = tabla.getSelectedRow();
-        if (frmModCli == null) {
-            //FALTA PASAR EL CUIT_CUIL CORRECTO
-            frmModCli = new ModificarCliente(home, renglones.get(fila).getCuit_cuil(), this);
-            //FALTA PASAR EL CUIT_CUIL CORRECTO
-            frmModCli.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            frmModCli.setVisible(true);
+        if( fila != -1){
+            if (frmModCli == null) {
+                frmModCli = new ModificarCliente(home, renglones.get(fila).getCuit_cuil(), this);
+                frmModCli.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                frmModCli.setVisible(true);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun cliente");
         }
+        
 
     }//GEN-LAST:event_btnModificarActionPerformed
 
@@ -166,10 +169,10 @@ public class VerCliente extends javax.swing.JFrame {
     private void agregarRenglones(Renglon renglon) {
         String nombre = renglon.getNombre();
         String cuit_cuil = renglon.getCuit_cuil();
-        String categoria = renglon.getCategoria();
+        String situacion_crediticia = renglon.getSituacion_crediticia();
         String fecha = renglon.getFecha_alta();
         String limite = renglon.getLimite_credito();
-        this.tModel.addRow(new Object[]{nombre, cuit_cuil, categoria, limite, fecha});
+        this.tModel.addRow(new Object[]{nombre, cuit_cuil, situacion_crediticia, limite, fecha});
     }
 
     public void desplegar() {
@@ -198,7 +201,7 @@ public class VerCliente extends javax.swing.JFrame {
         this.tabla.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "nombre", "cuit_cuil", "categoria", "limite", "fecha" 
+                    "Nombre", "Cuit/Cuil", "Situacion crediticia", "Límite", "Fecha de alta" 
                 }
         ));
         this.tModel = (DefaultTableModel) tabla.getModel();

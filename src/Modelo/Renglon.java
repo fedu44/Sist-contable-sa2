@@ -10,7 +10,7 @@ public class Renglon {
     private String descripcion;
     private String nombre;
     private String cuit_cuil;
-    private String categoria;
+    private String situacion_crediticia;
     private String fecha_alta;
     private String limite_credito;
 
@@ -20,10 +20,10 @@ public class Renglon {
         this.haber = haber;
     }
 
-    public Renglon(String nombre, String cuit_cuil, String categoria, String limite_credito, String fecha_alta) {
+    public Renglon(String nombre, String cuit_cuil, String situacion_crediticia, String limite_credito, String fecha_alta) {
         this.nombre = nombre;
         this.cuit_cuil = cuit_cuil;
-        this.categoria = categoria;
+        this.situacion_crediticia = situacion_crediticia;
         this.fecha_alta = fecha_alta;
         this.limite_credito = limite_credito;
     }
@@ -128,12 +128,12 @@ public class Renglon {
         this.cuit_cuil = cuit_cuil;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getSituacion_crediticia() {
+        return situacion_crediticia;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setSituacion_crediticia(String situacion_crediticia) {
+        this.situacion_crediticia = situacion_crediticia;
     }
 
     public String getFecha_alta() {

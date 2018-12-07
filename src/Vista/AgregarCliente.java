@@ -14,29 +14,28 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class AgregarCliente extends javax.swing.JFrame {
-    
+
     private ArrayList<CategoriaIva> categorias = new ArrayList<>();
     private ArrayList<SituacionCrediticia> situaciones = new ArrayList<>();
     private static Home home;
 
     public AgregarCliente(Home home) {
         initComponents();
-        
-        
+
         AgregarCliente.home = home;
         SqlCategoriaIva catIva = new SqlCategoriaIva();
         SqlSituacionCrediticia sitCred = new SqlSituacionCrediticia();
-        
+
         categorias = catIva.categorias();
         categorias.forEach((categoria) -> {
             comboCatIva.addItem(categoria.getTipo());
         });
-        
+
         situaciones = sitCred.situaciones();
         situaciones.forEach((situacion) -> {
             comboSitCredit.addItem(situacion.getNombre());
         });
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -419,8 +418,7 @@ public class AgregarCliente extends javax.swing.JFrame {
         SqlTelefono sqlTel = new SqlTelefono();
         int x = -1;
         int y = -1;
-        int tel = -1;
-
+        
         //Carga de cliente
         cliente.setNombre_nombreFiscal(txtNombre.getText());
         cliente.setCuit_cuil(txtCUI.getText());
@@ -430,20 +428,20 @@ public class AgregarCliente extends javax.swing.JFrame {
         cliente.setDepto(txtDepto.getText());
         x = sitCred.idSitCred(comboSitCredit.getSelectedItem().toString());
         cliente.setSituacionCrediticia(x);
-        if (rdBtnSi.isSelected()){
+        if (rdBtnSi.isSelected()) {
             cliente.setBloqueado(true);
-        }else{
+        } else {
             cliente.setBloqueado(false);
         }
         //Hay que decidir que significa tipo_cliente
         cliente.setTipoCliente(0);
         //Hay que decidir que significa tipo_cliente
-        if (cliente.getCuit_cuil().substring(0, 2).equals("30")){
+        if (cliente.getCuit_cuil().substring(0, 2).equals("30")) {
             //cliente.setPeriodoValidez(fechaHora + 360 dias );
             cliente.setPeriodoValidez(fechaHora.format(date));
             //cliente.setPeriodoValidez(fechaHora + 360 dias);
 
-        }else{
+        } else {
             //cliente.setPeriodoValidez(fechaHora + 180 dias);
             cliente.setPeriodoValidez(fechaHora.format(date));
             //cliente.setPeriodoValidez(fechaHora + 180 dias);
@@ -455,22 +453,28 @@ public class AgregarCliente extends javax.swing.JFrame {
         //Hay que dejarla en null
         cliente.setFechaAlta(fechaHora.format(date));
         y = catIva.idIva((comboCatIva.getSelectedItem().toString()));
-        if( y == -1 ){
+        if (y == -1) {
             JOptionPane.showMessageDialog(null, "Error de categoria iva");
         }
         cliente.setCategoriaIva(x);
-        tel = sqlTel.agregarTelefono(txtTel.getText());
-        cliente.setTelefono(tel);
         cliente.setContacto(txtCont.getText());
         cliente.setNota(txtNota.getText());
-        if( (x != -1) & (y != -1) ){
-            if(sqlCliente.agregarCliente(cliente)){
-                this.limpiar();
-                JOptionPane.showMessageDialog(null, "Cliente cargado con éxito");
-            }else{
+        if ((x != -1) & (y != -1)) {
+            if (sqlCliente.agregarCliente(cliente)) {
+                cliente = sqlCliente.traerCliente(cliente.getCuit_cuil());
+                if (sqlTel.agregarTelefono(txtTel.getText(), cliente.getId())) {
+                    this.limpiar();
+                    JOptionPane.showMessageDialog(null, "Cliente cargado con éxito");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al cargar teléfono");
+                }
+            } else {
                 JOptionPane.showMessageDialog(null, "Error al agregar cliente a la base de datos");
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al agregar cliente a la base de datos");
         }
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -482,28 +486,28 @@ public class AgregarCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_comboCatIvaActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+
         Home.frmAgrCli = null;
         this.dispose();
-        
+
     }//GEN-LAST:event_formWindowClosing
 
-    public void limpiar(){
-        
-    txtCUI.setText("");
-    txtCalle.setText("");
-    txtCont.setText("");
-    txtDepto.setText("");
-    txtLimCred.setText("");
-    txtNombre.setText("");
-    txtNota.setText("");
-    txtNumCasa.setText("");
-    txtPiso.setText("");
-    txtTel.setText("");
-    rdBtnNo.setSelected(false);
-    rdBtnSi.setSelected(false);
+    public void limpiar() {
+
+        txtCUI.setText("");
+        txtCalle.setText("");
+        txtCont.setText("");
+        txtDepto.setText("");
+        txtLimCred.setText("");
+        txtNombre.setText("");
+        txtNota.setText("");
+        txtNumCasa.setText("");
+        txtPiso.setText("");
+        txtTel.setText("");
+        rdBtnNo.setSelected(false);
+        rdBtnSi.setSelected(false);
     }
-    
+
     /**
      * @param args the command line arguments
      */

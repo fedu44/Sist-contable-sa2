@@ -17,7 +17,6 @@ public class Cliente {
     private String ultimaOperacion;
     private String fechaAlta;
     private int categoriaIva;
-    private int telefono;
     private String nota;
     private String contacto;
 
@@ -40,7 +39,6 @@ public class Cliente {
         this.ultimaOperacion = ultimaOperacion;
         this.fechaAlta = fechaAlta;
         this.categoriaIva = categoriaIva;
-        this.telefono = telefono;
         this.nota = nota;
         this.contacto = contacto;
     }
@@ -163,14 +161,6 @@ public class Cliente {
 
     public void setCategoriaIva(int categoriaIva) {
         this.categoriaIva = categoriaIva;
-    }
-
-    public int getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(int telefono) {
-        this.telefono = telefono;
     }
 
     public String getNota() {

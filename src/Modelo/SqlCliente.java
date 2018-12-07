@@ -14,7 +14,7 @@ public class SqlCliente extends Conexion {
         PreparedStatement ps = null;
         Connection con = getConexion();
 
-        String sql = "INSERT INTO cliente(nombre, nombre_fiscal, cuit_cuil, calle, numero_casa, piso, depto, situacion_crediticia, bloqueado, tipo_cliente, periodo_validez, limite_credito, ultima_operacion, fecha_alta, categoria_iva, telefono, nota, contacto) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO cliente(nombre, nombre_fiscal, cuit_cuil, calle, numero_casa, piso, depto, situacion_crediticia, bloqueado, tipo_cliente, periodo_validez, limite_credito, ultima_operacion, fecha_alta, categoria_iva, nota, contacto) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try {
             ps = con.prepareStatement(sql);
@@ -31,9 +31,8 @@ public class SqlCliente extends Conexion {
             ps.setString(13, cliente.getUltimaOperacion());
             ps.setString(14, cliente.getFechaAlta());
             ps.setInt(15, cliente.getCategoriaIva());
-            ps.setInt(16, cliente.getTelefono());
-            ps.setString(17, cliente.getNota());
-            ps.setString(18, cliente.getContacto());
+            ps.setString(16, cliente.getNota());
+            ps.setString(17, cliente.getContacto());
             if (cliente.getCuit_cuil().substring(0, 2).equals("30")) {
                 ps.setString(2, cliente.getNombre_nombreFiscal());
                 ps.setString(1, null);
@@ -98,7 +97,7 @@ public class SqlCliente extends Conexion {
         Connection con = getConexion();
         Cliente cliente = new Cliente();
 
-        String sql = "SELECT nombre, nombre_fiscal, cuit_cuil, calle, numero_casa, piso, depto, situacion_crediticia, bloqueado, tipo_cliente, periodo_validez, limite_credito, categoria_iva, telefono, nota, contacto, idcliente FROM cliente WHERE cuit_cuil = ?";
+        String sql = "SELECT nombre, nombre_fiscal, cuit_cuil, calle, numero_casa, piso, depto, situacion_crediticia, bloqueado, tipo_cliente, periodo_validez, limite_credito, categoria_iva, nota, contacto, idcliente FROM cliente WHERE cuit_cuil = ?";
 
         try {
             ps = con.prepareStatement(sql);
@@ -117,10 +116,9 @@ public class SqlCliente extends Conexion {
                 cliente.setPeriodoValidez(rs.getString(11));
                 cliente.setLimiteCredito(rs.getDouble(12));
                 cliente.setCategoriaIva(rs.getInt(13));
-                cliente.setTelefono(rs.getInt(14));
-                cliente.setNota(rs.getString(15));
-                cliente.setContacto(rs.getString(16));
-                cliente.setId(rs.getInt(17));
+                cliente.setNota(rs.getString(14));
+                cliente.setContacto(rs.getString(15));
+                cliente.setId(rs.getInt(16));
                 if (cliente.getCuit_cuil().substring(0, 2).equals("30")) {
                     cliente.setNombre_nombreFiscal(rs.getString(2));
                 } else {
@@ -170,5 +168,4 @@ public class SqlCliente extends Conexion {
             return false;
         }
     }
-
 }

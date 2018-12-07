@@ -7,10 +7,8 @@ import Modelo.SqlCategoriaIva;
 import Modelo.SqlCliente;
 import Modelo.SqlSituacionCrediticia;
 import Modelo.SqlTelefono;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import Modelo.Telefono;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class ModificarCliente extends javax.swing.JFrame {
@@ -21,6 +19,8 @@ public class ModificarCliente extends javax.swing.JFrame {
     private final Cliente cliente;
     private int id;
     private static VerCliente verCliente;
+    public static AgregarTelefono frmAgrTel;
+    private ArrayList<Telefono> telefonos = new ArrayList<>();
     
     public ModificarCliente(Home home, String cuit_cuil, VerCliente verCliente) {
         initComponents();
@@ -30,8 +30,6 @@ public class ModificarCliente extends javax.swing.JFrame {
         SqlCategoriaIva catIva = new SqlCategoriaIva();
         SqlSituacionCrediticia sitCred = new SqlSituacionCrediticia();
         SqlCliente sqlCli = new SqlCliente();
-        
-        
         
         categorias = catIva.categorias();
         categorias.forEach((categoria) -> {
@@ -71,6 +69,7 @@ public class ModificarCliente extends javax.swing.JFrame {
         txtNota.setText(cliente.getNota());
         txtNumCasa.setText(String.valueOf(cliente.getNumeroCasa()));
         txtPiso.setText(cliente.getPiso());
+        agregarTelefonos();
     }
 
     @SuppressWarnings("unchecked")
@@ -108,6 +107,9 @@ public class ModificarCliente extends javax.swing.JFrame {
         comboCatIva = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         comboTel = new javax.swing.JComboBox<>();
+        btnAgregar = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -272,6 +274,35 @@ public class ModificarCliente extends javax.swing.JFrame {
         jLabel14.setText("                    Categoria de iva:");
 
         comboTel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboTel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboTelActionPerformed(evt);
+            }
+        });
+
+        btnAgregar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
+        btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnBorrar.setText("Borrar");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
+
+        btnModificar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -292,8 +323,15 @@ public class ModificarCliente extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCUI, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboTel, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(674, 674, 674))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(comboTel, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37)
+                                .addComponent(btnAgregar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnModificar)))
+                        .addGap(380, 380, 380))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -354,7 +392,10 @@ public class ModificarCliente extends javax.swing.JFrame {
                 .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(comboTel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboTel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregar)
+                    .addComponent(btnBorrar)
+                    .addComponent(btnModificar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
@@ -479,6 +520,28 @@ public class ModificarCliente extends javax.swing.JFrame {
         
     }//GEN-LAST:event_formWindowClosing
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        
+        if (frmAgrTel == null) {
+            frmAgrTel = new AgregarTelefono(this,id);
+            frmAgrTel.setResizable(false);
+            frmAgrTel.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void comboTelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboTelActionPerformed
+
     public void limpiar(){
         
     txtCUI.setText("");
@@ -494,6 +557,14 @@ public class ModificarCliente extends javax.swing.JFrame {
     rdBtnSi.setSelected(false);
     }
     
+    
+    public void agregarTelefonos(){
+        SqlTelefono sqlTel = new SqlTelefono();
+        telefonos = sqlTel.telefonos(cliente.getId());
+        telefonos.forEach((telefono) -> {
+            comboTel.addItem(telefono.getNumero());
+        });
+    }
     /**
      * @param args the command line arguments
      */
@@ -533,8 +604,11 @@ public class ModificarCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JComboBox<String> comboCatIva;
     private javax.swing.JComboBox<String> comboSitCredit;
     private javax.swing.JComboBox<String> comboTel;
