@@ -66,20 +66,21 @@ public class SqlCliente extends Conexion {
                 if (rs.getString(2) == null) {
                     Renglon renglon = new Renglon(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
                     renglones.add(renglon);
-                    while (rs.next()) {
-                        Renglon renglon2 = new Renglon(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
-                        renglones.add(renglon2);
-                    }
-                    return renglones;
                 } else {
                     Renglon renglon = new Renglon(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
                     renglones.add(renglon);
-                    while (rs.next()) {
-                        Renglon renglon2 = new Renglon(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
-                        renglones.add(renglon2);
-                    }
-                    return renglones;
                 }
+                while (rs.next()) {
+                    if (rs.getString(2) == null) {
+                        Renglon renglon = new Renglon(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+                        renglones.add(renglon);
+                    } else {
+                        Renglon renglon = new Renglon(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+                        renglones.add(renglon);
+                    }
+                }
+                return renglones;
+
             } else {
                 return null;
             }
@@ -159,8 +160,8 @@ public class SqlCliente extends Conexion {
             ps.setInt(10, cliente.getCategoriaIva());
             ps.setString(11, cliente.getNota());
             ps.setString(12, cliente.getContacto());
-            ps.setInt(13, id);
-            ps.setDouble(14, cliente.getLimiteCredito());
+            ps.setDouble(13, cliente.getLimiteCredito());
+            ps.setInt(14, id);
             ps.execute();
             return true;
 

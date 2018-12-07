@@ -24,7 +24,7 @@ public class Renglon {
         this.nombre = nombre;
         this.cuit_cuil = cuit_cuil;
         this.situacion_crediticia = situacion_crediticia;
-        this.fecha_alta = fecha_alta;
+        this.fecha_alta = fecha_alta.substring(0,19);
         this.limite_credito = limite_credito;
     }
 
