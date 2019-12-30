@@ -33,7 +33,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         //setSize(1400, 800);
         RegistrarAsiento.mod = usr;
         RegistrarAsiento.home = home;
-        // la sentencia de abajo hay que probarlo solo con loguin
+        //La sentencia de abajo hay que probarlo solo con loguin
         txtUsuario.setText(usr.getNombre());
         SqlAsientos asiSql = new SqlAsientos();
         tModel = (DefaultTableModel) tablaAsiento.getModel();
@@ -44,7 +44,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         txtFecha.setText(fecha);
         txtNumAsiento.setText(String.valueOf((asiSql.ultimoNumAsiento()) + 1));
         if (txtNumAsiento.getText().equals("-1")) {
-            JOptionPane.showMessageDialog(null, "Intente nuevamente");
+            JOptionPane.showMessageDialog(null, "Intente nuevamente, operacion no ejecutada");
             cerrar();
         }
         SqlCuenta sqlCuenta = new SqlCuenta();
@@ -295,11 +295,12 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                     .addComponent(radBtnHaber)
                     .addComponent(jLabel6))
                 .addGap(33, 33, 33)
-                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregar)
-                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelRegLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAgregar)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -357,7 +358,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(353, 353, 353)
                         .addComponent(panelReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(353, Short.MAX_VALUE))
+                .addContainerGap(290, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,7 +380,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
 
-        actualizarRegistrarAsiento();
+        limpiarDatos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void txtMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMontoActionPerformed
@@ -387,18 +388,19 @@ public class RegistrarAsiento extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMontoActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-
         String descripcion = txtDesc.getText();
         String cuenta = comboCuenta.getSelectedItem().toString();
         double debe = 0;
         double haber = 0;
-
-        if (descripcion.equals("") || cuenta.equals("") || (radBtnDebe.isSelected() == false && radBtnHaber.isSelected() == false)) {
-
+        //Verifica que los campos tengan datos
+        if (
+                descripcion.equals("") ||
+                cuenta.equals("") || 
+                (radBtnDebe.isSelected() == false && radBtnHaber.isSelected() == false)) {
             JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
             return;
         }
-
+        //Verifica que el monto sea número
         try {
             if (radBtnDebe.isSelected()) {
                 debe = Double.parseDouble(txtMonto.getText());
@@ -409,11 +411,9 @@ public class RegistrarAsiento extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Monto equivocado");
             return;
         }
-
+        //Si debe o haber es positivo, agrega el row a la tabla y limpia campos
         if (debe < 0 || haber < 0) {
-
             JOptionPane.showMessageDialog(null, "Monto negativo");
-
         } else {
             Renglon newRenglon = new Renglon(cuenta, debe, haber);
             this.renglones.add(newRenglon);
@@ -421,10 +421,8 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 cuenta = "                                         " + cuenta;
             }
             this.tModel.addRow(new Object[]{cuenta, debe, haber});
-
             limpiar();
         }
-
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void comboCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCuentaActionPerformed
@@ -460,14 +458,15 @@ public class RegistrarAsiento extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formWindowClosing
 
-    private boolean checkAsiento() {
-        //valida que el asiento este balanceado
+    private boolean verificarBalanceoDebeHaber() {
+        //Valida que el asiento este balanceado
         double sumHab = 0;
         double sumDeb = 0;
-        for (Renglon rg : this.renglones) {
-            sumDeb += rg.getDebe();
-            sumHab += rg.getHaber();
+        for (Renglon renglon : this.renglones) {
+            sumDeb += renglon.getDebe();
+            sumHab += renglon.getHaber();
         }
+        //Permite que un usuario admin haga asientos con suma 0 para inicializar cuntas.
         return ((sumDeb == sumHab) && ((sumDeb != 0) || mod.getTipoUsuario() == 1 ));
     }
 
@@ -494,17 +493,17 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         Asiento_cuenta ac = new Asiento_cuenta();
         SqlAsientos sqlAsiento = new SqlAsientos();
         Asiento asientoCorregirError = new Asiento();
-
+        //Se borran los asientos cuenta erroeos
         for (Integer i : this.asientos_cuenta) {
             ac.setCodigo(i);
             SqlAc.eliminar(ac);
         }
+        //Se borran el asiento erroeo
         asientoCorregirError.setIdasiento(this.asiento);
         sqlAsiento.eliminar(asientoCorregirError);
     }
 
     public boolean cuentaRepetida() {
-
         for (int i = 0; i < renglones.size(); i++) {
             for (int n = i + 1; n < renglones.size(); n++) {
                 if (renglones.get(i).getCuenta().equals(renglones.get(n).getCuenta())) {
@@ -515,8 +514,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         return false;
     }
 
-    public void actualizarRegistrarAsiento() {
-
+    public void limpiarDatos() {
         SqlAsientos asiSql = new SqlAsientos();
         tModel = (DefaultTableModel) tablaAsiento.getModel();
         java.util.Date date = new java.util.Date();
@@ -525,7 +523,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         txtFecha.setText(fecha);
         txtNumAsiento.setText(String.valueOf((asiSql.ultimoNumAsiento()) + 1));
         if (txtUsuario.getText().equals("-1")) {
-            JOptionPane.showMessageDialog(null, "Intente nuevamente");
+            JOptionPane.showMessageDialog(null, "Intente nuevamente, operacion no ejecutada");
             cerrar();
         }
         renglones.removeAll(renglones);
@@ -545,9 +543,9 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         this.cuentas.removeAll(cuentas);
     }
     
+    //Para el asiento contable directamente
     public void desplegarVista(){
-        
-        if (checkAsiento()) {
+        if (verificarBalanceoDebeHaber()) {
             if (cuentaRepetida()) {
                 JOptionPane.showMessageDialog(null, "Hay cuentas repetidas");
             } else {
@@ -627,26 +625,23 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 }
 
                 if (ac.getCuenta() == -1 || ac.getCodigo() == -1 || nuevoSaldo_parcial < 0) {
-
                     JOptionPane.showMessageDialog(null, "Asiento no guardado");
                     corregirError();
-
                 } else {
-                    actualizarRegistrarAsiento();
+                    limpiarDatos();
                     JOptionPane.showMessageDialog(null, "Asiento guardado");
                     //home.agregarAsiento();
                 }
             }
         } else {
             JOptionPane.showMessageDialog(null, "Error cuenta no balanceada");
-
         }
     }
 
-        
+        //Para la venta
         public void desplegarPorAtras(String descripcion){
         
-        if (checkAsiento()) {
+        if (verificarBalanceoDebeHaber()) {
             if (cuentaRepetida()) {
                 JOptionPane.showMessageDialog(null, "Hay cuentas repetidas");
             } else {
@@ -656,10 +651,9 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 SqlAsientos sqlAsiento = new SqlAsientos();
                 Asiento asientoRegistrar = new Asiento();
                 SqlAsientos asiSql = new SqlAsientos();
-                int numeroAsiento;
-                numeroAsiento = ((asiSql.ultimoNumAsiento()) + 1);
+                int numeroAsiento = ((asiSql.ultimoNumAsiento()) + 1);
                 if (numeroAsiento == -1) {
-                    JOptionPane.showMessageDialog(null, "Intente nuevamente");
+                    JOptionPane.showMessageDialog(null, "Intente nuevamente, error del numero de asiento");
                     cerrar();
                 }
                 asientoRegistrar.setNumAsiento(numeroAsiento);
@@ -675,7 +669,6 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 Cuenta ctaI = new Cuenta();
                 double nuevoSaldo_parcial = -1;
                 for (int i = 0; i < renglones.size(); i++) {
-                    double saldo_parcial = -1;
                     ac.setDebe((int) renglones.get(i).getDebe());
                     ac.setHaber((int) renglones.get(i).getHaber());
                     ctaN.setNombre(renglones.get(i).getCuenta());
@@ -694,7 +687,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                     }
                     ac.setCodigo(codigo + 1);
                     ctaI.setIdcuenta(SqlCta.idCuenta(ctaN));
-                    saldo_parcial = SqlAc.saldoParcial(ctaI);
+                    double saldo_parcial = SqlAc.saldoParcial(ctaI);
                     if (saldo_parcial == -1) {
                         JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
                         nuevoSaldo_parcial = -1;
@@ -725,11 +718,9 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Error de saldo de cuenta");
                         break;
                     }
-
                     ac.setSaldo_parcial(nuevoSaldo_parcial);
                     SqlAc.registrar(ac);
                     this.asientos_cuenta.add(ac.getCodigo());
-
                 }
 
                 if (ac.getCuenta() == -1 || ac.getCodigo() == -1 || nuevoSaldo_parcial < 0) {
@@ -738,7 +729,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                     corregirError();
 
                 } else {
-                    actualizarRegistrarAsiento();
+                    limpiarDatos();
                     JOptionPane.showMessageDialog(null, "Asiento guardado");
                     //home.agregarAsiento();
                 }
@@ -749,10 +740,10 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         }
         
     }
-        
+        //Para inicializar cuenta
          public void desplegarCuentaInicializada(String descripcion){
         
-        if (checkAsiento()) {
+        if (verificarBalanceoDebeHaber()) {
             if (cuentaRepetida()) {
                 JOptionPane.showMessageDialog(null, "Hay cuentas repetidas");
             } else {

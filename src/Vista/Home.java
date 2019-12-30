@@ -628,7 +628,7 @@ public class Home extends javax.swing.JFrame {
         
         if (frmAgrCli == null) {
             frmAgrCli = new AgregarCliente(this);
-            frmAgrCli.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frmAgrCli.setExtendedState(JFrame.MAXIMIZED_VERT);
             frmAgrCli.setVisible(true);
         }
         

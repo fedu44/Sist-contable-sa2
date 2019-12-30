@@ -46,7 +46,6 @@ public class SqlAsiento_cuenta extends Conexion {
             ps.setInt(2, cta.getIdcuenta());
             rs = ps.executeQuery();
             if (rs.next()) {
-
                 return rs.getInt(1);
             } else {
                 return -1;

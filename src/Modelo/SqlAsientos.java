@@ -15,13 +15,12 @@ public class SqlAsientos extends Conexion {
         ResultSet rs = null;
         Connection con = getConexion();
 
-        String sql = "SELECT max(numAsiento)  FROM asiento";
+        String sql = "SELECT max(numAsiento) FROM asiento";
 
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             if (rs.next()) {
-
                 return rs.getInt(1);
             } else {
                 return 0;
@@ -37,7 +36,7 @@ public class SqlAsientos extends Conexion {
         ResultSet rs = null;
         Connection con = getConexion();
 
-        String sql = "SELECT idasiento  FROM asiento WHERE fecha >= all(SELECT fecha  FROM asiento)";
+        String sql = "SELECT idasiento FROM asiento WHERE fecha >= all(SELECT fecha  FROM asiento)";
 
         try {
             ps = con.prepareStatement(sql);

@@ -13,6 +13,8 @@ public class Renglon {
     private String situacion_crediticia;
     private String fecha_alta;
     private String limite_credito;
+    private int total;
+    private int disponibles;
 
     public Renglon(String cuenta, double debe, double haber) {
         this.cuenta = cuenta;
@@ -51,6 +53,14 @@ public class Renglon {
         this.fecha = fecha;
         this.saldo_parcial = saldo_parcial;
         this.descripcion = descripcion;
+    }
+    
+    public Renglon(String nombre, int disponibles, String descripcion, int total) {
+        this.nombre = nombre;
+        this.disponibles = disponibles;
+        this.descripcion = descripcion;
+        this.total = total;
+        
     }
 
     public String getDescripcion() {
@@ -152,6 +162,22 @@ public class Renglon {
         this.limite_credito = limite_credito;
     }
 
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getDisponibles() {
+        return disponibles;
+    }
+
+    public void setDisponibles(int disponibles) {
+        this.disponibles = disponibles;
+    }
+    
     private String relleno(int n) {
         String rel = "";
         for (int i = 0; i < n; i++) {
