@@ -43,8 +43,8 @@ public ArrayList<Articulo> traerArticulos() {
         Connection con = getConexion();
         ArrayList<Renglon> renglones = new ArrayList<>();
         
-        String sql = "SELECT nombre, descripcion, count(*) FROM articulo where estado = 'disponible' GROUP BY descripcion";
-        String sql2 = "SELECT count(*), descripcion, nombre FROM articulo where estado = 'reservado' GROUP BY descripcion";
+        String sql = "SELECT nombre, descripcion, count(*) FROM articulo GROUP BY descripcion order by descripcion";
+        String sql2 = "SELECT nombre, descripcion, count(*)  FROM articulo where estado = 'reservado' GROUP BY descripcion order by descripcion";
 
         try {
             ps = con.prepareStatement(sql);
@@ -52,33 +52,34 @@ public ArrayList<Articulo> traerArticulos() {
             ps2 = con.prepareStatement(sql2);
             rs2 = ps2.executeQuery();
             rs2.next();
+            Boolean hasResult = rs2.next();
             while(rs.next()) {
                 Renglon renglon;  
-                if(rs2.isAfterLast()){
-                    if(rs.getString(2).equals(rs2.getString(2))){
-                        renglon = new Renglon(rs.getString(1), rs.getInt(3) - rs2.getInt(1), rs.getString(2), rs.getInt(3));
+                if(rs2.isAfterLast() || !hasResult){
+                    renglon = new Renglon(rs.getString(1), rs.getInt(3), rs.getString(2), rs.getInt(3));
+                    renglones.add(renglon);
+                }else{
+                    if(rs.getString(1).equals(rs2.getString(1)) && rs.getString(2).equals(rs2.getString(2))){
+                        renglon = new Renglon(rs.getString(1), rs.getInt(3) - rs2.getInt(3), rs.getString(2), rs.getInt(3));
                         rs2.next();
                     }else{
                         renglon = new Renglon(rs.getString(1), rs.getInt(3), rs.getString(2), rs.getInt(3));
                     }
                     renglones.add(renglon);
-                }else{
-                    renglon = new Renglon(rs.getString(1), rs.getInt(3), rs.getString(2), rs.getInt(3));
-                    renglones.add(renglon);
                 }
                 
             }
             Renglon renglon;
-            if(rs2.isAfterLast()){   
-                renglon = new Renglon(rs2.getString(3), 0, rs2.getString(2), rs2.getInt(1));
+            if(!rs2.isAfterLast() && hasResult){   
+                renglon = new Renglon(rs2.getString(1), 0, rs2.getString(2), rs2.getInt(3));
                 renglones.add(renglon);
-                return renglones;
-            }else{
                 while(rs2.next()){
-                    renglon = new Renglon(rs2.getString(3), 0, rs2.getString(2), rs2.getInt(1));
+                    renglon = new Renglon(rs2.getString(1), 0, rs2.getString(2), rs2.getInt(3));
                     renglones.add(renglon);
                 }
-            return renglones;
+                return renglones;
+            }else{
+                return renglones;
             }
 
         } catch (SQLException ex) {
@@ -96,35 +97,81 @@ public ArrayList<Articulo> traerArticulos() {
         ResultSet rs2 = null;
         Connection con = getConexion();
         ArrayList<Renglon> renglones = new ArrayList<>();
+        String whereSql = "";
+        Boolean hasNom = false;        
+        Boolean hasFam = false;
+        Boolean hasMad = false;
+
+        if(!nom.equals(" ")){
+            whereSql = whereSql + " and a.nombre = ? ";
+            hasNom = true;
+        }
         
-        String sql = "SELECT a.nombre, a.descripcion, count(*) FROM articulo a INNER JOIN articulo_familia af on(a.idarticulo = af.articulo) INNER JOIN familia f on (f.idfamilia = af.familia) WHERE a.estado = 'disponible' and a.nombre = ? and a.madera = ? and f.idfamilia = ? GROUP BY a.descripcion";
-        String sql2 = "SELECT count(*), a.descripcion FROM articulo a INNER JOIN articulo_familia af on(a.idarticulo = af.articulo) INNER JOIN familia f on (f.idfamilia = af.familia) WHERE a.estado = 'reservado' and a.nombre = ? and a.madera = ? and f.idfamilia = ? GROUP BY a.descripcion";
+        if(fam != 0){
+            whereSql = whereSql + " and f.idfamilia = ? ";
+            hasFam = true;
+        }
+        
+        if(mad != 0){
+            whereSql = whereSql + " and a.madera = ? ";
+            hasMad = true;
+        }
+        
+        String sql = "SELECT a.nombre, a.descripcion, count(*) FROM articulo a INNER JOIN articulo_familia af on(a.idarticulo = af.articulo) INNER JOIN familia f on (f.idfamilia = af.familia) WHERE 1 = 1" + whereSql + "GROUP BY a.descripcion";
+        String sql2 = "SELECT a.nombre, a.descripcion, count(*) FROM articulo a INNER JOIN articulo_familia af on(a.idarticulo = af.articulo) INNER JOIN familia f on (f.idfamilia = af.familia) WHERE a.estado = 'reservado'" + whereSql + "GROUP BY a.descripcion";
 
         try {
             ps = con.prepareStatement(sql);
             ps2 = con.prepareStatement(sql2);
-
-            ps.setString(1, nom);
-            ps.setInt(2, mad);
-            ps.setInt(3, fam);
-            rs = ps.executeQuery();
             
-            ps2.setString(1, nom);
-            ps2.setInt(2, mad);
-            ps2.setInt(3, fam);
-            rs2 = ps2.executeQuery();
-            rs2.next();
-            while(rs.next()) {
-                Renglon renglon;
-                if(rs.getString(2).equals(rs2.getString(2))){
-                    renglon = new Renglon(rs.getString(1), rs.getInt(3) - rs2.getInt(1), rs.getString(2), rs.getInt(3));
-                    rs2.next();
-                }else{
-                    renglon = new Renglon(rs.getString(1), rs.getInt(3), rs.getString(2), rs.getInt(3));
-                }
-                renglones.add(renglon);
+            int paramCount = 1;
+            if(hasNom){
+                ps.setString(paramCount, nom);
+                ps2.setString(paramCount, nom);
+                paramCount++;
             }
-            return renglones;
+            if(hasFam){
+                ps.setInt(paramCount, fam);
+                ps2.setInt(paramCount, fam);
+                paramCount++;
+            }
+            if(hasMad){
+                ps.setInt(paramCount, mad);
+                ps2.setInt(paramCount, mad);
+                paramCount++;
+            }
+            
+            rs = ps.executeQuery();
+            rs2 = ps2.executeQuery();
+            Boolean hasResult = rs2.next();
+            while(rs.next()) {
+                Renglon renglon;  
+                if(rs2.isAfterLast() || !hasResult){
+                    renglon = new Renglon(rs.getString(1), rs.getInt(3), rs.getString(2), rs.getInt(3));
+                    renglones.add(renglon);
+                }else{
+                    if(rs.getString(1).equals(rs2.getString(1)) && rs.getString(2).equals(rs2.getString(2))){
+                        renglon = new Renglon(rs.getString(1), rs.getInt(3) - rs2.getInt(3), rs.getString(2), rs.getInt(3));
+                        rs2.next();
+                    }else{
+                        renglon = new Renglon(rs.getString(1), rs.getInt(3), rs.getString(2), rs.getInt(3));
+                    }
+                    renglones.add(renglon);
+                }
+                
+            }
+            Renglon renglon;
+            if(!rs2.isAfterLast() && hasResult){   
+                renglon = new Renglon(rs2.getString(1), 0, rs2.getString(2), rs2.getInt(3));
+                renglones.add(renglon);
+                while(rs2.next()){
+                    renglon = new Renglon(rs2.getString(1), 0, rs2.getString(2), rs2.getInt(3));
+                    renglones.add(renglon);
+                }
+                return renglones;
+            }else{
+                return renglones;
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
