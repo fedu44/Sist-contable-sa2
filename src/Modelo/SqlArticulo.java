@@ -34,6 +34,83 @@ public ArrayList<Articulo> traerArticulos() {
         }
     }
 
+public ArrayList<String> traerNomberDeArticulos() {
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+        ArrayList<String> nombres = new ArrayList<>();
+        
+        String sql = "SELECT DISTINCT nombre FROM articulo";
+        
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()) {
+                nombres.add(rs.getString(1));
+            }
+            return nombres;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+public ArrayList<Object> precioDeArticulo(String descripcion, int cantArticulosPorAgregar) {
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+        
+        String sql = "SELECT a.idarticulo, c.costo FROM articulo a INNER JOIN costo c on(a.costo = c.idcosto) where a.descripcion = ? and a.estado = 'disponible'";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, descripcion);
+            rs = ps.executeQuery();
+            ArrayList<Integer> ids = new ArrayList<>();
+            ArrayList<Object> res = new ArrayList<>();
+            int costo = -1;
+            while(rs.next() & cantArticulosPorAgregar != 0){
+                cantArticulosPorAgregar--;
+                ids.add(rs.getInt(1));
+                costo = rs.getInt(2);
+            }
+            res.add(ids);
+            res.add(costo);
+            return res;
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+ public void reservarArticulos(ArrayList<Integer> ids) {
+        
+        PreparedStatement ps = null;
+        Connection con = getConexion();
+        int cantElem = ids.size();
+        String where = "";
+        System.out.println(cantElem);
+        System.out.println(ids.get(0));
+        for(int x = 0; x < cantElem; x++){
+            where = where + " idarticulo = ? or";
+        }
+        where = where.substring(0, where.length() - 3);
+        String sql = "UPDATE articulo set estado = 'reservado' where" + where ;
+
+        try {
+            ps = con.prepareStatement(sql);
+            for(int x = 0; x < cantElem; x++){
+                ps.setInt(x + 1, ids.get(x));
+            }
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public ArrayList<Renglon> buscarPorArticulo() {
         
         PreparedStatement ps = null;
@@ -51,7 +128,6 @@ public ArrayList<Articulo> traerArticulos() {
             rs = ps.executeQuery();
             ps2 = con.prepareStatement(sql2);
             rs2 = ps2.executeQuery();
-            rs2.next();
             Boolean hasResult = rs2.next();
             while(rs.next()) {
                 Renglon renglon;  
@@ -117,8 +193,8 @@ public ArrayList<Articulo> traerArticulos() {
             hasMad = true;
         }
         
-        String sql = "SELECT a.nombre, a.descripcion, count(*) FROM articulo a INNER JOIN articulo_familia af on(a.idarticulo = af.articulo) INNER JOIN familia f on (f.idfamilia = af.familia) WHERE 1 = 1" + whereSql + "GROUP BY a.descripcion";
-        String sql2 = "SELECT a.nombre, a.descripcion, count(*) FROM articulo a INNER JOIN articulo_familia af on(a.idarticulo = af.articulo) INNER JOIN familia f on (f.idfamilia = af.familia) WHERE a.estado = 'reservado'" + whereSql + "GROUP BY a.descripcion";
+        String sql = "SELECT a.nombre, a.descripcion, count(*) FROM articulo a INNER JOIN articulo_familia af on(a.idarticulo = af.articulo) INNER JOIN familia f on (f.idfamilia = af.familia) WHERE 1 = 1" + whereSql + "GROUP BY a.descripcion order by descripcion";
+        String sql2 = "SELECT a.nombre, a.descripcion, count(*) FROM articulo a INNER JOIN articulo_familia af on(a.idarticulo = af.articulo) INNER JOIN familia f on (f.idfamilia = af.familia) WHERE a.estado = 'reservado'" + whereSql + "GROUP BY a.descripcion order by descripcion";
 
         try {
             ps = con.prepareStatement(sql);

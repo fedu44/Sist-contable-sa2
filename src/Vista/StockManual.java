@@ -19,7 +19,9 @@ public class StockManual extends javax.swing.JFrame {
     private ArrayList<Madera> maderas = new ArrayList<>();
     private ArrayList<String> colores = new ArrayList<>();
     private DefaultTableModel tModel;
+    private DefaultTableModel tModelTotal;
     private ArrayList<Renglon> renglones = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> elementosPorComprar = new ArrayList<>();
     
     public StockManual(Home home) {
         initComponents();
@@ -31,8 +33,9 @@ public class StockManual extends javax.swing.JFrame {
         
         
         articulos = sqlArt.traerArticulos();
-        articulos.forEach((articulo) -> {
-            comboArt.addItem(articulo.getNombre());
+        ArrayList<String> nombres = sqlArt.traerNomberDeArticulos();
+        nombres.forEach((nombre) -> {
+            comboArt.addItem(nombre);
         });
         
         familias = sqlFam.traerFamilias();
@@ -44,6 +47,7 @@ public class StockManual extends javax.swing.JFrame {
         maderas.forEach((madera) -> {
             comboMad.addItem(madera.getNombre());
         });
+        desplegar();
     }
 
     @SuppressWarnings("unchecked")
@@ -54,7 +58,7 @@ public class StockManual extends javax.swing.JFrame {
         panel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabla = new javax.swing.JTable();
+        tablaBusqueda = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -67,10 +71,14 @@ public class StockManual extends javax.swing.JFrame {
         comboArt = new javax.swing.JComboBox<>();
         btnBuscar = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
+        txtCant = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tabla1 = new javax.swing.JTable();
+        tablaTotal = new javax.swing.JTable();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        txtTotal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -81,7 +89,7 @@ public class StockManual extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.gray));
 
-        tabla.setModel(new javax.swing.table.DefaultTableModel(
+        tablaBusqueda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -89,7 +97,7 @@ public class StockManual extends javax.swing.JFrame {
                 "Nombre", "Disponibles", "Descripcion", "Total"
             }
         ));
-        jScrollPane1.setViewportView(tabla);
+        jScrollPane1.setViewportView(tablaBusqueda);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -237,6 +245,13 @@ public class StockManual extends javax.swing.JFrame {
             }
         });
 
+        txtCant.setText("0");
+        txtCant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCantActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -250,11 +265,13 @@ public class StockManual extends javax.swing.JFrame {
                         .addGap(187, 187, 187)
                         .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(78, 78, 78)
-                        .addComponent(btnAgregar))
+                        .addComponent(btnAgregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtCant, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGap(205, 205, 205)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(170, Short.MAX_VALUE))
         );
 
         panelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAgregar, btnBuscar});
@@ -269,7 +286,8 @@ public class StockManual extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregar))
+                    .addComponent(btnAgregar)
+                    .addComponent(txtCant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -280,7 +298,7 @@ public class StockManual extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(19, 19, 19)
                 .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -294,7 +312,7 @@ public class StockManual extends javax.swing.JFrame {
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.gray));
 
-        tabla1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaTotal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -310,7 +328,37 @@ public class StockManual extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(tabla1);
+        jScrollPane2.setViewportView(tablaTotal);
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setText("Total acumulado:");
+
+        txtTotal.setBackground(new java.awt.Color(255, 255, 255));
+        txtTotal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtTotal.setText("00.00");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addGap(46, 46, 46)
+                .addComponent(txtTotal)
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtTotal))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -320,12 +368,18 @@ public class StockManual extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -352,9 +406,9 @@ public class StockManual extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -407,8 +461,33 @@ public class StockManual extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
        
+        int fila = tablaBusqueda.getSelectedRow();
+        int cantArticulosPorAgregar = Integer.parseInt(txtCant.getText());
+        if( fila != -1){
+            if(renglones.get(fila).getDisponibles() < cantArticulosPorAgregar){
+                JOptionPane.showMessageDialog(null, "Se ha ingresado una cantidad de artículos mayor a los disponibles actualmente");
+            }else{
+                String descripcion = renglones.get(fila).getDescripcion();
+                SqlArticulo sqlArt = new SqlArticulo();
+                ArrayList<Object> res = sqlArt.precioDeArticulo(descripcion, cantArticulosPorAgregar);
+                int precio = (Integer) res.get(1);
+                ArrayList<Integer> articulosAgregados = (ArrayList<Integer>) res.get(0);
+                elementosPorComprar.add(articulosAgregados);
+                this.tModelTotal.addRow(new Object[]{cantArticulosPorAgregar, descripcion, precio, cantArticulosPorAgregar * precio});
+                sqlArt.reservarArticulos(articulosAgregados);
+                btnBuscar.doClick();
+                // TODO: Modificar total acumulado
+                // TODO: Agregar boton para borrar articulo
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún artículo");
+        }
         
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void txtCantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantActionPerformed
 
     private void agregarRenglones( ArrayList<Renglon> renglones) {
         for(Renglon ren : renglones){
@@ -422,25 +501,25 @@ public class StockManual extends javax.swing.JFrame {
     
     public void desplegar() {
         limpiar();
-        tModel = (DefaultTableModel) tabla.getModel();
-        SqlArticulo sqlArt = new SqlArticulo();
+        tModel = (DefaultTableModel) tablaBusqueda.getModel();        
+        tModelTotal = (DefaultTableModel) tablaTotal.getModel();
     }
     
     public void limpiar() {
 
         this.renglones = new ArrayList<Renglon>();
-        tabla.removeAll();
+        tablaBusqueda.removeAll();
         for (int i = 0; i < renglones.size(); i++) {
             tModel.removeRow(i);
         }
         this.renglones.clear();
-        this.tabla.setModel(new javax.swing.table.DefaultTableModel(
+        this.tablaBusqueda.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
                     "nombre", "disponibles", "descripcion", "total" 
                 }
         ));
-        this.tModel = (DefaultTableModel) tabla.getModel();
+        this.tModel = (DefaultTableModel) tablaBusqueda.getModel();
 
     }
     
@@ -485,6 +564,7 @@ public class StockManual extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -493,10 +573,13 @@ public class StockManual extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panel;
-    private javax.swing.JTable tabla;
-    private javax.swing.JTable tabla1;
+    private javax.swing.JTable tablaBusqueda;
+    private javax.swing.JTable tablaTotal;
+    private javax.swing.JTextField txtCant;
+    private javax.swing.JLabel txtTotal;
     // End of variables declaration//GEN-END:variables
 }
