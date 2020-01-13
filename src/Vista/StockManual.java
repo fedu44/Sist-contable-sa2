@@ -464,8 +464,8 @@ public class StockManual extends javax.swing.JFrame {
         int fila = tablaBusqueda.getSelectedRow();
         int cantArticulosPorAgregar = Integer.parseInt(txtCant.getText());
         if( fila != -1){
-            if(renglones.get(fila).getDisponibles() < cantArticulosPorAgregar){
-                JOptionPane.showMessageDialog(null, "Se ha ingresado una cantidad de artículos mayor a los disponibles actualmente");
+            if(renglones.get(fila).getDisponibles() < cantArticulosPorAgregar || cantArticulosPorAgregar == 0 ){
+                JOptionPane.showMessageDialog(null, "Se ha ingresado una cantidad de artículos mayor a los disponibles actualmente o nula");
             }else{
                 String descripcion = renglones.get(fila).getDescripcion();
                 SqlArticulo sqlArt = new SqlArticulo();
@@ -473,9 +473,11 @@ public class StockManual extends javax.swing.JFrame {
                 int precio = (Integer) res.get(1);
                 ArrayList<Integer> articulosAgregados = (ArrayList<Integer>) res.get(0);
                 elementosPorComprar.add(articulosAgregados);
-                this.tModelTotal.addRow(new Object[]{cantArticulosPorAgregar, descripcion, precio, cantArticulosPorAgregar * precio});
+                int total = cantArticulosPorAgregar * precio;
+                this.tModelTotal.addRow(new Object[]{cantArticulosPorAgregar, descripcion, precio, total});
                 sqlArt.reservarArticulos(articulosAgregados);
                 btnBuscar.doClick();
+                txtTotal.setText(String.valueOf(Double.parseDouble(txtTotal.getText()) + total));
                 // TODO: Modificar total acumulado
                 // TODO: Agregar boton para borrar articulo
             }
