@@ -92,8 +92,6 @@ public ArrayList<Object> precioDeArticulo(String descripcion, int cantArticulosP
         Connection con = getConexion();
         int cantElem = ids.size();
         String where = "";
-        System.out.println(cantElem);
-        System.out.println(ids.get(0));
         for(int x = 0; x < cantElem; x++){
             where = where + " idarticulo = ? or";
         }
@@ -105,6 +103,21 @@ public ArrayList<Object> precioDeArticulo(String descripcion, int cantArticulosP
             for(int x = 0; x < cantElem; x++){
                 ps.setInt(x + 1, ids.get(x));
             }
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+ 
+  public void desreservarArticulos(int id) {
+        
+        PreparedStatement ps = null;
+        Connection con = getConexion();
+        String sql = "UPDATE articulo set estado = 'disponible' where idarticulo = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);

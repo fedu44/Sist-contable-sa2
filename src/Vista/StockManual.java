@@ -79,6 +79,7 @@ public class StockManual extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -360,6 +361,14 @@ public class StockManual extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnEliminar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -369,7 +378,9 @@ public class StockManual extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(78, 78, 78)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37))
         );
@@ -379,8 +390,10 @@ public class StockManual extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -478,7 +491,6 @@ public class StockManual extends javax.swing.JFrame {
                 sqlArt.reservarArticulos(articulosAgregados);
                 btnBuscar.doClick();
                 txtTotal.setText(String.valueOf(Double.parseDouble(txtTotal.getText()) + total));
-                // TODO: Modificar total acumulado
                 // TODO: Agregar boton para borrar articulo
             }
         }else{
@@ -490,6 +502,26 @@ public class StockManual extends javax.swing.JFrame {
     private void txtCantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCantActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        
+        int selectedRow = tablaTotal.getSelectedRow();
+        if(selectedRow == -1){
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila");
+        }else{
+            SqlArticulo sqlArt = new SqlArticulo();
+            ArrayList<Integer> articulosReservados = elementosPorComprar.get(selectedRow);
+            int total =  (Integer) this.tModelTotal.getValueAt(selectedRow, 3);
+            System.out.println(total);
+            elementosPorComprar.remove(selectedRow);
+            this.tModelTotal.removeRow(selectedRow);
+            txtTotal.setText(String.valueOf(Double.parseDouble(txtTotal.getText()) - total));
+            for(int id : articulosReservados){
+                sqlArt.desreservarArticulos(id);
+            }
+            btnBuscar.doClick();
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void agregarRenglones( ArrayList<Renglon> renglones) {
         for(Renglon ren : renglones){
@@ -560,6 +592,7 @@ public class StockManual extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JComboBox<String> comboArt;
     private javax.swing.JComboBox<String> comboFam;
     private javax.swing.JComboBox<String> comboMad;
