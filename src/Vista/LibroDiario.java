@@ -25,6 +25,8 @@ public class LibroDiario extends javax.swing.JFrame {
         this.txtActividad.setText(Home.actividad);
         this.txtEmpresa.setText(Home.empresa);
         this.txtCuit.setText(Home.cuit);
+        
+
 
     }
 
@@ -301,7 +303,7 @@ public class LibroDiario extends javax.swing.JFrame {
         header.add(Home.actividad);
         header.add("Libro diario :" + "DESDE " + fechaD + " " + "HASTA " + fechaH);
                 
-        new GenerarPdf(this.tModel,header, nombre);
+        new GenerarPdf(this.tablaAsiento,header, nombre);
 
         String[] commando = {"cmd.exe", "/c", nombre};
         builder = new ProcessBuilder(commando);

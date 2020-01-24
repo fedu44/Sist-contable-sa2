@@ -179,7 +179,7 @@ public class PlanDeCuentas extends javax.swing.JFrame {
         header.add(Home.cuit);
         header.add(Home.actividad);
         header.add("Plan de cuentas");
-        new GenerarPdf(this.tModel,header,nombre);
+        new GenerarPdf(this.tablaPlan,header,nombre);
         
         String[] commando = {"cmd.exe", "/c", nombre};
         ProcessBuilder builder = new ProcessBuilder(commando);

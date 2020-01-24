@@ -126,7 +126,7 @@ public class LibroMayor extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 794, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -158,7 +158,7 @@ public class LibroMayor extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(btnMostrar))
                 .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnImprimir)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -178,8 +178,8 @@ public class LibroMayor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMostrarActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        limpiar();
-        desplegar();
+        //limpiar();
+        //desplegar();
         String[] cmd = {"cmd.exe", "/c", "mkdir PDF_Libro_Mayor"};
         ProcessBuilder builder = new ProcessBuilder(cmd);
         builder.redirectErrorStream(true);
@@ -195,7 +195,7 @@ public class LibroMayor extends javax.swing.JFrame {
         header.add(Home.cuit);
         header.add(Home.actividad);
         header.add("Libro mayor de "+this.comboCuenta.getSelectedItem().toString());
-        new GenerarPdf(this.tModel,header,nombre);
+        new GenerarPdf(this.tablaAsiento,header,nombre);
         
         
         String[] commando = {"cmd.exe", "/c", nombre};
