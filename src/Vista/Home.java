@@ -1,6 +1,5 @@
 package Vista;
 
-import Modelo.SqlAsientos;
 import Modelo.SqlEditor;
 import Modelo.SqlEmpresa;
 import Modelo.Usuario;
@@ -30,9 +29,9 @@ public class Home extends javax.swing.JFrame {
     public static StockManual frmStoMan;
     public static StockAutomatico frmStoAut;
     public static VentaContado frmVenCon;
-    public static VerCliente frmVerCli;
-    
-    
+    public static VerCliente frmVerCli;   
+    public static PreVenta frmPreVen;
+
     
     public Home() {
         initComponents();
@@ -66,7 +65,6 @@ public class Home extends javax.swing.JFrame {
         Timer t = new Timer(1000, updateClockAction);
         t.start();
 
-        SqlAsientos asiSql = new SqlAsientos();
         //this.txtCantAsientos.setText(asiSql.cantidadAsientos(30, mod).toString());
         SqlEditor sqlEditor = new SqlEditor();
         this.txtEditor.setText(sqlEditor.TraerTexto(mod.getNombre()));
@@ -647,7 +645,7 @@ public class Home extends javax.swing.JFrame {
     private void subStockFilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subStockFilActionPerformed
         
         if (frmStoMan == null) {
-            frmStoMan = new StockManual(this);
+            frmStoMan = new StockManual(mod, this);
             frmStoMan.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frmStoMan.setVisible(true);
         }

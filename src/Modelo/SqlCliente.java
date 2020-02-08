@@ -90,6 +90,52 @@ public class SqlCliente extends Conexion {
         }
 
     }
+    
+      public ArrayList<Renglon> clientesPorNombre(String nombre) {
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+        ArrayList<Renglon> renglones = new ArrayList<>();
+
+        String sql = "SELECT cl.nombre, cl.nombre_fiscal, cl.cuit_cuil, sc.nombre, cl.limite_credito, cl.fecha_alta FROM cliente cl INNER JOIN situacion_crediticia sc ON(cl.situacion_crediticia = sc.idsituacion_crediticia) where (UPPER(cl.nombre) like ? OR UPPER(cl.nombre_fiscal) like ?);";
+
+        try {
+            ps = con.prepareStatement(sql);
+            String param = "%" + nombre.toUpperCase() + "%";
+            ps.setString(1, param);            
+            ps.setString(2, param);
+
+            rs = ps.executeQuery();
+
+            if (rs.first()) {
+                if (rs.getString(2) == null) {
+                    Renglon renglon = new Renglon(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+                    renglones.add(renglon);
+                } else {
+                    Renglon renglon = new Renglon(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+                    renglones.add(renglon);
+                }
+                while (rs.next()) {
+                    if (rs.getString(2) == null) {
+                        Renglon renglon = new Renglon(rs.getString(1), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+                        renglones.add(renglon);
+                    } else {
+                        Renglon renglon = new Renglon(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+                        renglones.add(renglon);
+                    }
+                }
+                return renglones;
+
+            } else {
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlCliente.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
+    }
 
     public Cliente traerCliente(String cuit_cuil) {
 

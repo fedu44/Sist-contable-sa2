@@ -7,13 +7,17 @@ import Modelo.Renglon;
 import Modelo.SqlArticulo;
 import Modelo.SqlFamilia;
 import Modelo.SqlMadera;
+import Modelo.Usuario;
+import static Vista.Home.frmPreVen;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JFrame;
 
 public class StockManual extends javax.swing.JFrame {
 
     private static Home home;
+    private static Usuario mod;
     private ArrayList<Articulo> articulos = new ArrayList<>();
     private ArrayList<Familia> familias = new ArrayList<>();
     private ArrayList<Madera> maderas = new ArrayList<>();
@@ -23,7 +27,7 @@ public class StockManual extends javax.swing.JFrame {
     private ArrayList<Renglon> renglones = new ArrayList<>();
     private ArrayList<ArrayList<Integer>> elementosPorComprar = new ArrayList<>();
     
-    public StockManual(Home home) {
+    public StockManual(Usuario usr, Home home) {
         initComponents();
         panel.setLocation(0, 0);
         StockManual.home = home;
@@ -80,6 +84,7 @@ public class StockManual extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JButton();
+        btnFinalizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -369,6 +374,14 @@ public class StockManual extends javax.swing.JFrame {
             }
         });
 
+        btnFinalizar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnFinalizar.setText("Finalizar");
+        btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinalizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -380,6 +393,8 @@ public class StockManual extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addGap(78, 78, 78)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(btnFinalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37))
@@ -392,7 +407,8 @@ public class StockManual extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnFinalizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
@@ -523,6 +539,15 @@ public class StockManual extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
+        
+        if (frmPreVen == null && !elementosPorComprar.isEmpty()) {
+            frmPreVen = new PreVenta(Double.parseDouble(txtTotal.getText())); // Pasar elementos por comprar
+            frmPreVen.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_btnFinalizarActionPerformed
+
     private void agregarRenglones( ArrayList<Renglon> renglones) {
         for(Renglon ren : renglones){
             String nombre = ren.getNombre();
@@ -584,7 +609,7 @@ public class StockManual extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StockManual(home).setVisible(true);
+                new StockManual(mod, home).setVisible(true);
             }
         });
     }
@@ -593,6 +618,7 @@ public class StockManual extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnFinalizar;
     private javax.swing.JComboBox<String> comboArt;
     private javax.swing.JComboBox<String> comboFam;
     private javax.swing.JComboBox<String> comboMad;
