@@ -1,9 +1,16 @@
 package Vista;
 
+import Modelo.Asiento;
+import Modelo.Asiento_cuenta;
+import Modelo.Cuenta;
 import Modelo.Renglon;
+import Modelo.SqlAsiento_cuenta;
+import Modelo.SqlAsientos;
 import Modelo.SqlCliente;
+import Modelo.Usuario;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -14,12 +21,14 @@ public class PreVenta extends javax.swing.JFrame {
     private static double total;
     private ArrayList<ArrayList<Integer>> elementosPorComprar = new ArrayList<>();
     private Boolean esCredito;
+    private Boolean esContado;
+    private static int userId;
 
-    public static double getTotal() {
-        return total;
+    public double getTotal() {
+        return PreVenta.total;
     }
 
-    public static void setTotal(double total) {
+    public void setTotal(double total, Usuario mod) {
         PreVenta.total = total;
     }
 
@@ -38,18 +47,34 @@ public class PreVenta extends javax.swing.JFrame {
     public void setEsCredito(Boolean esCredito) {
         this.esCredito = esCredito;
     }
-    
-    
-    
-    
 
-    public PreVenta(double total) {
+    public static int getUserId() {
+        return userId;
+    }
+
+    public static void setUserId(int userId) {
+        PreVenta.userId = userId;
+    }
+
+    public Boolean getEsContado() {
+        return esContado;
+    }
+
+    public void setEsContado(Boolean esContado) {
+        this.esContado = esContado;
+    }
+    
+    
+    
+    public PreVenta(double total, int userId) {
         initComponents();
+        PreVenta.total = total;
+        PreVenta.userId = userId;  
         this.setResizable(false);
         btnInmediato.doClick();
         desplegar("");
-        this.total = total;
         this.esCredito = false;
+        this.esContado = true;
     }
     
      private void agregarRenglones(Renglon renglon) {
@@ -97,6 +122,81 @@ public class PreVenta extends javax.swing.JFrame {
         this.tModel = (DefaultTableModel) tblCli.getModel();
 
     }
+    
+    public void venta() {
+        
+        double total = getTotal();
+        SqlAsientos sqlAsientos = new SqlAsientos();
+        SqlAsiento_cuenta sqlAsientos_cuenta = new SqlAsiento_cuenta();
+        int ultimoCodigo = sqlAsientos.ultimoNumAsiento() + 1;
+        Asiento asiento = new Asiento(ultimoCodigo, new Date().toString(), "Venta", getUserId());
+        sqlAsientos.registrarAsiento(asiento);
+        Cuenta cuenta;
+        double saldoParcial;
+        int ultimoCodigoAsientoCuenta;
+        int ultimoIdAsiento;
+        Asiento_cuenta asiento_cuenta;
+
+        if(!getEsCredito()){
+            if(getEsContado()){
+               // Cuenta Caja
+               cuenta = new Cuenta("Activo", "Caja", 1, "111", true);
+               saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
+               ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
+               ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
+               asiento_cuenta = new Asiento_cuenta(total, 0, 6, ultimoIdAsiento, saldoParcial, ultimoCodigoAsientoCuenta);
+               sqlAsientos_cuenta.registrar(asiento_cuenta);
+            }else{
+                // Cuenta Banco c/c
+                cuenta = new Cuenta("Activo", "Banco c/c", 1, "113", true);
+                saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
+                ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
+                ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
+                asiento_cuenta = new Asiento_cuenta(total, 0, 8, ultimoIdAsiento, saldoParcial, ultimoCodigoAsientoCuenta);
+                sqlAsientos_cuenta.registrar(asiento_cuenta);
+            }
+        }else{
+            // Cuenta Deudores por ventas
+            cuenta = new Cuenta("Activo", "Deudores por ventas", 1, "121", true);
+            saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
+            ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
+            ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
+            asiento_cuenta = new Asiento_cuenta(total, 0, 10, ultimoIdAsiento, saldoParcial, ultimoCodigoAsientoCuenta);
+            sqlAsientos_cuenta.registrar(asiento_cuenta);
+        }
+        // Cuenta Venta
+        cuenta.setCodigo("411");
+        cuenta.setNombre("Venta");
+        cuenta.setTipo("Ingresos");
+        saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
+        ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
+        ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
+        asiento_cuenta = new Asiento_cuenta(0, total, 32, ultimoIdAsiento, saldoParcial, ultimoCodigoAsientoCuenta);
+        sqlAsientos_cuenta.registrar(asiento_cuenta);
+        
+        // TODO: Calcular cmv
+        double cmv = 0;
+        
+       // AC-CMV
+        cuenta.setCodigo("510");
+        cuenta.setNombre("Costo Mercaderia Vendida");
+        cuenta.setTipo("Egresos");
+        saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
+        ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
+        ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
+        asiento_cuenta = new Asiento_cuenta(cmv, 0, 36, ultimoIdAsiento, saldoParcial, ultimoCodigoAsientoCuenta);
+        sqlAsientos_cuenta.registrar(asiento_cuenta);
+       // AC-Mercaderia
+        cuenta.setCodigo("131");
+        cuenta.setNombre("Mercaderias");
+        cuenta.setTipo("Activo");
+        saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
+        ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
+        ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
+        asiento_cuenta = new Asiento_cuenta(0, cmv, 14, ultimoIdAsiento, saldoParcial, ultimoCodigoAsientoCuenta);
+        sqlAsientos_cuenta.registrar(asiento_cuenta);
+       
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -113,6 +213,7 @@ public class PreVenta extends javax.swing.JFrame {
         lblCuotas = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblCli = new javax.swing.JTable();
+        chkDeb = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -172,6 +273,13 @@ public class PreVenta extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblCli);
 
+        chkDeb.setText("Débito");
+        chkDeb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkDebActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlCreditoLayout = new javax.swing.GroupLayout(pnlCredito);
         pnlCredito.setLayout(pnlCreditoLayout);
         pnlCreditoLayout.setHorizontalGroup(
@@ -181,6 +289,8 @@ public class PreVenta extends javax.swing.JFrame {
                 .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(chkDeb, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblCuotas)
                 .addGap(44, 44, 44)
@@ -200,7 +310,8 @@ public class PreVenta extends javax.swing.JFrame {
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCuotas, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbCuotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbCuotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkDeb))
                 .addContainerGap())
             .addGroup(pnlCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCreditoLayout.createSequentialGroup()
@@ -310,6 +421,7 @@ public class PreVenta extends javax.swing.JFrame {
         cmbCuotas.setEnabled(false);
         tblCli.setRowSelectionAllowed(false);
         setEsCredito(false);
+        chkDeb.setEnabled(true);
         
     }//GEN-LAST:event_btnInmediatoActionPerformed
 
@@ -332,8 +444,15 @@ public class PreVenta extends javax.swing.JFrame {
         cmbCuotas.setEnabled(true);
         tblCli.setRowSelectionAllowed(true);
         setEsCredito(true);
+        chkDeb.setEnabled(false);
 
     }//GEN-LAST:event_btnCreditoActionPerformed
+
+    private void chkDebActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkDebActionPerformed
+        
+        setEsContado(!getEsContado());
+        
+    }//GEN-LAST:event_chkDebActionPerformed
 
     /**
      * @param args the command line arguments
@@ -365,7 +484,7 @@ public class PreVenta extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PreVenta(total).setVisible(true);
+                new PreVenta(total, userId).setVisible(true);
             }
         });
     }
@@ -375,6 +494,7 @@ public class PreVenta extends javax.swing.JFrame {
     private javax.swing.JButton btnCredito;
     private javax.swing.JButton btnFactura;
     private javax.swing.JButton btnInmediato;
+    private javax.swing.JCheckBox chkDeb;
     private javax.swing.JComboBox<String> cmbCuotas;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
