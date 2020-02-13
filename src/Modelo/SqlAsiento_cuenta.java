@@ -38,7 +38,7 @@ public class SqlAsiento_cuenta extends Conexion {
         ResultSet rs = null;
         Connection con = getConexion();
 
-        String sql = "SELECT ac.saldo_parcial FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta= ac.cuenta) WHERE cuenta= ? AND a.fecha >= ALL (SELECT asi.fecha FROM asiento_cuenta acu INNER JOIN asiento asi ON(asi.idasiento=acu.asiento)INNER JOIN cuenta cu ON(cu.idcuenta= acu.cuenta) WHERE cuenta= ?)";
+        String sql = "SELECT ac.saldo_parcial FROM asiento_cuenta ac INNER JOIN asiento a ON(a.idasiento=ac.asiento) INNER JOIN cuenta c ON(c.idcuenta = ac.cuenta) WHERE cuenta = ? AND a.fecha >= ALL (SELECT asi.fecha FROM asiento_cuenta acu INNER JOIN asiento asi ON(asi.idasiento = acu.asiento)INNER JOIN cuenta cu ON(cu.idcuenta= acu.cuenta) WHERE cuenta = ?)";
 
         try {
             ps = con.prepareStatement(sql);

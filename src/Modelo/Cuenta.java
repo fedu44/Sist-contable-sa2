@@ -12,6 +12,16 @@ public class Cuenta {
     public Cuenta() {
     }
 
+    public Cuenta(String tipo, String nombre, int empresa, String codigo, Boolean recibeSaldo) {
+        this.tipo = tipo;
+        this.nombre = nombre;
+        this.empresa = empresa;
+        this.codigo = codigo;
+        this.recibeSaldo = recibeSaldo;
+    }
+    
+    
+
     public int getIdcuenta() {
         return idcuenta;
     }

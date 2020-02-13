@@ -13,6 +13,15 @@ public class Asiento_cuenta {
     public Asiento_cuenta() {
     }
 
+    public Asiento_cuenta(double debe, double haber, int cuenta, int asiento, double saldo_parcial, int codigo) {
+        this.debe = debe;
+        this.haber = haber;
+        this.cuenta = cuenta;
+        this.asiento = asiento;
+        this.saldo_parcial = saldo_parcial;
+        this.codigo = codigo;
+    }
+
     public int getIdasiento_cuenta() {
         return idasiento_cuenta;
     }

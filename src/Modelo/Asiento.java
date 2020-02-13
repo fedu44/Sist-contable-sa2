@@ -8,8 +8,14 @@ public class Asiento {
     private String descripcion;
     private int usuario;
 
-    public Asiento() {
-
+    public Asiento(int numAsiento, String fecha, String descripcion, int usuario) {
+        this.numAsiento = numAsiento;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.usuario = usuario;
+    }
+                
+    public Asiento() {      
     }
 
     public int getIdasiento() {

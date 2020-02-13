@@ -542,7 +542,7 @@ public class StockManual extends javax.swing.JFrame {
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
         
         if (frmPreVen == null && !elementosPorComprar.isEmpty()) {
-            frmPreVen = new PreVenta(Double.parseDouble(txtTotal.getText())); // Pasar elementos por comprar
+            frmPreVen = new PreVenta(Double.parseDouble(txtTotal.getText()), StockManual.mod.getIdusuario()); // Pasar elementos por comprar
             frmPreVen.setVisible(true);
         }
         
