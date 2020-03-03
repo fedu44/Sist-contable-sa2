@@ -12,7 +12,6 @@ import static Vista.Home.frmPreVen;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JFrame;
 
 public class StockManual extends javax.swing.JFrame {
 
@@ -31,6 +30,7 @@ public class StockManual extends javax.swing.JFrame {
         initComponents();
         panel.setLocation(0, 0);
         StockManual.home = home;
+        StockManual.mod = usr;
         SqlArticulo sqlArt = new SqlArticulo();
         SqlFamilia sqlFam = new  SqlFamilia();
         SqlMadera sqlMad = new SqlMadera();
@@ -540,8 +540,10 @@ public class StockManual extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        
-        if (frmPreVen == null && !elementosPorComprar.isEmpty()) {
+        if(elementosPorComprar.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún artículo");
+        }
+        if (frmPreVen == null) {
             frmPreVen = new PreVenta(Double.parseDouble(txtTotal.getText()), StockManual.mod.getIdusuario()); // Pasar elementos por comprar
             frmPreVen.setVisible(true);
         }
