@@ -2,6 +2,7 @@ package Vista;
 
 import Modelo.Asiento;
 import Modelo.Asiento_cuenta;
+import Modelo.Cliente;
 import Modelo.Cuenta;
 import Modelo.Renglon;
 import Modelo.SqlAsiento_cuenta;
@@ -9,6 +10,8 @@ import Modelo.SqlAsientos;
 import Modelo.SqlCliente;
 import Modelo.Usuario;
 import java.awt.Color;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -129,73 +132,66 @@ public class PreVenta extends javax.swing.JFrame {
         SqlAsientos sqlAsientos = new SqlAsientos();
         SqlAsiento_cuenta sqlAsientos_cuenta = new SqlAsiento_cuenta();
         int ultimoCodigo = sqlAsientos.ultimoNumAsiento() + 1;
-        Asiento asiento = new Asiento(ultimoCodigo, new Date().toString(), "Venta", getUserId());
+        DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Asiento asiento = new Asiento(ultimoCodigo, fechaHora.format(new Date()), "Venta", getUserId());
         sqlAsientos.registrarAsiento(asiento);
         Cuenta cuenta;
         double saldoParcial;
-        int ultimoCodigoAsientoCuenta;
-        int ultimoIdAsiento;
+        int ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
+        int ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
         Asiento_cuenta asiento_cuenta;
 
         if(!getEsCredito()){
             if(getEsContado()){
                // Cuenta Caja
-               cuenta = new Cuenta("Activo", "Caja", 1, "111", true);
+               cuenta = new Cuenta(6, "Activo", "Caja", 1, "111", true);
                saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
-               ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
-               ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
-               asiento_cuenta = new Asiento_cuenta(total, 0, 6, ultimoIdAsiento, saldoParcial, ultimoCodigoAsientoCuenta);
+               asiento_cuenta = new Asiento_cuenta(total, 0, 6, ultimoIdAsiento, saldoParcial + total, ultimoCodigoAsientoCuenta + 1);
                sqlAsientos_cuenta.registrar(asiento_cuenta);
             }else{
                 // Cuenta Banco c/c
-                cuenta = new Cuenta("Activo", "Banco c/c", 1, "113", true);
+                cuenta = new Cuenta(8, "Activo", "Banco c/c", 1, "113", true);
                 saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
-                ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
-                ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
-                asiento_cuenta = new Asiento_cuenta(total, 0, 8, ultimoIdAsiento, saldoParcial, ultimoCodigoAsientoCuenta);
+                asiento_cuenta = new Asiento_cuenta(total, 0, 8, ultimoIdAsiento, saldoParcial + total, ultimoCodigoAsientoCuenta + 1);
                 sqlAsientos_cuenta.registrar(asiento_cuenta);
             }
         }else{
             // Cuenta Deudores por ventas
-            cuenta = new Cuenta("Activo", "Deudores por ventas", 1, "121", true);
+            cuenta = new Cuenta(10, "Activo", "Deudores por ventas", 1, "121", true);
             saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
-            ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
-            ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
-            asiento_cuenta = new Asiento_cuenta(total, 0, 10, ultimoIdAsiento, saldoParcial, ultimoCodigoAsientoCuenta);
+            asiento_cuenta = new Asiento_cuenta(total, 0, 10, ultimoIdAsiento, saldoParcial + total, ultimoCodigoAsientoCuenta + 1);
             sqlAsientos_cuenta.registrar(asiento_cuenta);
         }
         // Cuenta Venta
+        cuenta.setIdcuenta(32);
         cuenta.setCodigo("411");
         cuenta.setNombre("Venta");
         cuenta.setTipo("Ingresos");
         saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
-        ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
-        ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
-        asiento_cuenta = new Asiento_cuenta(0, total, 32, ultimoIdAsiento, saldoParcial, ultimoCodigoAsientoCuenta);
+        asiento_cuenta = new Asiento_cuenta(0, total, 32, ultimoIdAsiento, saldoParcial + total, ultimoCodigoAsientoCuenta + 2);
         sqlAsientos_cuenta.registrar(asiento_cuenta);
         
         // TODO: Calcular cmv
-        double cmv = 0;
+        double cmv = total * 0.9;
         
        // AC-CMV
+        cuenta.setIdcuenta(36);
         cuenta.setCodigo("510");
         cuenta.setNombre("Costo Mercaderia Vendida");
         cuenta.setTipo("Egresos");
         saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
-        ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
         ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
-        asiento_cuenta = new Asiento_cuenta(cmv, 0, 36, ultimoIdAsiento, saldoParcial, ultimoCodigoAsientoCuenta);
+        asiento_cuenta = new Asiento_cuenta(cmv, 0, 36, ultimoIdAsiento, saldoParcial + cmv, ultimoCodigoAsientoCuenta + 3);
         sqlAsientos_cuenta.registrar(asiento_cuenta);
        // AC-Mercaderia
+        cuenta.setIdcuenta(14);
         cuenta.setCodigo("131");
         cuenta.setNombre("Mercaderias");
         cuenta.setTipo("Activo");
         saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
-        ultimoCodigoAsientoCuenta = sqlAsientos_cuenta.ultimoCodigo();
         ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
-        asiento_cuenta = new Asiento_cuenta(0, cmv, 14, ultimoIdAsiento, saldoParcial, ultimoCodigoAsientoCuenta);
+        asiento_cuenta = new Asiento_cuenta(0, cmv, 14, ultimoIdAsiento, saldoParcial - cmv, ultimoCodigoAsientoCuenta + 4);
         sqlAsientos_cuenta.registrar(asiento_cuenta);
-       
     }
 
     @SuppressWarnings("unchecked")
@@ -376,39 +372,48 @@ public class PreVenta extends javax.swing.JFrame {
 
     private void btnFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturaActionPerformed
 
-        int fila = tblCli.getSelectedRow();
-        int limiteDeCredito = Integer.parseInt(renglones.get(fila).getLimite_credito());
-        
         if(getEsCredito()){
+            int fila = tblCli.getSelectedRow();
             if( fila != -1){
+                int limiteDeCredito = Integer.parseInt(renglones.get(fila).getLimite_credito());
                 switch(renglones.get(fila).getSituacion_crediticia()){
                     case "Normal":
                         // Efectuar venta a credito
+                        venta();
                         break;
                     case "Atrasado":
                         // No total a pagar mayor a la deuda actual
                         if(Math.abs(limiteDeCredito) < getTotal()){
-                             JOptionPane.showMessageDialog(null, "El cliente está atrasado, solo puede efectuarse ventas a crédito menor a la deuda actualo regularizar la deuda.");
+                            JOptionPane.showMessageDialog(null, "El cliente está atrasado, solo puede efectuarse ventas a crédito menor a la deuda actualo regularizar la deuda.");
                         }else{
                             // Efectuar venta a credito
+                            venta();
                         }
                         break;
                     case "Seguimiento especial":
                         // Solo admin le puede vender o cambiar situación crediticia
-                         JOptionPane.showMessageDialog(null, "El cliente está bajo seguimiento especial y no puede efectuarse venta a crédito. Regularice la deuda o pida al administrador cambiar la situación crediticia");
+                        JOptionPane.showMessageDialog(null, "El cliente está bajo seguimiento especial y no puede efectuarse venta a crédito. Regularice la deuda o pida al administrador cambiar la situación crediticia");
                         break;
                     case "Riesgo de insolvencia":
                        // No se le puede vender a credito
-                         JOptionPane.showMessageDialog(null, "El cliente tiene riesgo de insolvencia, no puede efectuarse venta a crédito");
+                        JOptionPane.showMessageDialog(null, "El cliente tiene riesgo de insolvencia, no puede efectuarse venta a crédito");
                         break;
                     case "Incobrable":
                        // No se le puede vender a credito
-                         JOptionPane.showMessageDialog(null, "El cliente es incobrable, no puede efectuarse venta a crédito");
+                        JOptionPane.showMessageDialog(null, "El cliente es incobrable, no puede efectuarse venta a crédito");
                         break;
                 }
+                // Actualizar limite de credito de cliente
+                SqlCliente sqlCli = new SqlCliente();
+                Cliente cliente = sqlCli.traerCliente(renglones.get(fila).getCuit_cuil());
+                cliente.setLimiteCredito(limiteDeCredito - getTotal());
+                sqlCli.actualizarCliente(cliente.getId(), cliente);
+            }else{
+                JOptionPane.showMessageDialog(null, "No hay cliente seleccionado");
             }
         }else{
             // Efectuar venta a contado
+            venta();
         }
         
     }//GEN-LAST:event_btnFacturaActionPerformed
