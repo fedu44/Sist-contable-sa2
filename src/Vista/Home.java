@@ -617,7 +617,7 @@ public class Home extends javax.swing.JFrame {
         Login login = new Login();
         login.setVisible(true);
         this.dispose();
-        JOptionPane.showMessageDialog(null, "Sesion cerrada");
+        JOptionPane.showMessageDialog(null, "Sesión cerrada");
         
     }//GEN-LAST:event_subCerrarSesionActionPerformed
 
