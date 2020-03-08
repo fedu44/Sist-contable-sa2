@@ -9,6 +9,8 @@ import Modelo.SqlFamilia;
 import Modelo.SqlMadera;
 import Modelo.Usuario;
 import static Vista.Home.frmPreVen;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -51,6 +53,17 @@ public class StockManual extends javax.swing.JFrame {
             comboMad.addItem(madera.getNombre());
         });
         desplegar();
+        
+        txtCant.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char caracter = e.getKeyChar();
+
+                // Verificar si la tecla pulsada no es un digito
+                if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
+                    e.consume(); // ignorar el evento de teclado
+                }
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")

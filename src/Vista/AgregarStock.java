@@ -6,6 +6,8 @@ import Modelo.SqlArticulo;
 import Modelo.SqlCosto;
 import Modelo.SqlFamilia;
 import Modelo.SqlMadera;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -37,6 +39,28 @@ public class AgregarStock extends javax.swing.JFrame {
         maderas = sqlMad.traerMaderas();
         maderas.forEach((madera) -> {
             comboMad.addItem(madera.getNombre());
+        });
+        
+        txtCant.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char caracter = e.getKeyChar();
+
+                // Verificar si la tecla pulsada no es un digito
+                if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
+                    e.consume(); // ignorar el evento de teclado
+                }
+            }
+        });
+        
+        txtCost.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char caracter = e.getKeyChar();
+
+                // Verificar si la tecla pulsada no es un digito
+                if (((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '.')) {
+                    e.consume(); // ignorar el evento de teclado
+                }
+            }
         });
     }
 

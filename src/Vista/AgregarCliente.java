@@ -7,6 +7,8 @@ import Modelo.SqlCategoriaIva;
 import Modelo.SqlCliente;
 import Modelo.SqlSituacionCrediticia;
 import Modelo.SqlTelefono;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,6 +36,50 @@ public class AgregarCliente extends javax.swing.JFrame {
         situaciones = sitCred.situaciones();
         situaciones.forEach((situacion) -> {
             comboSitCredit.addItem(situacion.getNombre());
+        });
+        
+        txtTel.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char caracter = e.getKeyChar();
+
+                // Verificar si la tecla pulsada no es un digito
+                if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
+                    e.consume(); // ignorar el evento de teclado
+                }
+            }
+        });
+        
+        txtNumCasa.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char caracter = e.getKeyChar();
+
+                // Verificar si la tecla pulsada no es un digito
+                if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
+                    e.consume(); // ignorar el evento de teclado
+                }
+            }
+        });
+        
+        txtPiso.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char caracter = e.getKeyChar();
+
+                // Verificar si la tecla pulsada no es un digito
+                if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
+                    e.consume(); // ignorar el evento de teclado
+                }
+            }
+        });
+        
+        txtLimCred.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char caracter = e.getKeyChar();
+
+                // Verificar si la tecla pulsada no es un digito
+                if (((caracter < '0') || (caracter > '9')) && (caracter != '\b') && (caracter != '.')) {
+                    e.consume(); // ignorar el evento de teclado
+                }
+            }
         });
 
     }
