@@ -35,7 +35,6 @@ public class StockManual extends javax.swing.JFrame {
         SqlFamilia sqlFam = new  SqlFamilia();
         SqlMadera sqlMad = new SqlMadera();
         
-        
         articulos = sqlArt.traerArticulos();
         ArrayList<String> nombres = sqlArt.traerNomberDeArticulos();
         nombres.forEach((nombre) -> {

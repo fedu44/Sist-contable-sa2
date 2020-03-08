@@ -31,6 +31,7 @@ public class Home extends javax.swing.JFrame {
     public static VentaContado frmVenCon;
     public static VerCliente frmVerCli;   
     public static PreVenta frmPreVen;
+    public static AgregarStock frmAgrSto;
 
     
     public Home() {
@@ -173,6 +174,7 @@ public class Home extends javax.swing.JFrame {
         subAgregarCliente = new javax.swing.JRadioButtonMenuItem();
         subVerCliente = new javax.swing.JCheckBoxMenuItem();
         jMenu1 = new javax.swing.JMenu();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         subStockFil = new javax.swing.JCheckBoxMenuItem();
         subStockBusc = new javax.swing.JCheckBoxMenuItem();
         menuSesion = new javax.swing.JMenu();
@@ -439,6 +441,15 @@ public class Home extends javax.swing.JFrame {
 
         jMenu1.setText("Stock");
 
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("Agregar stock");
+        jCheckBoxMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jCheckBoxMenuItem1);
+
         subStockFil.setSelected(true);
         subStockFil.setText("Ver stock por filtros");
         subStockFil.addActionListener(new java.awt.event.ActionListener() {
@@ -617,9 +628,6 @@ public class Home extends javax.swing.JFrame {
             frmAgrCta.setVisible(true);
         }
         
-        
-        
-        
     }//GEN-LAST:event_subAgregarCuentaActionPerformed
 
     private void subAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAgregarClienteActionPerformed
@@ -661,6 +669,16 @@ public class Home extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_subStockBuscActionPerformed
+
+    private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
+       
+         if (frmAgrSto == null) {
+            frmAgrSto = new AgregarStock(this);
+            frmAgrSto.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frmAgrSto.setVisible(true);
+        }
+         
+    }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
     
     
@@ -719,6 +737,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnRegistrarAsiento;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel gftfudttug;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;

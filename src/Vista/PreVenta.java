@@ -67,8 +67,6 @@ public class PreVenta extends javax.swing.JFrame {
         this.esContado = esContado;
     }
     
-    
-    
     public PreVenta(double total, int userId) {
         initComponents();
         PreVenta.total = total;

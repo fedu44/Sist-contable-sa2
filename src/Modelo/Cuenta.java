@@ -12,7 +12,8 @@ public class Cuenta {
     public Cuenta() {
     }
 
-    public Cuenta(String tipo, String nombre, int empresa, String codigo, Boolean recibeSaldo) {
+    public Cuenta(int idcuenta,String tipo, String nombre, int empresa, String codigo, Boolean recibeSaldo) {
+        this.idcuenta = idcuenta;
         this.tipo = tipo;
         this.nombre = nombre;
         this.empresa = empresa;

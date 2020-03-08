@@ -267,4 +267,32 @@ public ArrayList<Object> precioDeArticulo(String descripcion, int cantArticulosP
             return null;
         }
     }
+    
+    
+    public void agregarArticulo(String nombre, String descripcion, int madera, int costo) {
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection con = getConexion();
+        
+        String sql_1 = "SELECT max(codigo) FROM articulo";
+        String sql_2 = "INSERT INTO articulo(nombre, codigo, descripcion, madera, costo, estado ) VALUES(?,?,?,?,?,'disponible')";
+        
+        try {
+            ps = con.prepareStatement(sql_1);
+            rs = ps.executeQuery();
+            rs.next();
+            int ultimoCodigo = rs.getInt(1);
+            ps = con.prepareStatement(sql_2);
+            ps.setString(1, nombre);           
+            ps.setInt(2, ultimoCodigo + 1);
+            ps.setString(3, descripcion);
+            ps.setInt(4, madera);
+            ps.setInt(5, costo);
+            ps.execute();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
