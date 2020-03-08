@@ -1,6 +1,18 @@
 package Vista;
 
+import Modelo.Familia;
+import Modelo.Madera;
+import Modelo.SqlArticulo;
+import Modelo.SqlCosto;
+import Modelo.SqlFamilia;
+import Modelo.SqlMadera;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 public class AgregarStock extends javax.swing.JFrame {
+    
+    ArrayList<Familia> familias = new ArrayList();
+    ArrayList<Madera> maderas = new ArrayList();
 
     private static Home home;
     
@@ -8,6 +20,24 @@ public class AgregarStock extends javax.swing.JFrame {
         initComponents();
         this.setResizable(false);
         AgregarStock.home = home;
+        SqlArticulo sqlArt = new SqlArticulo();
+        SqlFamilia sqlFam = new  SqlFamilia();
+        SqlMadera sqlMad = new SqlMadera();
+        
+        ArrayList<String> nombres = sqlArt.traerNomberDeArticulos();
+        nombres.forEach((nombre) -> {
+            comboArt.addItem(nombre);
+        });
+        
+        familias = sqlFam.traerFamilias();
+        familias.forEach((familia) -> {
+            comboFam.addItem(familia.getNombre());
+        });
+        
+        maderas = sqlMad.traerMaderas();
+        maderas.forEach((madera) -> {
+            comboMad.addItem(madera.getNombre());
+        });
     }
 
     /**
@@ -22,23 +52,23 @@ public class AgregarStock extends javax.swing.JFrame {
         panel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        txtCUI1 = new javax.swing.JTextField();
+        txtCant = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtCUI2 = new javax.swing.JTextField();
+        txtCost = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        comboMad1 = new javax.swing.JComboBox<>();
+        comboMad = new javax.swing.JComboBox<>();
         jPanel8 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        comboFam1 = new javax.swing.JComboBox<>();
+        comboFam = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        txtNota = new javax.swing.JTextArea();
-        txtCUI = new javax.swing.JTextField();
+        txtDesc = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
+        comboArt = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -57,20 +87,20 @@ public class AgregarStock extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Cantidad:");
 
-        txtCUI1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtCUI1.addActionListener(new java.awt.event.ActionListener() {
+        txtCant.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCant.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCUI1ActionPerformed(evt);
+                txtCantActionPerformed(evt);
             }
         });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Costo:");
 
-        txtCUI2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtCUI2.addActionListener(new java.awt.event.ActionListener() {
+        txtCost.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCUI2ActionPerformed(evt);
+                txtCostActionPerformed(evt);
             }
         });
 
@@ -85,8 +115,8 @@ public class AgregarStock extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtCUI1, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-                    .addComponent(txtCUI2))
+                    .addComponent(txtCant, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                    .addComponent(txtCost))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -95,11 +125,11 @@ public class AgregarStock extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtCUI1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtCUI2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
@@ -127,8 +157,13 @@ public class AgregarStock extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Madera:");
 
-        comboMad1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboMad1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        comboMad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboMad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
+        comboMad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboMadActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -138,7 +173,7 @@ public class AgregarStock extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addComponent(comboMad1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboMad, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -147,7 +182,7 @@ public class AgregarStock extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboMad1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboMad, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -156,8 +191,8 @@ public class AgregarStock extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Familia:");
 
-        comboFam1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboFam1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        comboFam.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboFam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -167,7 +202,7 @@ public class AgregarStock extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(comboFam1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(comboFam, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -175,7 +210,7 @@ public class AgregarStock extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(comboFam1)
+                    .addComponent(comboFam)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -206,19 +241,15 @@ public class AgregarStock extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setText("Descripción:");
 
-        txtNota.setColumns(20);
-        txtNota.setRows(5);
-        txtNota.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.darkGray, java.awt.Color.lightGray));
-
-        txtCUI.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtCUI.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCUIActionPerformed(evt);
-            }
-        });
+        txtDesc.setColumns(20);
+        txtDesc.setRows(5);
+        txtDesc.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.darkGray, java.awt.Color.lightGray));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setText("Nombre:");
+        jLabel3.setText("Artículo:");
+
+        comboArt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboArt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -226,16 +257,12 @@ public class AgregarStock extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel3))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel13)))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtCUI)
-                    .addComponent(txtNota, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboArt, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -244,10 +271,10 @@ public class AgregarStock extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtCUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboArt))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNota, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
                 .addContainerGap())
         );
@@ -272,7 +299,7 @@ public class AgregarStock extends javax.swing.JFrame {
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
-                .addGap(72, 72, 72)
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -282,7 +309,7 @@ public class AgregarStock extends javax.swing.JFrame {
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnCancelar))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -290,16 +317,16 @@ public class AgregarStock extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(301, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -314,23 +341,38 @@ public class AgregarStock extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
 
+        Home.frmAgrSto = null;
+        this.dispose();
+        
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
+        int cantidad = Integer.parseInt(txtCant.getText());
+        Double costo = Double.parseDouble(txtCost.getText());
+        String descripcion = txtDesc.getText();
+        SqlCosto sqlCosto = new SqlCosto();
+        int idCosto = sqlCosto.agregarCosto(cantidad, costo);
+        System.out.println(idCosto);
+        SqlArticulo sqlArticulo = new SqlArticulo();
+        for(int x = 0; x < cantidad; x++){
+            sqlArticulo.agregarArticulo((String)comboArt.getSelectedItem(), descripcion, maderas.get(comboMad.getSelectedIndex()).getIdmadera(), idCosto);
+        }
+        JOptionPane.showMessageDialog(null, "Artículos agregados exitosamente.");
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void txtCUI2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCUI2ActionPerformed
+    private void txtCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCostActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCUI2ActionPerformed
+    }//GEN-LAST:event_txtCostActionPerformed
 
-    private void txtCUI1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCUI1ActionPerformed
+    private void txtCantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCUI1ActionPerformed
+    }//GEN-LAST:event_txtCantActionPerformed
 
-    private void txtCUIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCUIActionPerformed
+    private void comboMadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMadActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCUIActionPerformed
+    }//GEN-LAST:event_comboMadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -370,8 +412,9 @@ public class AgregarStock extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JComboBox<String> comboFam1;
-    private javax.swing.JComboBox<String> comboMad1;
+    private javax.swing.JComboBox<String> comboArt;
+    private javax.swing.JComboBox<String> comboFam;
+    private javax.swing.JComboBox<String> comboMad;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
@@ -384,9 +427,8 @@ public class AgregarStock extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel panel;
-    private javax.swing.JTextField txtCUI;
-    private javax.swing.JTextField txtCUI1;
-    private javax.swing.JTextField txtCUI2;
-    private javax.swing.JTextArea txtNota;
+    private javax.swing.JTextField txtCant;
+    private javax.swing.JTextField txtCost;
+    private javax.swing.JTextArea txtDesc;
     // End of variables declaration//GEN-END:variables
 }
