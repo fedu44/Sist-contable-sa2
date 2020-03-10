@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -137,22 +138,50 @@ public class PreVenta extends javax.swing.JFrame {
     }
 
     public void factura() {
-        ArrayList<String> header = new ArrayList<>();
-        header.add("SpaceX");
-        header.add("Roque Saenz Pena 511");
-        header.add("Resposable Inscripto");
+
+        int selectedRow = tblCli.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun cliente");
+            return;
+        }
+        Renglon r = this.renglones.get(selectedRow);
+        SqlCliente sqlCli = new SqlCliente();
+        Cliente cli = sqlCli.traerCliente(r.getCuit_cuil());
+
+        ArrayList<String> leftheader = new ArrayList<>();
+        leftheader.add("SpaceX");
+        leftheader.add("Roque Saenz Pena 511");
+        leftheader.add("Resposable Inscripto");
+        leftheader.add(" ");
+        leftheader.add(" ");
+        leftheader.add(" ");
+        leftheader.add(" ");
+        leftheader.add("Nombre: " + cli.getNombre_nombreFiscal());
+        leftheader.add("direccion: " + cli.getCalle());
+        leftheader.add("contacto: " + cli.getContacto());
 
         ArrayList<String> rightHeader = new ArrayList<>();
         rightHeader.add("Factura");
-        rightHeader.add("nro:2002-00161126");
+        Random rnd = new Random();
+        Long n = 1000000000+ rnd.nextLong();
+        rightHeader.add("nro:2002-" + n.toString().substring(0, 9));
         DateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
-        rightHeader.add("fecha:" + (String) fecha.format(new Date()));
+        rightHeader.add("fecha: " + (String) fecha.format(new Date()));
         rightHeader.add("CUIT: 30-68720025-6");
         rightHeader.add("ing. Brutos: 9016712847");
         rightHeader.add("Inicio de Actividad: 10-09-2019");
+        rightHeader.add(" ");
+
+        rightHeader.add("CUIT: " + cli.getCuit_cuil());
+        if (cmbCuotas.isEnabled()) {
+            rightHeader.add("Cond venta: cuotas");
+        } else {
+            rightHeader.add("Cond venta: contado");
+        }
+        leftheader.add("condicion iva: Consumidor Final");
 
         String nombre = "factura.pdf";
-        new GenerarFactura(this.tabla, header, rightHeader, nombre,getTotal());
+        new GenerarFactura(this.tabla, leftheader, rightHeader, nombre, getTotal());
         String[] commando = {"cmd.exe", "/c", nombre};
         ProcessBuilder builder = new ProcessBuilder(commando);
         builder.redirectErrorStream(true);

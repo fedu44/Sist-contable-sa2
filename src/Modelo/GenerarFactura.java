@@ -82,10 +82,12 @@ public class GenerarFactura {
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
-
         }
-
+        
+        //separador
+        contentStream.drawLine(margin, 640, margin + tableWidth, 640);
         //draw the rows
+        y-=100;
         float nexty = y;
         for (int i = 0; i <= rows; i++) {
             contentStream.drawLine(margin, nexty, margin + tableWidth, nexty);
@@ -138,6 +140,7 @@ public class GenerarFactura {
         contentStream.endText();
 
         if (end) {
+            contentStream.drawLine(margin, 80, margin + tableWidth, 80);
             contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
             texty = 50;
             textx = tableWidth - 200;
