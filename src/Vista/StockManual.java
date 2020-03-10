@@ -545,6 +545,11 @@ public class StockManual extends javax.swing.JFrame {
         }
         if (frmPreVen == null) {
             frmPreVen = new PreVenta(Double.parseDouble(txtTotal.getText()), StockManual.mod.getIdusuario()); // Pasar elementos por comprar
+             frmPreVen.setTabla(this.tablaTotal);
+            for(int i=0;i< this.elementosPorComprar.size();i++){
+                System.out.println(this.elementosPorComprar.get(i));
+            }
+            frmPreVen.setElementosPorComprar(elementosPorComprar);
             frmPreVen.setVisible(true);
         }
         

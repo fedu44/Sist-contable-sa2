@@ -4,6 +4,8 @@ import Modelo.Asiento;
 import Modelo.Asiento_cuenta;
 import Modelo.Cliente;
 import Modelo.Cuenta;
+import Modelo.GenerarFactura;
+import Modelo.GenerarPdf;
 import Modelo.Renglon;
 import Modelo.SqlAsiento_cuenta;
 import Modelo.SqlAsientos;
@@ -15,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class PreVenta extends javax.swing.JFrame {
@@ -26,6 +29,7 @@ public class PreVenta extends javax.swing.JFrame {
     private Boolean esCredito;
     private Boolean esContado;
     private static int userId;
+    private JTable tabla;
 
     public double getTotal() {
         return PreVenta.total;
@@ -66,21 +70,27 @@ public class PreVenta extends javax.swing.JFrame {
     public void setEsContado(Boolean esContado) {
         this.esContado = esContado;
     }
-    
-    
-    
+
+    public JTable getTabla() {
+        return tabla;
+    }
+
+    public void setTabla(JTable tabla) {
+        this.tabla = tabla;
+    }
+
     public PreVenta(double total, int userId) {
         initComponents();
         PreVenta.total = total;
-        PreVenta.userId = userId;  
+        PreVenta.userId = userId;
         this.setResizable(false);
         btnInmediato.doClick();
         desplegar("");
         this.esCredito = false;
         this.esContado = true;
     }
-    
-     private void agregarRenglones(Renglon renglon) {
+
+    private void agregarRenglones(Renglon renglon) {
         String nombre = renglon.getNombre();
         String cuit_cuil = renglon.getCuit_cuil();
         String situacion_crediticia = renglon.getSituacion_crediticia();
@@ -88,14 +98,14 @@ public class PreVenta extends javax.swing.JFrame {
         String limite = renglon.getLimite_credito();
         this.tModel.addRow(new Object[]{nombre, cuit_cuil, situacion_crediticia, limite, fecha});
     }
-    
-     public void desplegar(String nombre) {
+
+    public void desplegar(String nombre) {
         limpiar();
         tModel = (DefaultTableModel) tblCli.getModel();
-         SqlCliente sqlCli = new SqlCliente();
-        if(nombre.equals("")){
+        SqlCliente sqlCli = new SqlCliente();
+        if (nombre.equals("")) {
             renglones = sqlCli.clientes();
-        }else{
+        } else {
             renglones = sqlCli.clientesPorNombre(nombre);
         }
 
@@ -119,15 +129,42 @@ public class PreVenta extends javax.swing.JFrame {
         this.tblCli.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "Nombre", "Cuit/Cuil", "Situacion crediticia", "Límite", "Fecha de alta" 
+                    "Nombre", "Cuit/Cuil", "Situacion crediticia", "Límite", "Fecha de alta"
                 }
         ));
         this.tModel = (DefaultTableModel) tblCli.getModel();
 
     }
-    
+
+    public void factura() {
+        ArrayList<String> header = new ArrayList<>();
+        header.add("SpaceX");
+        header.add("Roque Saenz Pena 511");
+        header.add("Resposable Inscripto");
+
+        ArrayList<String> rightHeader = new ArrayList<>();
+        rightHeader.add("Factura");
+        rightHeader.add("nro:2002-00161126");
+        DateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
+        rightHeader.add("fecha:" + (String) fecha.format(new Date()));
+        rightHeader.add("CUIT: 30-68720025-6");
+        rightHeader.add("ing. Brutos: 9016712847");
+        rightHeader.add("Inicio de Actividad: 10-09-2019");
+
+        String nombre = "factura.pdf";
+        new GenerarFactura(this.tabla, header, rightHeader, nombre,getTotal());
+        String[] commando = {"cmd.exe", "/c", nombre};
+        ProcessBuilder builder = new ProcessBuilder(commando);
+        builder.redirectErrorStream(true);
+        try {
+            builder.start();
+        } catch (Exception e) {
+            System.out.println("por favor contacte al servicio tecnico");
+        }
+    }
+
     public void venta() {
-        
+
         double total = getTotal();
         SqlAsientos sqlAsientos = new SqlAsientos();
         SqlAsiento_cuenta sqlAsientos_cuenta = new SqlAsiento_cuenta();
@@ -141,21 +178,21 @@ public class PreVenta extends javax.swing.JFrame {
         int ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
         Asiento_cuenta asiento_cuenta;
 
-        if(!getEsCredito()){
-            if(getEsContado()){
-               // Cuenta Caja
-               cuenta = new Cuenta(6, "Activo", "Caja", 1, "111", true);
-               saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
-               asiento_cuenta = new Asiento_cuenta(total, 0, 6, ultimoIdAsiento, saldoParcial + total, ultimoCodigoAsientoCuenta + 1);
-               sqlAsientos_cuenta.registrar(asiento_cuenta);
-            }else{
+        if (!getEsCredito()) {
+            if (getEsContado()) {
+                // Cuenta Caja
+                cuenta = new Cuenta(6, "Activo", "Caja", 1, "111", true);
+                saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
+                asiento_cuenta = new Asiento_cuenta(total, 0, 6, ultimoIdAsiento, saldoParcial + total, ultimoCodigoAsientoCuenta + 1);
+                sqlAsientos_cuenta.registrar(asiento_cuenta);
+            } else {
                 // Cuenta Banco c/c
                 cuenta = new Cuenta(8, "Activo", "Banco c/c", 1, "113", true);
                 saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
                 asiento_cuenta = new Asiento_cuenta(total, 0, 8, ultimoIdAsiento, saldoParcial + total, ultimoCodigoAsientoCuenta + 1);
                 sqlAsientos_cuenta.registrar(asiento_cuenta);
             }
-        }else{
+        } else {
             // Cuenta Deudores por ventas
             cuenta = new Cuenta(10, "Activo", "Deudores por ventas", 1, "121", true);
             saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
@@ -170,11 +207,11 @@ public class PreVenta extends javax.swing.JFrame {
         saldoParcial = sqlAsientos_cuenta.saldoParcial(cuenta);
         asiento_cuenta = new Asiento_cuenta(0, total, 32, ultimoIdAsiento, saldoParcial + total, ultimoCodigoAsientoCuenta + 2);
         sqlAsientos_cuenta.registrar(asiento_cuenta);
-        
+
         // TODO: Calcular cmv
         double cmv = total * 0.9;
-        
-       // AC-CMV
+
+        // AC-CMV
         cuenta.setIdcuenta(36);
         cuenta.setCodigo("510");
         cuenta.setNombre("Costo Mercaderia Vendida");
@@ -183,7 +220,7 @@ public class PreVenta extends javax.swing.JFrame {
         ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
         asiento_cuenta = new Asiento_cuenta(cmv, 0, 36, ultimoIdAsiento, saldoParcial + cmv, ultimoCodigoAsientoCuenta + 3);
         sqlAsientos_cuenta.registrar(asiento_cuenta);
-       // AC-Mercaderia
+        // AC-Mercaderia
         cuenta.setIdcuenta(14);
         cuenta.setCodigo("131");
         cuenta.setNombre("Mercaderias");
@@ -192,6 +229,9 @@ public class PreVenta extends javax.swing.JFrame {
         ultimoIdAsiento = sqlAsientos.ultimoIdAsiento();
         asiento_cuenta = new Asiento_cuenta(0, cmv, 14, ultimoIdAsiento, saldoParcial - cmv, ultimoCodigoAsientoCuenta + 4);
         sqlAsientos_cuenta.registrar(asiento_cuenta);
+
+        factura();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -365,27 +405,27 @@ public class PreVenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        
+
         desplegar(txtNombre.getText());
-        
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturaActionPerformed
 
-        if(getEsCredito()){
+        if (getEsCredito()) {
             int fila = tblCli.getSelectedRow();
-            if( fila != -1){
+            if (fila != -1) {
                 int limiteDeCredito = Integer.parseInt(renglones.get(fila).getLimite_credito());
-                switch(renglones.get(fila).getSituacion_crediticia()){
+                switch (renglones.get(fila).getSituacion_crediticia()) {
                     case "Normal":
                         // Efectuar venta a credito
                         venta();
                         break;
                     case "Atrasado":
                         // No total a pagar mayor a la deuda actual
-                        if(Math.abs(limiteDeCredito) < getTotal()){
+                        if (Math.abs(limiteDeCredito) < getTotal()) {
                             JOptionPane.showMessageDialog(null, "El cliente está atrasado, solo puede efectuarse ventas a crédito menor a la deuda actualo regularizar la deuda.");
-                        }else{
+                        } else {
                             // Efectuar venta a credito
                             venta();
                         }
@@ -395,11 +435,11 @@ public class PreVenta extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "El cliente está bajo seguimiento especial y no puede efectuarse venta a crédito. Regularice la deuda o pida al administrador cambiar la situación crediticia");
                         break;
                     case "Riesgo de insolvencia":
-                       // No se le puede vender a credito
+                        // No se le puede vender a credito
                         JOptionPane.showMessageDialog(null, "El cliente tiene riesgo de insolvencia, no puede efectuarse venta a crédito");
                         break;
                     case "Incobrable":
-                       // No se le puede vender a credito
+                        // No se le puede vender a credito
                         JOptionPane.showMessageDialog(null, "El cliente es incobrable, no puede efectuarse venta a crédito");
                         break;
                 }
@@ -408,18 +448,18 @@ public class PreVenta extends javax.swing.JFrame {
                 Cliente cliente = sqlCli.traerCliente(renglones.get(fila).getCuit_cuil());
                 cliente.setLimiteCredito(limiteDeCredito - getTotal());
                 sqlCli.actualizarCliente(cliente.getId(), cliente);
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "No hay cliente seleccionado");
             }
-        }else{
+        } else {
             // Efectuar venta a contado
             venta();
         }
-        
+
     }//GEN-LAST:event_btnFacturaActionPerformed
 
     private void btnInmediatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInmediatoActionPerformed
-        
+
         btnBuscar.setEnabled(false);
         txtNombre.setEditable(false);
         txtNombre.setBackground(new Color(255, 255, 255, 80));
@@ -427,14 +467,14 @@ public class PreVenta extends javax.swing.JFrame {
         tblCli.setRowSelectionAllowed(false);
         setEsCredito(false);
         chkDeb.setEnabled(true);
-        
+
     }//GEN-LAST:event_btnInmediatoActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+
         Home.frmPreVen = null;
         this.dispose();
-        
+
     }//GEN-LAST:event_formWindowClosing
 
     private void cmbCuotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCuotasActionPerformed
@@ -442,7 +482,7 @@ public class PreVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbCuotasActionPerformed
 
     private void btnCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreditoActionPerformed
-       
+
         btnBuscar.setEnabled(true);
         txtNombre.setEditable(true);
         txtNombre.setBackground(Color.WHITE);
@@ -454,9 +494,9 @@ public class PreVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCreditoActionPerformed
 
     private void chkDebActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkDebActionPerformed
-        
+
         setEsContado(!getEsContado());
-        
+
     }//GEN-LAST:event_chkDebActionPerformed
 
     /**
