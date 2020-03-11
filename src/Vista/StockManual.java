@@ -503,7 +503,8 @@ public class StockManual extends javax.swing.JFrame {
                 ArrayList<Integer> articulosAgregados = (ArrayList<Integer>) res.get(0);
                 elementosPorComprar.add(articulosAgregados);
                 int total = cantArticulosPorAgregar * precio;
-                this.tModelTotal.addRow(new Object[]{cantArticulosPorAgregar, descripcion, precio, total});
+                String nombre = renglones.get(fila).getNombre();
+                this.tModelTotal.addRow(new Object[]{cantArticulosPorAgregar, nombre, precio, total});
                 sqlArt.reservarArticulos(articulosAgregados);
                 btnBuscar.doClick();
                 txtTotal.setText(String.valueOf(Double.parseDouble(txtTotal.getText()) + total));
