@@ -35,7 +35,6 @@ public class StockManual extends javax.swing.JFrame {
         SqlFamilia sqlFam = new  SqlFamilia();
         SqlMadera sqlMad = new SqlMadera();
         
-        
         articulos = sqlArt.traerArticulos();
         ArrayList<String> nombres = sqlArt.traerNomberDeArticulos();
         nombres.forEach((nombre) -> {
@@ -545,7 +544,7 @@ public class StockManual extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún artículo");
         }
         if (frmPreVen == null) {
-            frmPreVen = new PreVenta(Double.parseDouble(txtTotal.getText()), StockManual.mod.getIdusuario()); // Pasar elementos por comprar
+            frmPreVen = new PreVenta(Double.parseDouble(txtTotal.getText()), StockManual.mod.getIdusuario(), this); // Pasar elementos por comprar
              frmPreVen.setTabla(this.tablaTotal);
             for(int i=0;i< this.elementosPorComprar.size();i++){
                 System.out.println(this.elementosPorComprar.get(i));
