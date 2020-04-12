@@ -31,6 +31,7 @@ public class PreVenta extends javax.swing.JFrame {
     private Boolean esContado;
     private static int userId;
     private JTable tabla;
+    private static StockManual screen;
 
     public double getTotal() {
         return PreVenta.total;
@@ -80,7 +81,7 @@ public class PreVenta extends javax.swing.JFrame {
         this.tabla = tabla;
     }
 
-    public PreVenta(double total, int userId) {
+    public PreVenta(double total, int userId, StockManual screen) {
         initComponents();
         PreVenta.total = total;
         PreVenta.userId = userId;
@@ -89,6 +90,7 @@ public class PreVenta extends javax.swing.JFrame {
         desplegar("");
         this.esCredito = false;
         this.esContado = true;
+        this.screen = screen;
     }
 
     private void agregarRenglones(Renglon renglon) {
@@ -163,8 +165,8 @@ public class PreVenta extends javax.swing.JFrame {
         ArrayList<String> rightHeader = new ArrayList<>();
         rightHeader.add("Factura");
         Random rnd = new Random();
-        Long n = 1000000000+ rnd.nextLong();
-        rightHeader.add("nro:2002-" + n.toString().substring(0, 9));
+        Long n = 1000000000 + rnd.nextLong();
+        rightHeader.add("nro: 2002-" + n.toString().substring(0, 9));
         DateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
         rightHeader.add("fecha: " + (String) fecha.format(new Date()));
         rightHeader.add("CUIT: 30-68720025-6");
@@ -260,7 +262,10 @@ public class PreVenta extends javax.swing.JFrame {
         sqlAsientos_cuenta.registrar(asiento_cuenta);
 
         factura();
-
+        Home.frmStoMan = null;
+        Home.frmPreVen = null;
+        screen.dispose();
+        this.dispose();
     }
 
     @SuppressWarnings("unchecked")
@@ -444,6 +449,7 @@ public class PreVenta extends javax.swing.JFrame {
         if (getEsCredito()) {
             int fila = tblCli.getSelectedRow();
             if (fila != -1) {
+                Usuario mod = Home.mod;
                 int limiteDeCredito = Integer.parseInt(renglones.get(fila).getLimite_credito());
                 switch (renglones.get(fila).getSituacion_crediticia()) {
                     case "Normal":
@@ -452,7 +458,7 @@ public class PreVenta extends javax.swing.JFrame {
                         break;
                     case "Atrasado":
                         // No total a pagar mayor a la deuda actual
-                        if (Math.abs(limiteDeCredito) < getTotal()) {
+                        if (limiteDeCredito > 0 && ((limiteDeCredito - getTotal() > 0) || (Math.abs(limiteDeCredito - getTotal()) < limiteDeCredito / 4))) {
                             JOptionPane.showMessageDialog(null, "El cliente está atrasado, solo puede efectuarse ventas a crédito menor a la deuda actualo regularizar la deuda.");
                         } else {
                             // Efectuar venta a credito
@@ -461,7 +467,12 @@ public class PreVenta extends javax.swing.JFrame {
                         break;
                     case "Seguimiento especial":
                         // Solo admin le puede vender o cambiar situación crediticia
-                        JOptionPane.showMessageDialog(null, "El cliente está bajo seguimiento especial y no puede efectuarse venta a crédito. Regularice la deuda o pida al administrador cambiar la situación crediticia");
+                        if (mod.getTipoUsuario() != 1) {
+                            JOptionPane.showMessageDialog(null, "El cliente estÃ¡ bajo seguimiento especial y no puede efectuarse venta a crÃ©dito. Regularice la deuda o pida al administrador ejecutar la venta");
+                            break;
+                        } else {
+                            venta();
+                        }
                         break;
                     case "Riesgo de insolvencia":
                         // No se le puede vender a credito
@@ -558,7 +569,7 @@ public class PreVenta extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PreVenta(total, userId).setVisible(true);
+                new PreVenta(total, userId, screen).setVisible(true);
             }
         });
     }

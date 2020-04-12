@@ -29,11 +29,10 @@ public class Home extends javax.swing.JFrame {
     public static StockManual frmStoMan;
     public static StockAutomatico frmStoAut;
     public static VentaContado frmVenCon;
-    public static VerCliente frmVerCli;   
+    public static VerCliente frmVerCli;
     public static PreVenta frmPreVen;
     public static AgregarStock frmAgrSto;
 
-    
     public Home() {
         initComponents();
         setResizable(false);
@@ -50,14 +49,28 @@ public class Home extends javax.swing.JFrame {
                 break;
             case 2:
                 menuUsuarios.setVisible(false);
+                subAgregarAsiento.setVisible(false);
                 subAgregarCuenta.setVisible(false);
+                menuCliente.setVisible(false);
+                jMenu1.setVisible(false);
                 break;
             case 3:
                 menuUsuarios.setVisible(false);
                 subAgregarAsiento.setVisible(false);
                 menuAsientoContable.setVisible(false);
+                menuAsientoContable.setVisible(false);
                 btnRegistrarAsiento.setVisible(false);
-                
+                menuCliente.setVisible(false);
+                jMenu1.setVisible(false);
+                break;
+            case 4:
+                menuUsuarios.setVisible(false);
+                subAgregarAsiento.setVisible(false);
+                menuAsientoContable.setVisible(false);
+                btnRegistrarAsiento.setVisible(false);
+                menuLibroMayor.setVisible(false);
+                menuLibroDiario.setVisible(false);
+                menuPlanDeCuentas.setVisible(false);
                 break;
             default:
                 break;
@@ -74,9 +87,9 @@ public class Home extends javax.swing.JFrame {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String fecha = sdf.format(date);
         String inicioAct = sqlEmpresa.inicioActividad(mod.getEmpresa());
-        if(Integer.parseInt((inicioAct.substring(5, 7)) + (inicioAct.substring(8, 10))) <= Integer.parseInt((fecha.substring(5, 7)) + (fecha.substring(8, 10)))){
+        if (Integer.parseInt((inicioAct.substring(5, 7)) + (inicioAct.substring(8, 10))) <= Integer.parseInt((fecha.substring(5, 7)) + (fecha.substring(8, 10)))) {
             this.txtActividad.setText("Fecha de inicio de actividades: " + fecha.substring(0, 4) + inicioAct.substring(4, 10));
-        } else{
+        } else {
             String año = String.valueOf(Integer.parseInt(fecha.substring(0, 4)) - 1);
             this.txtActividad.setText("Fecha de inicio de actividades: " + año + inicioAct.substring(4, 10));
         }
@@ -87,8 +100,7 @@ public class Home extends javax.swing.JFrame {
         this.actividad = txtActividad.getText();
         this.empresa = txtEmpresa.getText();
         this.cuit = txtCuit.getText();
-        
-        
+
     }
 
     public String getActividad() {
@@ -130,10 +142,6 @@ public class Home extends javax.swing.JFrame {
     public static void setHome(Home home) {
         Home.home = home;
     }
-    
-    
-    
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -577,111 +585,109 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_subVerPlanDeCuentasActionPerformed
 
     private void btnPlanDeCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlanDeCuentasActionPerformed
-        
+
         if (frmPlan == null) {
             frmPlan = new PlanDeCuentas();
             frmPlan.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frmPlan.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_btnPlanDeCuentasActionPerformed
 
     private void btnRegistrarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarAsientoActionPerformed
-        
+
         if (frmRegAsis == null) {
             frmRegAsis = new RegistrarAsiento(mod, this);
             frmRegAsis.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frmRegAsis.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_btnRegistrarAsientoActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        
+
         this.txtEditor.setText("");
-        
+
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnGuardadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardadActionPerformed
-        
+
         SqlEditor sqlEditor = new SqlEditor();
-        if(!(sqlEditor.guardadTexto(this.txtEditor.getText(), this.txtUsuario.getText()))){
+        if (!(sqlEditor.guardadTexto(this.txtEditor.getText(), this.txtUsuario.getText()))) {
             JOptionPane.showMessageDialog(null, "Error al guardar, intente nuevamente");
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Se ha guardado correctamente");
         }
     }//GEN-LAST:event_btnGuardadActionPerformed
 
     private void subCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subCerrarSesionActionPerformed
-        
+
         Login login = new Login();
         login.setVisible(true);
         this.dispose();
         JOptionPane.showMessageDialog(null, "Sesión cerrada");
-        
+
     }//GEN-LAST:event_subCerrarSesionActionPerformed
 
     private void subAgregarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAgregarCuentaActionPerformed
-       
+
         if (frmAgrCta == null) {
             frmAgrCta = new AgregarCuenta(this);
             frmAgrCta.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_subAgregarCuentaActionPerformed
 
     private void subAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subAgregarClienteActionPerformed
-        
+
         if (frmAgrCli == null) {
             frmAgrCli = new AgregarCliente(this);
             frmAgrCli.setExtendedState(JFrame.MAXIMIZED_VERT);
             frmAgrCli.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_subAgregarClienteActionPerformed
 
     private void subVerClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subVerClienteActionPerformed
-        
+
         if (frmVerCli == null) {
             frmVerCli = new VerCliente(this);
             frmVerCli.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frmVerCli.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_subVerClienteActionPerformed
 
     private void subStockFilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subStockFilActionPerformed
-        
+
         if (frmStoMan == null) {
             frmStoMan = new StockManual(mod, this);
             frmStoMan.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frmStoMan.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_subStockFilActionPerformed
 
     private void subStockBuscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subStockBuscActionPerformed
-       
+
         if (frmStoAut == null) {
             frmStoAut = new StockAutomatico(this);
             frmStoAut.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frmStoAut.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_subStockBuscActionPerformed
 
     private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
-       
-         if (frmAgrSto == null) {
+
+        if (frmAgrSto == null) {
             frmAgrSto = new AgregarStock(this);
             frmAgrSto.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frmAgrSto.setVisible(true);
         }
-         
+
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
-    
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -714,14 +720,11 @@ public class Home extends javax.swing.JFrame {
             }
         });
     }
-    
-    
-    
+
     /*public void agregarAsiento(){
         this.txtCantAsientos.setText(String.valueOf((Integer.valueOf(txtCantAsientos.getText()))+1));
     }
-    */
-    
+     */
     ActionListener updateClockAction = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             Calendar now = Calendar.getInstance();
