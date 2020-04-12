@@ -8,7 +8,6 @@ import Modelo.SqlAsiento_cuenta;
 import Modelo.SqlAsientos;
 import Modelo.SqlCuenta;
 import Modelo.Usuario;
-import java.awt.event.ActionEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         txtFecha.setText(fecha);
         txtNumAsiento.setText(String.valueOf((asiSql.ultimoNumAsiento()) + 1));
         if (txtNumAsiento.getText().equals("-1")) {
-            JOptionPane.showMessageDialog(null, "Intente nuevamente, operacion no ejecutada");
+            JOptionPane.showMessageDialog(null, "Intente nuevamente, operación no ejecutada");
             cerrar();
         }
         SqlCuenta sqlCuenta = new SqlCuenta();
@@ -397,7 +396,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 descripcion.equals("") ||
                 cuenta.equals("") || 
                 (radBtnDebe.isSelected() == false && radBtnHaber.isSelected() == false)) {
-            JOptionPane.showMessageDialog(null, "Hay campos vacios, debe llenar todos los campos");
+            JOptionPane.showMessageDialog(null, "Hay campos vacíos, debe llenar todos los campos");
             return;
         }
         //Verifica que el monto sea número
@@ -523,7 +522,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
         txtFecha.setText(fecha);
         txtNumAsiento.setText(String.valueOf((asiSql.ultimoNumAsiento()) + 1));
         if (txtUsuario.getText().equals("-1")) {
-            JOptionPane.showMessageDialog(null, "Intente nuevamente, operacion no ejecutada");
+            JOptionPane.showMessageDialog(null, "Intente nuevamente, operación no ejecutada");
             cerrar();
         }
         renglones.removeAll(renglones);
@@ -581,7 +580,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                     this.asiento = ac.getAsiento();
                     int codigo = SqlAc.ultimoCodigo();
                     if (codigo == -1) {
-                        JOptionPane.showMessageDialog(null, "Error de codigo de cuenta");
+                        JOptionPane.showMessageDialog(null, "Error de código de cuenta");
                         break;
                     }
                     ac.setCodigo(codigo + 1);
@@ -653,7 +652,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                 SqlAsientos asiSql = new SqlAsientos();
                 int numeroAsiento = ((asiSql.ultimoNumAsiento()) + 1);
                 if (numeroAsiento == -1) {
-                    JOptionPane.showMessageDialog(null, "Intente nuevamente, error del numero de asiento");
+                    JOptionPane.showMessageDialog(null, "Intente nuevamente, error del número de asiento");
                     cerrar();
                 }
                 asientoRegistrar.setNumAsiento(numeroAsiento);
@@ -682,7 +681,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                     this.asiento = ac.getAsiento();
                     int codigo = SqlAc.ultimoCodigo();
                     if (codigo == -1) {
-                        JOptionPane.showMessageDialog(null, "Error de codigo de cuenta");
+                        JOptionPane.showMessageDialog(null, "Error de código de cuenta");
                         break;
                     }
                     ac.setCodigo(codigo + 1);
@@ -786,7 +785,7 @@ public class RegistrarAsiento extends javax.swing.JFrame {
                     this.asiento = ac.getAsiento();
                     int codigo = SqlAc.ultimoCodigo();
                     if (codigo == -1) {
-                        JOptionPane.showMessageDialog(null, "Error de codigo de cuenta");
+                        JOptionPane.showMessageDialog(null, "Error de código de cuenta");
                         break;
                     }
                     ac.setCodigo(codigo + 1);

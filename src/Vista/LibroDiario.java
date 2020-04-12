@@ -359,7 +359,7 @@ public class LibroDiario extends javax.swing.JFrame {
         try {
             Date date = this.sdf.parse(fechaD);
         } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Fecha invalida");
+            JOptionPane.showMessageDialog(null, "Fecha inválida");
         }
         this.fechaD = anioD + '-' + mesD + '-' + diaD;
         String diaH = (String) jTextDiaH.getSelectedItem();
@@ -370,7 +370,7 @@ public class LibroDiario extends javax.swing.JFrame {
         try {
             Date date = this.sdf.parse(fechaH);
         } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Fecha invalida");
+            JOptionPane.showMessageDialog(null, "Fecha inválida");
         }
         this.fechaH = anioH + '-' + mesH + '-' + diaH;
         renglones = asiSql.asientoPorFecha(fechaD, fechaH);

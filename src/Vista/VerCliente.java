@@ -202,7 +202,7 @@ public class VerCliente extends javax.swing.JFrame {
         this.tabla.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "Nombre", "Cuit/Cuil", "Situacion crediticia", "Límite", "Fecha de alta" 
+                    "Nombre", "Cuit/Cuil", "Situación crediticia", "Límite", "Fecha de alta" 
                 }
         ));
         this.tModel = (DefaultTableModel) tabla.getModel();

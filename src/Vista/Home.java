@@ -31,6 +31,8 @@ public class Home extends javax.swing.JFrame {
     public static VentaContado frmVenCon;
     public static VerCliente frmVerCli;   
     public static PreVenta frmPreVen;
+    public static AgregarStock frmAgrSto;
+
     
     public Home() {
         initComponents();
@@ -48,28 +50,14 @@ public class Home extends javax.swing.JFrame {
                 break;
             case 2:
                 menuUsuarios.setVisible(false);
-                subAgregarAsiento.setVisible(false);
                 subAgregarCuenta.setVisible(false);
-                menuCliente.setVisible(false);
-                menuStock.setVisible(false);
                 break;
             case 3:
                 menuUsuarios.setVisible(false);
                 subAgregarAsiento.setVisible(false);
                 menuAsientoContable.setVisible(false);
-                menuAsientoContable.setVisible(false);
                 btnRegistrarAsiento.setVisible(false);
-                menuCliente.setVisible(false);
-                menuStock.setVisible(false);
-                break;
-            case 4:
-                menuUsuarios.setVisible(false);
-                subAgregarAsiento.setVisible(false);
-                menuAsientoContable.setVisible(false);
-                btnRegistrarAsiento.setVisible(false);
-                menuLibroMayor.setVisible(false);
-                menuLibroDiario.setVisible(false);
-                menuPlanDeCuentas.setVisible(false);
+                
                 break;
             default:
                 break;
@@ -185,7 +173,8 @@ public class Home extends javax.swing.JFrame {
         menuCliente = new javax.swing.JMenu();
         subAgregarCliente = new javax.swing.JRadioButtonMenuItem();
         subVerCliente = new javax.swing.JCheckBoxMenuItem();
-        menuStock = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         subStockFil = new javax.swing.JCheckBoxMenuItem();
         subStockBusc = new javax.swing.JCheckBoxMenuItem();
         menuSesion = new javax.swing.JMenu();
@@ -450,7 +439,16 @@ public class Home extends javax.swing.JFrame {
 
         jMenuBar1.add(menuCliente);
 
-        menuStock.setText("Stock");
+        jMenu1.setText("Stock");
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("Agregar stock");
+        jCheckBoxMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jCheckBoxMenuItem1);
 
         subStockFil.setSelected(true);
         subStockFil.setText("Ver stock por filtros");
@@ -459,7 +457,7 @@ public class Home extends javax.swing.JFrame {
                 subStockFilActionPerformed(evt);
             }
         });
-        menuStock.add(subStockFil);
+        jMenu1.add(subStockFil);
 
         subStockBusc.setSelected(true);
         subStockBusc.setText("Ver stock por búsqueda");
@@ -468,9 +466,9 @@ public class Home extends javax.swing.JFrame {
                 subStockBuscActionPerformed(evt);
             }
         });
-        menuStock.add(subStockBusc);
+        jMenu1.add(subStockBusc);
 
-        jMenuBar1.add(menuStock);
+        jMenuBar1.add(jMenu1);
 
         menuSesion.setText("Sesion");
 
@@ -619,7 +617,7 @@ public class Home extends javax.swing.JFrame {
         Login login = new Login();
         login.setVisible(true);
         this.dispose();
-        JOptionPane.showMessageDialog(null, "Sesion cerrada");
+        JOptionPane.showMessageDialog(null, "Sesión cerrada");
         
     }//GEN-LAST:event_subCerrarSesionActionPerformed
 
@@ -629,9 +627,6 @@ public class Home extends javax.swing.JFrame {
             frmAgrCta = new AgregarCuenta(this);
             frmAgrCta.setVisible(true);
         }
-        
-        
-        
         
     }//GEN-LAST:event_subAgregarCuentaActionPerformed
 
@@ -674,6 +669,16 @@ public class Home extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_subStockBuscActionPerformed
+
+    private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
+       
+         if (frmAgrSto == null) {
+            frmAgrSto = new AgregarStock(this);
+            frmAgrSto.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frmAgrSto.setVisible(true);
+        }
+         
+    }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
     
     
@@ -732,8 +737,10 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnRegistrarAsiento;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel gftfudttug;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -746,7 +753,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenu menuLibroMayor;
     private javax.swing.JMenu menuPlanDeCuentas;
     private javax.swing.JMenu menuSesion;
-    private javax.swing.JMenu menuStock;
     private javax.swing.JMenu menuUsuarios;
     private javax.swing.JMenuItem subAgregarAsiento;
     private javax.swing.JRadioButtonMenuItem subAgregarCliente;

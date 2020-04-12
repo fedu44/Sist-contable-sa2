@@ -480,7 +480,7 @@ public class ModificarCliente extends javax.swing.JFrame {
         }
         y = catIva.idIva((comboCatIva.getSelectedItem().toString()));
         if (y == -1) {
-            JOptionPane.showMessageDialog(null, "Error de categoria iva");
+            JOptionPane.showMessageDialog(null, "Error de categoría iva");
         }
         cliente.setCategoriaIva(y);
         cliente.setLimiteCredito(Double.parseDouble(txtLimCred.getText()));

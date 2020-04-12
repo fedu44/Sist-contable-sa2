@@ -173,13 +173,13 @@ public class AgregarCuenta extends javax.swing.JFrame {
             
         }
         if (cant > 9){
-            JOptionPane.showMessageDialog(null, "No se puenden agragar mas cuentas, invierta en un buen sistema");
+            JOptionPane.showMessageDialog(null, "No se puenden agregar más cuentas, invierta en un buen sistema");
             return;
         }
         
         System.out.println(newcod);
         if (!(this.rBtnRecibeSaldo.isSelected()) && !(newcod.substring(2).equals("0"))){
-             JOptionPane.showMessageDialog(null, "Error! Cuenta hoja debe recibir saldo");
+             JOptionPane.showMessageDialog(null, "Error, cuenta hoja debe recibir saldo");
              return;
         }
         Cuenta newCuenta= new Cuenta();
