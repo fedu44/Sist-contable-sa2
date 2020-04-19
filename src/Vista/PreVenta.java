@@ -132,7 +132,7 @@ public class PreVenta extends javax.swing.JFrame {
         this.tblCli.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "Nombre", "Cuit/Cuil", "Situacion crediticia", "Límite", "Fecha de alta"
+                    "Nombre", "Cuit/Cuil", "Situación crediticia", "Límite", "Fecha de alta"
                 }
         ));
         this.tModel = (DefaultTableModel) tblCli.getModel();
@@ -143,7 +143,7 @@ public class PreVenta extends javax.swing.JFrame {
 
         int selectedRow = tblCli.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun cliente");
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún cliente");
             return;
         }
         Renglon r = this.renglones.get(selectedRow);
@@ -159,25 +159,25 @@ public class PreVenta extends javax.swing.JFrame {
         leftheader.add(" ");
         leftheader.add(" ");
         leftheader.add("Nombre: " + cli.getNombre_nombreFiscal());
-        leftheader.add("direccion: " + cli.getCalle());
+        leftheader.add("Dirección: " + cli.getCalle());
 
         ArrayList<String> rightHeader = new ArrayList<>();
         rightHeader.add("Factura");
         Random rnd = new Random();
         Long n = 1000000000 + rnd.nextLong();
-        rightHeader.add("nro: 2002" + n.toString().substring(0, 9));
+        rightHeader.add("Nro: 2002" + n.toString().substring(0, 9));
         DateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
-        rightHeader.add("fecha: " + (String) fecha.format(new Date()));
+        rightHeader.add("Fecha: " + (String) fecha.format(new Date()));
         rightHeader.add("CUIT: 30-68720025-6");
-        rightHeader.add("ing. Brutos: 9016712847");
+        rightHeader.add("Ing. Brutos: 9016712847");
         rightHeader.add("Inicio de Actividad: 10-09-2019");
         rightHeader.add(" ");
 
         rightHeader.add("CUIT: " + cli.getCuit_cuil());
         if (cmbCuotas.isEnabled()) {
-            rightHeader.add("Cond venta: cuotas");
+            rightHeader.add("Cond. venta: cuotas");
         } else {
-            rightHeader.add("Cond venta: contado");
+            rightHeader.add("Cond. venta: contado");
         }
         leftheader.add("condicion iva: Consumidor Final");
 
@@ -189,7 +189,7 @@ public class PreVenta extends javax.swing.JFrame {
         try {
             builder.start();
         } catch (Exception e) {
-            System.out.println("por favor contacte al servicio tecnico");
+            System.out.println("por favor contacte al servicio técnico");
         }
     }
 
@@ -467,7 +467,7 @@ public class PreVenta extends javax.swing.JFrame {
                     case "Seguimiento especial":
                         // Solo admin le puede vender o cambiar situación crediticia
                         if (mod.getTipoUsuario() != 1) {
-                            JOptionPane.showMessageDialog(null, "El cliente estÃ¡ bajo seguimiento especial y no puede efectuarse venta a crÃ©dito. Regularice la deuda o pida al administrador ejecutar la venta");
+                            JOptionPane.showMessageDialog(null, "El cliente está bajo seguimiento especial y no puede efectuarse venta a crédito. Regularice la deuda o pida al administrador ejecutar la venta");
                             break;
                         } else {
                             venta();
