@@ -160,13 +160,12 @@ public class PreVenta extends javax.swing.JFrame {
         leftheader.add(" ");
         leftheader.add("Nombre: " + cli.getNombre_nombreFiscal());
         leftheader.add("direccion: " + cli.getCalle());
-        leftheader.add("contacto: " + cli.getContacto());
 
         ArrayList<String> rightHeader = new ArrayList<>();
         rightHeader.add("Factura");
         Random rnd = new Random();
         Long n = 1000000000 + rnd.nextLong();
-        rightHeader.add("nro: 2002-" + n.toString().substring(0, 9));
+        rightHeader.add("nro: 2002" + n.toString().substring(0, 9));
         DateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
         rightHeader.add("fecha: " + (String) fecha.format(new Date()));
         rightHeader.add("CUIT: 30-68720025-6");
